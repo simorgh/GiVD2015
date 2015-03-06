@@ -160,8 +160,7 @@ void GLWidget::resizeGL(int width, int height)
     int side = qMin(width, height);
     glViewport((width - side) / 2, (height - side) / 2, side, side);
 
-    glMatrixMode(GL_PROJECTION);
-    glLoadIdentity();
+    glMatrixMode(GL_PROJECTION);    glLoadIdentity();
 #ifdef QT_OPENGL_ES_1
     glOrthof(-1.5, +1.5, -1.5, +1.5, 0.0, 15.0);
 #else
@@ -235,9 +234,11 @@ void GLWidget::newObjecte(Objecte * obj)
 void GLWidget::newPlaBase()
 {
     // Metode que crea un objecte PlaBase poligon amb el punt central al (0,0,0) i perpendicular a Y=0
-
     // Metode a implementar
+    PlaBase *obj;
 
+    obj = new PlaBase();
+    newObjecte(obj);
 }
 
 void GLWidget::newObj(QString fichero)

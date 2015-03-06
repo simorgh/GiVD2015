@@ -1,9 +1,7 @@
 #include <objecte.h>
 #include <readfile.h>
 
-Objecte::Objecte(int npoints, QObject *parent) : numPoints(npoints) ,
-    QObject(parent)
-{
+Objecte::Objecte(int npoints, QObject *parent) : numPoints(npoints) ,QObject(parent){
     points = new point4[npoints];
     colors = new color4[npoints];
 }
