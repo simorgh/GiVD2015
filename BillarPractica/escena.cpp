@@ -20,7 +20,6 @@ Escena::~Escena()
 void Escena::addObjecte(Objecte *obj) {
     if (dynamic_cast<TaulaBillar*>(obj)){
         this->taulaBillar = (TaulaBillar*)obj;
-
     } else if(dynamic_cast<PlaBase*> (obj))
         this->plaBase = (PlaBase*)obj;
 }
@@ -35,20 +34,16 @@ void Escena::aplicaTG(mat4 m) {
 
     // Metode a modificar
 
-    if (taulaBillar!=NULL)
-        taulaBillar->aplicaTG(m);
-    if(plaBase!=NULL)
-        plaBase->aplicaTG(m);
+    if (taulaBillar!=NULL) taulaBillar->aplicaTG(m);
+    if(plaBase!=NULL) plaBase->aplicaTG(m);
 }
 
 void Escena::aplicaTGCentrat(mat4 m) {
 
     // Metode a modificar
 
-    if (taulaBillar!=NULL)
-        taulaBillar->aplicaTGCentrat(m);
-    if(plaBase!=NULL)
-        plaBase->aplicaTGCentrat(m);
+    if (taulaBillar!=NULL) taulaBillar->aplicaTGCentrat(m);
+    if(plaBase!=NULL) plaBase->aplicaTGCentrat(m);
 
 }
 
@@ -56,10 +51,8 @@ void Escena::draw() {
 
     // Metode a modificar
 
-    if (taulaBillar!=NULL)
-        taulaBillar->draw();
-    if(plaBase!=NULL)
-        plaBase->draw();
+    if (taulaBillar!=NULL) taulaBillar->draw();
+    if(plaBase!=NULL) plaBase->draw();
 
 }
 

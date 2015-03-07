@@ -1,29 +1,34 @@
 #include<plabase.h>
 
 PlaBase::PlaBase() : Objecte(NumVerticesF){
-    Index = 0;
+    qDebug() << "Estic en el constructor de PlaBase" << endl;
     tam = 1;
 
     xorig = 0;
     yorig = 0;
     zorig = 0;
 
-    xRot = 0;
-    yRot = 0;
-    zRot = 0;
+    // Vertices of a unit plain centered at origin, sides aligned with axes
+    vertices[0] = point4( -0.5, -0.5,  0.5, 1.0 );
+    vertices[1] = point4( -0.5,  0.5,  0.5, 1.0 );
+    vertices[2] = point4(  0.5,  0.5,  0.5, 1.0 );
+    vertices[3] = point4(  0.5, -0.5,  0.5, 1.0 );
+
+    vertexs.push_back(vertices[0]);
+    vertexs.push_back(vertices[1]);
+    vertexs.push_back(vertices[2]);
+    vertexs.push_back(vertices[3]);
+
+    // let's create both triangles that composes the plane
+    cara1 = new Cara(0, 2, 1);
+    cara2 = new Cara(0, 3, 2);
+
+    cares.push_back(*cara1);
+    cares.push_back(*cara2);
 
     Objecte::make();
-    capsa = calculCapsa3D();
-
-    // Codi adhoc per a la taula carregada de fitxer taula.obj. Cal modificar-lo per a que sigui general
-    /*double escalaZ = 2.0 / 8.63;
-    mat4 m = Scale(escalaZ, escalaZ, escalaZ)*Translate(-2.55, +3.8, -0.74);
-    aplicaTG(m);*/
-
-    capsa = calculCapsa3D();
 }
 
 PlaBase::~PlaBase()
 {
-
 }

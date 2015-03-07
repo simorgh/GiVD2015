@@ -2,19 +2,13 @@
 #define OBJECTE_H
 
 #include <QObject>
-
 #include <vector>
-
 #include <Common.h>
 #include <cara.h>
-
-
 #include <QGLShaderProgram>
 
 typedef Common::vec4  color4;
 typedef Common::vec4  point4;
-
-using namespace std;
 
 class Objecte : public QObject
 {

@@ -75,14 +75,11 @@ private:
    // Metode per inicialitzar els shaders de l'aplicacio
     void initShadersGPU();
 
-
-
     // Metode que carrega un nou objecte a l'escena
     void newObjecte(Objecte * obj);
 
     // Metode per adaptar l'escena al tamany del widget
     void adaptaObjecteTamanyWidget(Objecte *obj);
-
 
 };
 

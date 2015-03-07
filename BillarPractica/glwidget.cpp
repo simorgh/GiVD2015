@@ -1,8 +1,6 @@
-
-
 #include <math.h>
-
 #include <glwidget.h>
+#include <QtDebug>
 #include <QString>
 
 
@@ -127,7 +125,7 @@ void GLWidget::initializeGL()
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_CULL_FACE);
 
-    std::cout<<"Estic inicialitzant el shaders"<<std::ends;
+    qDebug() <<"Estic inicialitzant el shaders";
     initShadersGPU();
 
     glClearColor(clearColor.redF(), clearColor.greenF(), clearColor.blueF(), clearColor.alphaF());
@@ -231,14 +229,15 @@ void GLWidget::newObjecte(Objecte * obj)
 
     updateGL();
 }
+
 void GLWidget::newPlaBase()
 {
     // Metode que crea un objecte PlaBase poligon amb el punt central al (0,0,0) i perpendicular a Y=0
     // Metode a implementar
-    PlaBase *obj;
+    PlaBase *pla;
 
-    obj = new PlaBase();
-    newObjecte(obj);
+    pla = new PlaBase();
+    newObjecte(pla);
 }
 
 void GLWidget::newObj(QString fichero)
@@ -255,6 +254,7 @@ void GLWidget::newBola()
     // Metode que crea la Bola blanca de joc
      // Metode a implementar
 }
+
 void GLWidget::newConjuntBoles()
 {
     // Metode que crea les 15 Boles del billar america

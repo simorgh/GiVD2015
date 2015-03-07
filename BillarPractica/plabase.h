@@ -13,11 +13,13 @@ public:
 
 private:
 
-    static const int NumVerticesF = 4;
-    static const int NumCares = 1;
+    static const int NumVerticesF = 6; //(1 face)(2 triangles/face)(3 vertex/triangle)
+    static const int NumCares = 2;
 
+    Cara *cara1, *cara2;
+    point4 vertices[4]; // 4 vertexs del plaBase
+    color4 vertex_colors[4]; // 4 colors RGBA associats a cada vertex
 };
-
 
 #endif // PLABASE_H
 

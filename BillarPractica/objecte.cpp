@@ -10,19 +10,15 @@ Objecte::Objecte(int npoints, QString n) : numPoints(npoints)
 {
     points = new point4[npoints];
     colors = new color4[npoints];
-    std::cout<<"Estic en el constructor parametritzat del objecte\n";
+    qDebug() << "Estic en el constructor parametritzat del objecte\n";
 
     xRot = 0;
     yRot = 0;
     zRot = 0;
 
-
     Index = 0;
-
     readObj(n);
-
     make();
-
 }
 
 
@@ -39,7 +35,6 @@ Capsa3D Objecte::calculCapsa3D()
     // Metode a implementar: calcula la capsa mínima contenidora d'un objecte
     int i;
     vec3    pmin, pmax;
-
 
     return capsa;
 }
@@ -83,7 +78,7 @@ void Objecte::toGPU(QGLShaderProgram *pr){
 
     program = pr;
 
-    std::cout<<"Passo les dades de l'objecte a la GPU\n";
+    qDebug() <<"Passo les dades de l'objecte a la GPU\n";
 
     glGenBuffers( 1, &buffer );
     glBindBuffer( GL_ARRAY_BUFFER, buffer );
@@ -193,7 +188,7 @@ void Objecte::readObj(QString filename)
             {
                 if (nwords < 4)
                 {
-                    fprintf (stderr, "Too few coordinates: '%s'", ReadFile::str_orig);
+                    fprintf (qCritical(), "Too few coordinates: '%s'", ReadFile::str_orig);
                     exit (-1);
                 }
                 QString sx(ReadFile::words[1]);
