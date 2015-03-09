@@ -253,6 +253,10 @@ void GLWidget::newBola()
 {
     // Metode que crea la Bola blanca de joc
      // Metode a implementar
+    Bola *obj;
+
+    obj = new Bola();
+    newObjecte(obj);
 }
 
 void GLWidget::newConjuntBoles()

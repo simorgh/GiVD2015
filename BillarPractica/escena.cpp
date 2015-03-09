@@ -8,6 +8,7 @@ Escena::Escena()
 
     taulaBillar = NULL;
     plaBase = NULL;
+    blanca = NULL;
 }
 
 Escena::~Escena()
@@ -15,13 +16,16 @@ Escena::~Escena()
     // Cal anar fent delete dels objectes que se'l hagi fet new
    delete this->taulaBillar;
    delete this->plaBase;
+   delete this->blanca;
 }
 
 void Escena::addObjecte(Objecte *obj) {
     if (dynamic_cast<TaulaBillar*>(obj)){
         this->taulaBillar = (TaulaBillar*)obj;
-    } else if(dynamic_cast<PlaBase*> (obj))
+    } else if(dynamic_cast<PlaBase*> (obj)){
         this->plaBase = (PlaBase*)obj;
+    } else if(dynamic_cast<Bola*> (obj))
+        this->blanca = (Bola*)obj;
 }
 
 
@@ -36,6 +40,7 @@ void Escena::aplicaTG(mat4 m) {
 
     if (taulaBillar!=NULL) taulaBillar->aplicaTG(m);
     if(plaBase!=NULL) plaBase->aplicaTG(m);
+    if(blanca!=NULL) blanca->aplicaTG(m);
 }
 
 void Escena::aplicaTGCentrat(mat4 m) {
@@ -44,7 +49,7 @@ void Escena::aplicaTGCentrat(mat4 m) {
 
     if (taulaBillar!=NULL) taulaBillar->aplicaTGCentrat(m);
     if(plaBase!=NULL) plaBase->aplicaTGCentrat(m);
-
+    if(blanca!=NULL) blanca->aplicaTGCentrat(m);
 }
 
 void Escena::draw() {
@@ -53,6 +58,7 @@ void Escena::draw() {
 
     if (taulaBillar!=NULL) taulaBillar->draw();
     if(plaBase!=NULL) plaBase->draw();
+    if(blanca!=NULL) blanca->draw();
 
 }
 

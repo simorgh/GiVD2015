@@ -7,6 +7,8 @@
 #include <cara.h>
 #include <QGLShaderProgram>
 
+using namespace std;
+
 typedef Common::vec4  color4;
 typedef Common::vec4  point4;
 
@@ -25,7 +27,6 @@ protected:
     float zRot;
 
     GLfloat tam; // Escala de l'objecte aplicada al fitxer d'entrada
-
 
     // Programa de shaders de la GPU
     QGLShaderProgram *program;

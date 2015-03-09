@@ -71,7 +71,7 @@ void Objecte::aplicaTGPoints(mat4 m)
 
 void Objecte::aplicaTGCentrat(mat4 m)
 {
-    // Metode a implementar
+    aplicaTG(m);
 }
 
 void Objecte::toGPU(QGLShaderProgram *pr){
@@ -188,7 +188,7 @@ void Objecte::readObj(QString filename)
             {
                 if (nwords < 4)
                 {
-                    fprintf (qCritical(), "Too few coordinates: '%s'", ReadFile::str_orig);
+                    fprintf (stderr, "Too few coordinates: '%s'", ReadFile::str_orig);
                     exit (-1);
                 }
                 QString sx(ReadFile::words[1]);
