@@ -150,6 +150,18 @@ void GLWidget::paintGL()
        esc->taulaBillar->aplicaTGCentrat(transform);
        esc->draw();
    }
+
+   if(esc->plaBase!=NULL) {
+       esc->plaBase->aplicaTGCentrat(transform);
+       esc->draw();
+   }
+
+
+   if(esc->blanca!=NULL){
+       esc->blanca->aplicaTGCentrat(transform);
+       esc->draw();
+   }
+
 }
 
 

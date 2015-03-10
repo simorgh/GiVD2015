@@ -5,7 +5,15 @@ Bola::Bola() : Objecte(NumVerticesF){
     Index = 0;
     xorig = yorig = zorig = 0;
 
-    tetrahedron(5);
+    tetrahedron(4);
+    capsa = calculCapsa3D();
+
+
+    double escala = 1/50.;
+    mat4 m = Scale(escala, escala, escala);
+    aplicaTGCentrat(m);
+    capsa = calculCapsa3D();
+
 }
 
 Bola::~Bola(){}

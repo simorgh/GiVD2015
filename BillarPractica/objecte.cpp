@@ -29,12 +29,26 @@ Objecte::~Objecte()
 }
 
 
-Capsa3D Objecte::calculCapsa3D()
-{
+Capsa3D Objecte::calculCapsa3D(){
 
     // Metode a implementar: calcula la capsa mínima contenidora d'un objecte
-    int i;
-    vec3    pmin, pmax;
+    vec3 pmin = vec3(-99999, -99999, -99999);
+    vec3 pmax = vec3( 99999,  99999,  99999);
+
+    for(int i = 0; i<Index; i++){
+        if(points[Index].x > pmax.x) pmax.x = points[Index].x;
+        if(points[Index].y > pmax.y) pmax.y = points[Index].y;
+        if(points[Index].z > pmax.z) pmax.z = points[Index].z;
+
+        if(points[Index].x < pmin.x) pmin.x = points[Index].x;
+        if(points[Index].y < pmin.y) pmin.y = points[Index].y;
+        if(points[Index].z < pmin.z) pmin.z = points[Index].z;
+    }
+
+    capsa.pmin = pmin;
+    capsa.a = pmax.x - pmin.x;
+    capsa.h = pmax.y - pmin.y;
+    capsa.p = pmax.z - pmin.z;
 
     return capsa;
 }
@@ -44,8 +58,7 @@ void Objecte::aplicaTG(mat4 m)
     aplicaTGPoints(m);
 
     // Actualitzacio del vertex array per a preparar per pintar
-    glBufferSubData( GL_ARRAY_BUFFER, 0, sizeof(point4) * Index,
-                     &points[0] );
+    glBufferSubData( GL_ARRAY_BUFFER, 0, sizeof(point4) * Index, &points[0] );
 
 }
 
@@ -71,7 +84,15 @@ void Objecte::aplicaTGPoints(mat4 m)
 
 void Objecte::aplicaTGCentrat(mat4 m)
 {
-    aplicaTG(m);
+    vec3 centre = vec3(capsa.pmin.x + capsa.a/2.,capsa.pmin.y + capsa.h/2., capsa.pmin.z + capsa.p/2.);
+
+    //std::cout << "cente( " << centre.x << " , " << centre.y << " , " << centre.z << ")" << endl;
+
+    // Contrucció de la matriu de translació al centre
+    mat4 t1 = Common::Translate(-centre.x, -centre.y, -centre.z);
+    mat4 t2 = Common::Translate( centre.x,  centre.y,  centre.z);
+
+    aplicaTG(t2*m*t1);
 }
 
 void Objecte::toGPU(QGLShaderProgram *pr){

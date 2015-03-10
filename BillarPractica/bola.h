@@ -13,7 +13,7 @@ public:
     ~Bola();
 
 private:
-    static const int NumVerticesF = 12288;
+    static const int NumVerticesF = 3072;
 
     point4 v[4] = {
         vec4(0.0, 0.0, 1.0, 1.0),

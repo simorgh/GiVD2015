@@ -191,7 +191,7 @@ mat2 transpose( const mat2& A ) {
 
 class mat3 {
 
-    vec3  _m[3];
+   vec3  _m[3];
 
    public:
     //

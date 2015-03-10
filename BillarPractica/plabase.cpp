@@ -9,10 +9,10 @@ PlaBase::PlaBase() : Objecte(NumVerticesF){
     zorig = 0;
 
     // Vertices of a unit plain centered at origin, sides aligned with axes
-    vertices[0] = point4( -0.5, -0.5,  0.5, 1.0 );
-    vertices[1] = point4( -0.5,  0.5,  0.5, 1.0 );
-    vertices[2] = point4(  0.5,  0.5,  0.5, 1.0 );
-    vertices[3] = point4(  0.5, -0.5,  0.5, 1.0 );
+    vertices[0] = point4( -0.5, -0.5,  0.0, 1.0 );
+    vertices[1] = point4( -0.5,  0.5,  0.0, 1.0 );
+    vertices[2] = point4(  0.5,  0.5,  0.0, 1.0 );
+    vertices[3] = point4(  0.5, -0.5,  0.0, 1.0 );
 
     vertexs.push_back(vertices[0]);
     vertexs.push_back(vertices[1]);
@@ -27,6 +27,7 @@ PlaBase::PlaBase() : Objecte(NumVerticesF){
     cares.push_back(*cara2);
 
     Objecte::make();
+    capsa = calculCapsa3D();
 }
 
 PlaBase::~PlaBase()
