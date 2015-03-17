@@ -1,6 +1,8 @@
 #include <objecte.h>
 #include <readfile.h>
 
+Objecte::Objecte(){}
+
 Objecte::Objecte(int npoints, QObject *parent) : numPoints(npoints) ,QObject(parent){
     points = new point4[npoints];
     colors = new color4[npoints];
@@ -85,7 +87,6 @@ void Objecte::aplicaTGPoints(mat4 m)
 void Objecte::aplicaTGCentrat(mat4 m)
 {
     vec3 centre = vec3(capsa.pmin.x + capsa.a/2.,capsa.pmin.y + capsa.h/2., capsa.pmin.z + capsa.p/2.);
-
     //std::cout << "cente( " << centre.x << " , " << centre.y << " , " << centre.z << ")" << endl;
 
     // Contrucció de la matriu de translació al centre
@@ -93,6 +94,7 @@ void Objecte::aplicaTGCentrat(mat4 m)
     mat4 t2 = Common::Translate( centre.x,  centre.y,  centre.z);
 
     aplicaTG(t2*m*t1);
+    capsa = calculCapsa3D();
 }
 
 void Objecte::toGPU(QGLShaderProgram *pr){
@@ -135,6 +137,7 @@ void Objecte::draw()
 
     glPolygonMode(GL_FRONT_AND_BACK,
                   GL_LINE);
+                  //GL_FILL);
     glDrawArrays( GL_TRIANGLES, 0, Index );
 
     // Abans nomes es feia: glDrawArrays( GL_TRIANGLES, 0, NumVerticesP );

@@ -47,6 +47,7 @@ public:
     //explicit Objecte(QObject *parent = 0);
     Objecte(const int npoints, QObject *parent = 0);
     Objecte(const int npoints, QString n);
+    Objecte();
 
     ~Objecte();
 

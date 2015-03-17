@@ -1,8 +1,7 @@
 #include<plabase.h>
 
 PlaBase::PlaBase() : Objecte(NumVerticesF){
-    qDebug() << "Estic en el constructor de PlaBase" << endl;
-    tam = 1;
+    qDebug() << "Constructor de PlaBase" << endl;
 
     xorig = 0;
     yorig = 0;
@@ -28,6 +27,12 @@ PlaBase::PlaBase() : Objecte(NumVerticesF){
 
     Objecte::make();
     capsa = calculCapsa3D();
+
+    // let's scale and translate the plane so it's position and lenght will be 18x15 y=0
+    double escalaX = 18.;
+    double escalaZ = 13.;
+    aplicaTGCentrat( Scale(escalaX, 1., escalaZ) * RotateX(90) );
+
 }
 
 PlaBase::~PlaBase()

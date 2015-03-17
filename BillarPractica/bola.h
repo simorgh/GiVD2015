@@ -9,11 +9,15 @@ class Bola: public Objecte
 {
 
 public:
+    static const int NumVerticesF = 3072; //12 * 4^(NumIteracionsEsfera)
+
     Bola();
+    Bola(double x, double z); // Constructor defined for ConjuntBoles impl.
     ~Bola();
 
+
 private:
-    static const int NumVerticesF = 3072;
+    static const int NumIteracionsEsfera = 4;
 
     point4 v[4] = {
         vec4(0.0, 0.0, 1.0, 1.0),
@@ -26,7 +30,7 @@ private:
     void tetrahedron();
     void tetrahedron(int n);
     void divide_triangle(point4 a, point4 b, point4 c, int n);
-    vec4 normalize(const vec4& v );
+    vec4 calculVectorUnitari(const vec4& v );
 
 };
 #endif // BOLA

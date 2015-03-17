@@ -15,6 +15,7 @@
 #include <taulabillar.h>
 #include <plabase.h>
 #include <bola.h>
+#include <conjuntboles.h>
 
 using namespace std;
 
@@ -41,6 +42,7 @@ public:
     TaulaBillar *taulaBillar;
     PlaBase *plaBase;
     Bola *blanca;
+    ConjuntBoles *boles;
 };
 
 #endif // ESCENA_H

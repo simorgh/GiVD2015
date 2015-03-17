@@ -230,7 +230,19 @@ void GLWidget::keyReleaseEvent(QKeyEvent *event)
 
 void GLWidget::adaptaObjecteTamanyWidget(Objecte *obj)
 {
-        // Metode a implementar
+    // Metode a implementar
+    double escala = 2/20.;
+
+    mat4 m = Scale(escala, escala, escala);
+    vec3 centre = vec3(obj->capsa.pmin.x + obj->capsa.a/2.,obj->capsa.pmin.y + obj->capsa.h/2., obj->capsa.pmin.z + obj->capsa.p/2.);
+    //std::cout << "cente( " << centre.x << " , " << centre.y << " , " << centre.z << ")" << endl;
+
+    // Contrucció de la matriu de translació al centre
+    mat4 t1 = Common::Translate(-centre.x, -centre.y, -centre.z);
+    mat4 t2 = Common::Translate( centre.x*escala,  centre.y*escala,  centre.z*escala);
+
+    obj->aplicaTGPoints(t2*m*t1);
+    obj->calculCapsa3D();
 }
 
 void GLWidget::newObjecte(Objecte * obj)
@@ -245,7 +257,6 @@ void GLWidget::newObjecte(Objecte * obj)
 void GLWidget::newPlaBase()
 {
     // Metode que crea un objecte PlaBase poligon amb el punt central al (0,0,0) i perpendicular a Y=0
-    // Metode a implementar
     PlaBase *pla;
 
     pla = new PlaBase();
@@ -264,7 +275,6 @@ void GLWidget::newObj(QString fichero)
 void GLWidget::newBola()
 {
     // Metode que crea la Bola blanca de joc
-     // Metode a implementar
     Bola *obj;
 
     obj = new Bola();
@@ -274,9 +284,12 @@ void GLWidget::newBola()
 void GLWidget::newConjuntBoles()
 {
     // Metode que crea les 15 Boles del billar america
-    // Metode a implementar
+    ConjuntBoles *obj;
 
+    obj = new ConjuntBoles();
+    newObjecte(obj);
 }
+
 void GLWidget::newSalaBillar()
 {
     // Metode que construeix tota la sala de billar: taula, 15 boles i bola blanca
