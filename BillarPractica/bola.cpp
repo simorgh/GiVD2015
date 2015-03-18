@@ -5,10 +5,10 @@ Bola::Bola() : Objecte(NumVerticesF){
 
     tetrahedron(NumIteracionsEsfera);
     capsa = calculCapsa3D();
-    aplicaTGCentrat( Translate(-5.0, 1.0, 0.0)*Scale(0.25, 0.25, 0.25) ); // place the sphere over the plane and fit size to ratio
+    aplicaTGCentrat( Translate(-5.0, 1.0, 0.0)*Scale(0.75, 0.75, 0.75) ); // place the sphere over the plane and fit size to ratio
 }
 
-Bola::Bola(double x, double z) : Objecte(NumVerticesF) {
+Bola::Bola(double x, double z) : Objecte(NumVerticesF){
     Index = 0;
 
     tetrahedron(NumIteracionsEsfera);
@@ -17,7 +17,6 @@ Bola::Bola(double x, double z) : Objecte(NumVerticesF) {
 }
 
 Bola::~Bola(){}
-
 
 void Bola::triangle(const point4 &a, const point4 &b, const point4 &c){
     points[Index] = a;
@@ -39,6 +38,7 @@ void Bola::tetrahedron(){
 }
 
 void Bola::tetrahedron(int n){
+    qDebug() << "Bola -> make()";
     divide_triangle(v[0], v[1], v[2], n);
     divide_triangle(v[3], v[2], v[1], n);
     divide_triangle(v[0], v[3], v[1], n);

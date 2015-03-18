@@ -66,7 +66,7 @@ void Escena::draw() {
     if (taulaBillar!=NULL) taulaBillar->draw();
     if (plaBase!=NULL) plaBase->draw();
     if (blanca!=NULL) blanca->draw();
-    if (boles!=NULL) blanca->draw();
+    if (boles!=NULL) boles->draw();
 
 }
 

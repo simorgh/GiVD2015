@@ -162,6 +162,11 @@ void GLWidget::paintGL()
        esc->draw();
    }
 
+   if(esc->boles!=NULL){
+       esc->boles->aplicaTGCentrat(transform);
+       esc->draw();
+   }
+
 }
 
 

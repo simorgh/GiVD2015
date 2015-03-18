@@ -1,7 +1,7 @@
 #include<plabase.h>
 
 PlaBase::PlaBase() : Objecte(NumVerticesF){
-    qDebug() << "Constructor de PlaBase" << endl;
+    qDebug() << "Constructor de PlaBase";
 
     xorig = 0;
     yorig = 0;
