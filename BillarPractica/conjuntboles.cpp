@@ -1,6 +1,6 @@
 #include<conjuntboles.h>
 
-ConjuntBoles::ConjuntBoles() : Objecte(100000){//NumBoles*Bola::NumVerticesF){
+ConjuntBoles::ConjuntBoles() : Objecte(){
     ConjuntBoles::make();
     ConjuntBoles::calculCapsa3D();
 }
@@ -13,22 +13,36 @@ void ConjuntBoles::make(){
 
     boles[0] = new Bola(9, 4);
     boles[1] = new Bola(9, 2);
-    Index += 2*Bola::NumVerticesF;
-
+    boles[2] = new Bola(9, 0);
+    boles[3] = new Bola(9, -2);
+    boles[4] = new Bola(9, -4);
+    boles[5] = new Bola(7, 3);
+    boles[6] = new Bola(7, 1);
+    boles[7] = new Bola(7, -1);
+    boles[8] = new Bola(7, -3);
+    boles[9] = new Bola(5, 2);
+    boles[10] = new Bola(5, 0);
+    boles[11] = new Bola(5, -2);
+    boles[12] = new Bola(3, 1);
+    boles[13] = new Bola(3, -1);
+    boles[14] = new Bola(1, 0);
+    this->aplicaTGCentrat( Scale(Bola::scaleFactor, Bola::scaleFactor, Bola::scaleFactor) );
 /*
     int count = 0;
     for(float x=9.; x>= 1.; x-=2){
         for(float y=4.; y>=0.; y--){
             for (float z=y; z >=-y; z-=2){
-                Bola* b = new Bola(x, z);
-                //boles.push_back(*b);
+                boles[count] = new Bola(x, z);
                 count++;
             }
         }
-    }
-*/
+    }*/
 }
 
+void ConjuntBoles::toGPU(QGLShaderProgram *pr){
+     qDebug() << "ConjuntBoles -> toGPU()";
+    for(int i=0; i<NumBoles; i++) boles[i]->toGPU(pr);
+}
 
 void ConjuntBoles::draw(){
     qDebug() << "ConjuntBoles -> draw()";
@@ -47,11 +61,22 @@ void ConjuntBoles::aplicaTGPoints(mat4 m){
 
 void ConjuntBoles::aplicaTGCentrat(mat4 m){
     qDebug() << "ConjuntBoles -> aplicaTGCentrat";
-    for(int i=0; i<NumBoles; i++) boles[i]->aplicaTGCentrat(m);
+
+    vec3 centre = vec3(capsa.pmin.x + capsa.a/2.,
+                       capsa.pmin.y + capsa.h/2.,
+                       capsa.pmin.z + capsa.p/2.);
+    //qDebug() << "ConjuntBoles centre( " << centre.x << "," << centre.y << "," << centre.z << ")";
+
+    // Contrucció de la matriu de translació al centre
+    mat4 t1 = Common::Translate(-centre.x, -centre.y, -centre.z);
+    mat4 t2 = Common::Translate( centre.x,  centre.y,  centre.z);
+    aplicaTG(t2*m*t1);
+    capsa = this->calculCapsa3D();
 }
 
 Capsa3D ConjuntBoles::calculCapsa3D(){
     // Metode a implementar: calcula la capsa mínima contenidora d'un objecte
+
     vec3 pmin = vec3(  99999,  99999,  99999);
     vec3 pmax = vec3( -99999, -99999, -99999);
 

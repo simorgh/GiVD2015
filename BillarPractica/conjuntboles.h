@@ -18,6 +18,7 @@ public:
     void make();
     void draw();
 
+    void toGPU(QGLShaderProgram *pr);
     void aplicaTG(mat4 m);
     void aplicaTGPoints(mat4 m);
     void aplicaTGCentrat(mat4 m);
@@ -25,7 +26,7 @@ public:
     Capsa3D calculCapsa3D();
 
 private:
-    static const int NumBoles = 2;//15;
+    static const int NumBoles = 15;
     Bola* boles[NumBoles];
 
 };

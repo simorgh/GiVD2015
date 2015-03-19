@@ -146,27 +146,8 @@ void GLWidget::paintGL()
                        RotateZ( zRot / 16.0 ) );
 
    // A modificar si cal girar tots els objectes
-   if (esc->taulaBillar!=NULL) {
-       esc->taulaBillar->aplicaTGCentrat(transform);
-       esc->draw();
-   }
-
-   if(esc->plaBase!=NULL) {
-       esc->plaBase->aplicaTGCentrat(transform);
-       esc->draw();
-   }
-
-
-   if(esc->blanca!=NULL){
-       esc->blanca->aplicaTGCentrat(transform);
-       esc->draw();
-   }
-
-   if(esc->boles!=NULL){
-       esc->boles->aplicaTGCentrat(transform);
-       esc->draw();
-   }
-
+   esc->aplicaTGCentrat(transform);
+   esc->draw();
 }
 
 

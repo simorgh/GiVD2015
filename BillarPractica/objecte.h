@@ -59,12 +59,13 @@ public:
     virtual void make();
 
     // Pas generic de vertexs i colors a la GPU
-    void toGPU(QGLShaderProgram *p);
+    virtual void toGPU(QGLShaderProgram *p);
+
     // Pintat amb la GPU
     virtual void draw();
 
     // Calcula la capsa 3D contenidora de l'objecte
-    Capsa3D calculCapsa3D();
+    virtual Capsa3D calculCapsa3D();
 
     // Aplica una TG qualsevol a un objecte
     virtual void aplicaTG(mat4 m);
