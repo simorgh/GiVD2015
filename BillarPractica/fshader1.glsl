@@ -7,10 +7,13 @@
 #endif
 
 IN vec4 color;
+IN vec2 v_texcoord;
 
+uniform sampler2D texMap;
 
 void main()
 {
-  gl_FragColor = color;
-}
+    //gl_FragColor = 0.4*color + 0.6*texture2D(texMap, v_texcoord);
+    gl_FragColor = texture2D(texMap, v_texcoord);
 
+}

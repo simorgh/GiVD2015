@@ -29,6 +29,8 @@ private:
     static const int NumBoles = 15;
     Bola* boles[NumBoles];
 
+    void initTextura() = 0;
+
 };
 
 #endif // CONJUNTBOLES

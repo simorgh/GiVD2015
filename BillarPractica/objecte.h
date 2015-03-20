@@ -6,11 +6,13 @@
 #include <Common.h>
 #include <cara.h>
 #include <QGLShaderProgram>
+#include <QOpenGLTexture>
 
 using namespace std;
 
 typedef Common::vec4  color4;
 typedef Common::vec4  point4;
+typedef Common::vec2  texture2;
 
 class Objecte : public QObject
 {
@@ -30,12 +32,15 @@ protected:
 
     // Programa de shaders de la GPU
     QGLShaderProgram *program;
+    QOpenGLTexture *texture;
     GLuint buffer; // Buffer de comunicacio amb la GPU
 
     // Estructures de vertexs i colors per passar a la GPU
     int     numPoints;
     point4 *points;
     color4 *colors;
+    texture2 *vertexsTextura; // coordenades de textura associades a cada vertex
+
     int Index; // index de control del numero de vertexs a posar a la GPU
 
 
@@ -72,6 +77,7 @@ public:
     virtual void aplicaTGPoints(mat4 m);
     // Aplica una TG centrada en el punt central de la capsa de l'objecte a un objecte
     virtual void aplicaTGCentrat(mat4 m);
+    virtual void initTextura() = 0; //abstract method to be overwritten to apply new texture on points
 
 private:
     void construeix_cara ( char **words, int nwords, Objecte*objActual, int vindexUlt);

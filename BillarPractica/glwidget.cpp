@@ -37,9 +37,7 @@ GLWidget::~GLWidget()
 
 
 // Create a GLSL program object from vertex and fragment shader files
-void
-GLWidget::InitShader(const char* vShaderFile, const char* fShaderFile)
-{           
+void GLWidget::InitShader(const char* vShaderFile, const char* fShaderFile){
 
     QGLShader *vshader = new QGLShader(QGLShader::Vertex, this);
     QGLShader *fshader = new QGLShader(QGLShader::Fragment, this);
@@ -52,19 +50,12 @@ GLWidget::InitShader(const char* vShaderFile, const char* fShaderFile)
     program->addShader(vshader);
     program->addShader(fshader);
 
-    program->bindAttributeLocation("vPosition", PROGRAM_VERTEX_ATTRIBUTE);
-    program->bindAttributeLocation("vColor", PROGRAM_COLOR_ATTRIBUTE);
-    // muntatge del shader en el pipeline gràfic per a ser usat
-    program->link();
-
-    // unió del shader al pipeline gràfic
-    program->bind();
-
+    program->link();    // muntatge del shader en el pipeline grafic per a ser usat
+    program->bind();    // unió del shader al pipeline gràfic
 }
 
-void GLWidget::initShadersGPU()
-{
-// Carrega dels shaders i posa a punt per utilitzar els programes carregats a la GPU
+void GLWidget::initShadersGPU(){
+    // Carrega dels shaders i posa a punt per utilitzar els programes carregats a la GPU
    InitShader( "://vshader1.glsl", "://fshader1.glsl" );
 
 }
@@ -177,10 +168,10 @@ void GLWidget::mouseMoveEvent(QMouseEvent *event)
     int dy = event->y() - lastPos.y();
 
     if (event->buttons() & Qt::LeftButton) {
-        setXRotation(xRot + 8 * dy);
+        setXRotation(xRot + 0.5 * dy);
     } else if (event->buttons() & Qt::RightButton) {
-        setXRotation(xRot + 8 * dy);
-        setZRotation(zRot + 8 * dx);
+        setXRotation(xRot + 0.5 * dy);
+        setZRotation(zRot + 0.5 * dx);
     }
     lastPos = event->pos();
 }
@@ -270,19 +261,22 @@ void GLWidget::newBola()
 void GLWidget::newConjuntBoles()
 {
     // Metode que crea les 15 Boles del billar america
-    ConjuntBoles *obj;
+    //ConjuntBoles *obj;
 
-    obj = new ConjuntBoles();
-    newObjecte(obj);
+    //obj = new ConjuntBoles();
+    //newObjecte(obj);
 }
 
 void GLWidget::newSalaBillar()
 {
     // Metode que construeix tota la sala de billar: taula, 15 boles i bola blanca
+    newPlaBase();
+    newBola();
+    newConjuntBoles();
 }
 
 // Metode per iniciar la dinàmica del joc
 void GLWidget::Play()
 {
-
+    newSalaBillar();
 }

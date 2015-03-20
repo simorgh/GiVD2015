@@ -14,6 +14,8 @@ private:
     static const int NumVerticesF = 100000;
     static const int NumCares = 300000;
 
+    void initTextura();
+
 };
 
 #endif // TAULABILLAR_H

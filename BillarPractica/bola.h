@@ -10,7 +10,7 @@ class Bola: public Objecte
 
 public:
     static const int NumVerticesF = 3072; //12 * 4^(NumIteracionsEsfera)
-    static const float scaleFactor = 0.25;
+    static const float scaleFactor = 0.75;
 
     Bola();
     Bola(double x, double z); // Constructor defined for ConjuntBoles impl.
@@ -32,6 +32,7 @@ private:
     void tetrahedron(int n);
     void divide_triangle(point4 a, point4 b, point4 c, int n);
     vec4 calculVectorUnitari(const vec4& v );
+    void initTextura();
 
 };
 #endif // BOLA

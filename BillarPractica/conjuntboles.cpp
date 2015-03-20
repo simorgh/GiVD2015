@@ -5,8 +5,9 @@ ConjuntBoles::ConjuntBoles() : Objecte(){
     ConjuntBoles::calculCapsa3D();
 }
 
-ConjuntBoles::~ConjuntBoles(){}
-
+ConjuntBoles::~ConjuntBoles(){
+    for(int i=0; i<NumBoles; i++) delete boles[i];
+}
 
 void ConjuntBoles::make(){
     qDebug() << "ConjuntBoles -> make()";
@@ -103,6 +104,7 @@ Capsa3D ConjuntBoles::calculCapsa3D(){
     return capsa;
 }
 
+void ConjuntBoles::initTextura(){}
 
 
 
