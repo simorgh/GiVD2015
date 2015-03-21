@@ -6,9 +6,9 @@ Bola::Bola() : Objecte(NumVerticesF){
     tetrahedron(NumIteracionsEsfera);
     initTextura();
     capsa = calculCapsa3D();
+    aplicaTGCentrat( Scale(scaleFactor, scaleFactor, scaleFactor));
+    aplicaTGCentrat( Translate(0.0, scaleFactor, -5.0)); // place the sphere over the plane and fit size to ratio
 
-    aplicaTGCentrat( Scale(scaleFactor, scaleFactor, scaleFactor) );
-    aplicaTGCentrat( Translate(-5.0, scaleFactor, 0.0) ); // place the sphere over the plane and fit size to ratio
 }
 
 Bola::Bola(int id, double x, double z) : Objecte(NumVerticesF){

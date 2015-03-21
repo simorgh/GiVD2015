@@ -24,7 +24,7 @@ TaulaBillar::TaulaBillar(QString n) : Objecte(NumVerticesF)
     mat4 m = Scale(escalaZ, escalaZ, escalaZ)*Translate(-2.55, +3.8, -0.74);
     //aplicaTG(Scale(escalaZ, escalaZ, escalaZ) * Translate(-2.55, +3.8, -0.74));
     aplicaTG(m);
-
+    aplicaTGCentrat(Translate(0.,-0.524,0.));
     capsa = calculCapsa3D();
 }
 

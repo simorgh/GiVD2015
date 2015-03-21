@@ -32,8 +32,8 @@ PlaBase::PlaBase() : Objecte(NumVerticesF){
 
     this->make();
     // let's scale and translate the plane so it's position and lenght will be 18x15 y=0
-    double escalaX = 18.;
-    double escalaZ = 13.;
+    double escalaX = 10.;
+    double escalaZ = 18.;
     aplicaTGCentrat( Scale(escalaX, 1., escalaZ) * RotateX(90) );
 }
 

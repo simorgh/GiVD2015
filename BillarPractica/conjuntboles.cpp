@@ -12,22 +12,23 @@ ConjuntBoles::~ConjuntBoles(){
 void ConjuntBoles::make(){
     qDebug() << "ConjuntBoles -> make()";
 
-    boles[0] = new Bola(1, 9, 4);
-    boles[1] = new Bola(2, 9, 2);
-    boles[2] = new Bola(3, 9, 0);
-    boles[3] = new Bola(4, 9, -2);
-    boles[4] = new Bola(5, 9, -4);
-    boles[5] = new Bola(6, 7, 3);
-    boles[6] = new Bola(7, 7, 1);
-    boles[7] = new Bola(8, 7, -1);
-    boles[8] = new Bola(9, 7, -3);
-    boles[9] = new Bola(10, 5, 2);
-    boles[10] = new Bola(11, 5, 0);
-    boles[11] = new Bola(12, 5, -2);
-    boles[12] = new Bola(13, 3, 1);
-    boles[13] = new Bola(14, 3, -1);
-    boles[14] = new Bola(15, 1, 0);
-    this->aplicaTGCentrat( Scale(Bola::scaleFactor, Bola::scaleFactor, Bola::scaleFactor) );
+    boles[0] = new Bola(1, 4, 9);
+    boles[1] = new Bola(2, 2, 9);
+    boles[2] = new Bola(3, 0, 9);
+    boles[3] = new Bola(4, -2, 9);
+    boles[4] = new Bola(5, -4, 9);
+    boles[5] = new Bola(6, 3, 7);
+    boles[6] = new Bola(7, 1, 7);
+    boles[7] = new Bola(8, -1, 7);
+    boles[8] = new Bola(9, -3, 7);
+    boles[9] = new Bola(10, 2, 5);
+    boles[10] = new Bola(11, 0, 5);
+    boles[11] = new Bola(12, -2, 5);
+    boles[12] = new Bola(13, 1, 3);
+    boles[13] = new Bola(14, -1, 3);
+    boles[14] = new Bola(15, 0,1);
+    this->aplicaTGCentrat(Scale(Bola::scaleFactor, Bola::scaleFactor, Bola::scaleFactor) );
+    this->aplicaTGCentrat(Translate(0.,0.,3.) );
 
 /*
     int count = 0;
