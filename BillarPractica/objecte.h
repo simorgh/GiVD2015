@@ -52,8 +52,6 @@ public:
     //explicit Objecte(QObject *parent = 0);
     Objecte(const int npoints, QObject *parent = 0);
     Objecte(const int npoints, QString n);
-    Objecte();
-
     ~Objecte();
 
     // llegeix un model en format OBJ

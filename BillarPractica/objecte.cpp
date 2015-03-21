@@ -1,7 +1,6 @@
 #include <objecte.h>
 #include <readfile.h>
 
-Objecte::Objecte(){}
 
 Objecte::Objecte(int npoints, QObject *parent) : numPoints(npoints) ,QObject(parent){
     points = new point4[npoints];
@@ -9,8 +8,7 @@ Objecte::Objecte(int npoints, QObject *parent) : numPoints(npoints) ,QObject(par
     vertexsTextura = new texture2[npoints];
 }
 
-Objecte::Objecte(int npoints, QString n) : numPoints(npoints)
-{
+Objecte::Objecte(int npoints, QString n) : numPoints(npoints){
     points = new point4[npoints];
     colors = new color4[npoints];
     vertexsTextura = new texture2[npoints];
@@ -26,8 +24,7 @@ Objecte::Objecte(int npoints, QString n) : numPoints(npoints)
 }
 
 
-Objecte::~Objecte()
-{
+Objecte::~Objecte(){
     delete points;
     delete colors;
     delete vertexsTextura;
@@ -66,7 +63,7 @@ void Objecte::aplicaTG(mat4 m)
     aplicaTGPoints(m);
 
     // Actualitzacio del vertex array per a preparar per pintar
-    glBufferSubData( GL_ARRAY_BUFFER, 0, sizeof(point4) * Index, &points[0] );
+    //glBufferSubData( GL_ARRAY_BUFFER, 0, sizeof(point4) * Index, &points[0] );
 }
 
 void Objecte::aplicaTGPoints(mat4 m)
@@ -122,7 +119,7 @@ void Objecte::draw(){
     glBindBuffer( GL_ARRAY_BUFFER, buffer );
 
     // per si han canviat les coordenades dels punts
-    glBufferSubData( GL_ARRAY_BUFFER, 0, sizeof(point4)*Index, &points[0] );
+    glBufferSubData( GL_ARRAY_BUFFER, 0, sizeof(point4)*Index, &points[0] ); // Actualitzacio del vertex array per a preparar per pintar
     glBufferSubData( GL_ARRAY_BUFFER, sizeof(point4)*Index, sizeof(color4)*Index, &colors[0] );
     glBufferSubData( GL_ARRAY_BUFFER, sizeof(point4)*Index + sizeof(color4)*Index, sizeof(texture2)*Index, &vertexsTextura[0]);
 
@@ -136,7 +133,6 @@ void Objecte::draw(){
 
     program->enableAttributeArray(colorLocation);
     program->setAttributeBuffer("vColor", GL_FLOAT, sizeof(point4)*Index, 4);
-
     program->enableAttributeArray(coordTextureLocation);
     program->setAttributeBuffer("vCoordTexture", GL_FLOAT, sizeof(point4)*Index + sizeof(color4)*Index, 2);
 
@@ -168,8 +164,6 @@ void Objecte::make(){
             Index++;
         }
     }
-
-    // S'ha de dimensionar uniformement l'objecte a la capsa de l'escena i s'ha posicionar en el lloc corresponent
 
 }
 

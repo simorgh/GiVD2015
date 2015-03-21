@@ -68,11 +68,10 @@ private:
     QGLShaderProgram *program;
 
 
-    //  Metode per a carregar de fitxers el vertex i el fragment shader
-   void InitShader( const char* vertexShaderFile,
-                    const char* fragmentShaderFile );
+    // Metode per a carregar de fitxers el vertex i el fragment shader
+    void InitShader( const char* vertexShaderFile, const char* fragmentShaderFile );
 
-   // Metode per inicialitzar els shaders de l'aplicacio
+    // Metode per inicialitzar els shaders de l'aplicacio
     void initShadersGPU();
 
     // Metode que carrega un nou objecte a l'escena
@@ -81,6 +80,8 @@ private:
     // Metode per adaptar l'escena al tamany del widget
     void adaptaObjecteTamanyWidget(Objecte *obj);
 
+    // Metode per netejar l'escena al crear una nova partida
+    void clearSalaBillar();
 };
 
 
