@@ -13,6 +13,7 @@ Objecte::Objecte(int npoints, QString n) : numPoints(npoints)
 {
     points = new point4[npoints];
     colors = new color4[npoints];
+    vertexsTextura = new texture2[npoints];
     qDebug() << "Estic en el constructor parametritzat del objecte\n";
 
     xRot = 0;
@@ -29,6 +30,7 @@ Objecte::~Objecte()
 {
     delete points;
     delete colors;
+    delete vertexsTextura;
 }
 
 
@@ -37,6 +39,7 @@ Capsa3D Objecte::calculCapsa3D(){
     // Metode a implementar: calcula la capsa mínima contenidora d'un objecte
     vec3 pmin = vec3(  99999,  99999,  99999);
     vec3 pmax = vec3( -99999, -99999, -99999);
+    Capsa3D c;
 
     for(int i = 0; i<Index; i++){
         if(points[i].x > pmax.x) pmax.x = points[i].x;
@@ -48,14 +51,14 @@ Capsa3D Objecte::calculCapsa3D(){
         if(points[i].z < pmin.z) pmin.z = points[i].z;
     }
 
-    capsa.pmin = pmin;
-    capsa.a = pmax.x - pmin.x;
-    capsa.h = pmax.y - pmin.y;
-    capsa.p = pmax.z - pmin.z;
+    c.pmin = pmin;
+    c.a = pmax.x - pmin.x;
+    c.h = pmax.y - pmin.y;
+    c.p = pmax.z - pmin.z;
 
-    //qDebug() << "Objecte -> calculaCapsa3D:\n\tpmin: (" << pmin.x << "," << pmin.y << ","
-    //         << pmin.z << ") \n\ta:" << capsa.a << "\n\th:" << capsa.h << "\n\tp:" << capsa.p;
-    return capsa;
+    qDebug() << "Objecte -> calculaCapsa3D:\n\tpmin: (" << pmin.x << "," << pmin.y << ","
+             << pmin.z << ") \n\ta:" << c.a << "\n\th:" << c.h << "\n\tp:" << c.p;
+    return c;
 }
 
 void Objecte::aplicaTG(mat4 m)

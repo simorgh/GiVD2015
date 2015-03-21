@@ -17,6 +17,7 @@ TaulaBillar::TaulaBillar(QString n) : Objecte(NumVerticesF)
     readObj(n);
 
     Objecte::make();
+    initTextura();
     capsa = calculCapsa3D();
 
     // Codi adhoc per a la taula carregada de fitxer taula.obj. Cal modificar-lo per a que sigui general
@@ -29,4 +30,13 @@ TaulaBillar::TaulaBillar(QString n) : Objecte(NumVerticesF)
 }
 
 TaulaBillar::~TaulaBillar(){}
-void TaulaBillar::initTextura(){}
+void TaulaBillar::initTextura(){
+    qDebug() << "Taula - Initializing textures...";
+
+    // Carregar la textura
+    glActiveTexture(GL_TEXTURE0);
+    texture = new QOpenGLTexture(QImage("://resources/Fabric_Green_L.jpg"));
+
+
+
+}

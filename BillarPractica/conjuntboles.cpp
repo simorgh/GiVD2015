@@ -64,7 +64,7 @@ void ConjuntBoles::aplicaTGCentrat(mat4 m){
 
 Capsa3D ConjuntBoles::calculCapsa3D(){
     // Metode a implementar: calcula la capsa mínima contenidora d'un objecte
-
+    Capsa3D c;
     vec3 pmin = vec3(  99999,  99999,  99999);
     vec3 pmax = vec3( -99999, -99999, -99999);
 
@@ -82,13 +82,13 @@ Capsa3D ConjuntBoles::calculCapsa3D(){
         if(boles[i]->capsa.pmin.z < pmin.z) pmin.z = boles[i]->capsa.pmin.z;
     }
 
-    capsa.pmin = pmin;
-    capsa.a = pmax.x - pmin.x;
-    capsa.h = pmax.y - pmin.y;
-    capsa.p = pmax.z - pmin.z;
-    qDebug() << "ConjuntBoles -> calculaCapsa3D:\n\tpmin: (" << pmin.x << "," << pmin.y << ","
-             << pmin.z << ") \n\ta:" << capsa.a << "\n\th:" << capsa.h << "\n\tp:" << capsa.p;
-    return capsa;
+    c.pmin = pmin;
+    c.a = pmax.x - pmin.x;
+    c.h = pmax.y - pmin.y;
+    c.p = pmax.z - pmin.z;
+    qDebug() << "ConjuntBoles -> calculaCapsa3D:\n\tpmin: (" << c.pmin.x << "," << c.pmin.y << ","
+             << c.pmin.z << ") \n\ta:" << c.a << "\n\th:" << c.h << "\n\tp:" << c.p;
+    return c;
 }
 
 void ConjuntBoles::initTextura(){}

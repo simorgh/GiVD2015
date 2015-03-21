@@ -172,10 +172,10 @@ void GLWidget::mouseMoveEvent(QMouseEvent *event)
     int dy = event->y() - lastPos.y();
 
     if (event->buttons() & Qt::LeftButton) {
-        setXRotation(xRot + 0.5 * dy);
+        setXRotation(xRot + 0.1 * dy);
     } else if (event->buttons() & Qt::RightButton) {
-        setXRotation(xRot + 0.5 * dy);
-        setZRotation(zRot + 0.5 * dx);
+        setXRotation(xRot + 0.1 * dy);
+        setZRotation(zRot + 0.1 * dx);
     }
     lastPos = event->pos();
 }
@@ -223,6 +223,7 @@ void GLWidget::adaptaObjecteTamanyWidget(Objecte *obj)
     mat4 t2 = Common::Translate( centre.x*escala,  centre.y*escala,  centre.z*escala);
 
     obj->aplicaTGPoints(t2*m*t1);
+    qDebug()<< "Calculando Capsa3D desde AdaptaObjecteTamanyWidget en GLWidget"<< endl;
     obj->calculCapsa3D();
 }
 
@@ -250,7 +251,12 @@ void GLWidget::newObj(QString fichero)
     TaulaBillar *obj;
 
     obj = new TaulaBillar(fichero);
-    newObjecte(obj);
+    //newObjecte(obj);
+
+    obj->toGPU(program);
+    esc->addObjecte(obj);
+
+    updateGL();
 }
 
 void GLWidget::newBola()
