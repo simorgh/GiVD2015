@@ -249,13 +249,10 @@ void GLWidget::newObj(QString fichero)
 {
     // Metode que carrega un fitxer .obj llegit de disc
     TaulaBillar *obj;
-
     obj = new TaulaBillar(fichero);
-    //newObjecte(obj);
 
     obj->toGPU(program);
     esc->addObjecte(obj);
-
     updateGL();
 }
 
@@ -286,6 +283,9 @@ void GLWidget::newSalaBillar()
     newPlaBase();
     newBola();
     newConjuntBoles();
+
+
+    newObj("://resources/taula.obj");
 }
 
 void GLWidget::clearSalaBillar(){

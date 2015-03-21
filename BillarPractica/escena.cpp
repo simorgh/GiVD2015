@@ -57,12 +57,11 @@ void Escena::aplicaTGCentrat(mat4 m) {
 
     // Metode a modificar
 
-    //vec3 centre = vec3(0.0, 0.0, 0.0);
-    vec3 centre = vec3(capsaMinima.pmin.x + capsaMinima.a/2.,
+    vec3 centre = vec3(0.0, 0.0, 0.0);
+    /*vec3 centre = vec3(capsaMinima.pmin.x + capsaMinima.a/2.,
                    capsaMinima.pmin.y + capsaMinima.h/2.,
-                   capsaMinima.pmin.z + capsaMinima.p/2.);
+                   capsaMinima.pmin.z + capsaMinima.p/2.);*/
 	//qDebug() << "ESCENA centre( " << centre.x << "," << centre.y << "," << centre.z << ")";
-
 
     // Contrucció de la matriu de translació al centre
     mat4 t1 = Common::Translate(-centre.x, -centre.y, -centre.z);
