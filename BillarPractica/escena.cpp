@@ -10,10 +10,7 @@ Escena::Escena()
 Escena::~Escena()
 {
     // Cal anar fent delete dels objectes que se'l hagi fet new
-
-    for(int i=0; i<elements.size(); i++){
-        delete elements.at(i);
-    }
+    elements.clear();
 
 }
 
@@ -49,7 +46,6 @@ void Escena::CapsaMinCont3DEscena() {
 }
 
 void Escena::aplicaTG(mat4 m) {
-
     // Metode a modificar
 
     for(int i=0; i<elements.size(); i++){

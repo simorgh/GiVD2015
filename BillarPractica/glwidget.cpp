@@ -274,13 +274,27 @@ void GLWidget::newConjuntBoles()
 void GLWidget::newSalaBillar()
 {
     // Metode que construeix tota la sala de billar: taula, 15 boles i bola blanca
+    clearSalaBillar();
+
+    // add game elements here:
     newPlaBase();
     newBola();
     newConjuntBoles();
 }
 
+void GLWidget::clearSalaBillar(){
+    // in case of needed clear old elements and reset Escena
+    if(!esc->elements.empty()){
+        esc->elements.clear();
+
+        esc->capsaMinima.pmin[0]=0; esc->capsaMinima.pmin[1] = 0; esc->capsaMinima.pmin[2]=0;
+        esc->capsaMinima.a = 1; esc->capsaMinima.h = 1; esc->capsaMinima.p = 1;
+        xRot = 0; yRot = 0; zRot = 0;
+    }
+}
+
 // Metode per iniciar la dinàmica del joc
 void GLWidget::Play()
 {
-    newSalaBillar();
+
 }

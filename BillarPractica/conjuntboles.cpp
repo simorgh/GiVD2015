@@ -1,6 +1,6 @@
 #include<conjuntboles.h>
 
-ConjuntBoles::ConjuntBoles() : Objecte(){
+ConjuntBoles::ConjuntBoles() : Objecte(0){
     ConjuntBoles::make();
     ConjuntBoles::calculCapsa3D();
 }

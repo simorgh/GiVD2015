@@ -1,7 +1,6 @@
 #include <objecte.h>
 #include <readfile.h>
 
-Objecte::Objecte(){}
 
 Objecte::Objecte(int npoints, QObject *parent) : numPoints(npoints) ,QObject(parent){
     points = new point4[npoints];
@@ -9,8 +8,7 @@ Objecte::Objecte(int npoints, QObject *parent) : numPoints(npoints) ,QObject(par
     vertexsTextura = new texture2[npoints];
 }
 
-Objecte::Objecte(int npoints, QString n) : numPoints(npoints)
-{
+Objecte::Objecte(int npoints, QString n) : numPoints(npoints){
     points = new point4[npoints];
     colors = new color4[npoints];
     vertexsTextura = new texture2[npoints];
@@ -26,8 +24,7 @@ Objecte::Objecte(int npoints, QString n) : numPoints(npoints)
 }
 
 
-Objecte::~Objecte()
-{
+Objecte::~Objecte(){
     delete points;
     delete colors;
     delete vertexsTextura;
