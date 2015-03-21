@@ -4,21 +4,23 @@
 #include <objecte.h>
 #include <vec.h>
 #include <math.h>
+#include <sstream>
 
 class Bola: public Objecte
 {
 
 public:
     static const int NumVerticesF = 3072; //12 * 4^(NumIteracionsEsfera)
-    static const float scaleFactor = 0.75;
+    static const float scaleFactor = 0.50;
 
     Bola();
-    Bola(double x, double z); // Constructor defined for ConjuntBoles impl.
+    Bola(int id, double x, double z); // Constructor defined for ConjuntBoles impl.
     ~Bola();
-
+    void draw();
 
 private:
     static const int NumIteracionsEsfera = 4;
+    int id; // Bola id. Determines which ball is. Used to load texture and set it's position
 
     point4 v[4] = {
         vec4(0.0, 0.0, 1.0, 1.0),
@@ -33,6 +35,7 @@ private:
     void divide_triangle(point4 a, point4 b, point4 c, int n);
     vec4 calculVectorUnitari(const vec4& v );
     void initTextura();
+    vec2 calculTexturaCoord(const vec4 &v);
 
 };
 #endif // BOLA

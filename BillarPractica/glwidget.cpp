@@ -115,8 +115,10 @@ void GLWidget::initializeGL()
 {
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_CULL_FACE);
+    glEnable(GL_RGBA);
+    glEnable(GL_DOUBLE);
 
-    qDebug() <<"Estic inicialitzant el shaders";
+    qDebug() <<"inicialitzant els shaders";
     initShadersGPU();
 
     glClearColor(clearColor.redF(), clearColor.greenF(), clearColor.blueF(), clearColor.alphaF());
@@ -127,6 +129,7 @@ void GLWidget::initializeGL()
 void GLWidget::paintGL()
 {
    glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
+   program->setUniformValue("texture", 0);
 
    qNormalizeAngle(xRot);
    qNormalizeAngle(yRot);
@@ -147,7 +150,8 @@ void GLWidget::resizeGL(int width, int height)
     int side = qMin(width, height);
     glViewport((width - side) / 2, (height - side) / 2, side, side);
 
-    glMatrixMode(GL_PROJECTION);    glLoadIdentity();
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
 #ifdef QT_OPENGL_ES_1
     glOrthof(-1.5, +1.5, -1.5, +1.5, 0.0, 15.0);
 #else
@@ -182,18 +186,18 @@ void GLWidget::keyPressEvent(QKeyEvent *event)
     // Metode a implementar
     switch ( event->key() )
     {
-    case Qt::Key_Up:
+        case Qt::Key_Up:
 
-        break;
-    case Qt::Key_Down:
+            break;
+        case Qt::Key_Down:
 
-        break;
-    case Qt::Key_Left:
+            break;
+        case Qt::Key_Left:
 
-        break;
-    case Qt::Key_Right:
+            break;
+        case Qt::Key_Right:
 
-        break;
+            break;
     }
 }
 
@@ -261,10 +265,10 @@ void GLWidget::newBola()
 void GLWidget::newConjuntBoles()
 {
     // Metode que crea les 15 Boles del billar america
-    //ConjuntBoles *obj;
+    ConjuntBoles *obj;
 
-    //obj = new ConjuntBoles();
-    //newObjecte(obj);
+    obj = new ConjuntBoles();
+    newObjecte(obj);
 }
 
 void GLWidget::newSalaBillar()

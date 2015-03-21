@@ -53,8 +53,8 @@ Capsa3D Objecte::calculCapsa3D(){
     capsa.h = pmax.y - pmin.y;
     capsa.p = pmax.z - pmin.z;
 
-    qDebug() << "Objecte -> calculaCapsa3D:\n\tpmin: (" << pmin.x << "," << pmin.y << ","
-             << pmin.z << ") \n\ta:" << capsa.a << "\n\th:" << capsa.h << "\n\tp:" << capsa.p;
+    //qDebug() << "Objecte -> calculaCapsa3D:\n\tpmin: (" << pmin.x << "," << pmin.y << ","
+    //         << pmin.z << ") \n\ta:" << capsa.a << "\n\th:" << capsa.h << "\n\tp:" << capsa.p;
     return capsa;
 }
 
@@ -101,7 +101,7 @@ void Objecte::aplicaTGCentrat(mat4 m)
 
 void Objecte::toGPU(QGLShaderProgram *pr){
     program = pr;
-    qDebug() <<"Objecte -> toGPU() : Passo les dades de l'objecte a la GPU\n";
+    //qDebug() <<"Objecte -> toGPU() : Passo les dades de l'objecte a la GPU\n";
 
     // S'activa la textura i es passa a la GPU
     texture->bind(0);
@@ -116,7 +116,7 @@ void Objecte::toGPU(QGLShaderProgram *pr){
     // per si han canviat les coordenades dels punts
     glBufferSubData( GL_ARRAY_BUFFER, 0, sizeof(point4)*Index, &points[0] );
     glBufferSubData( GL_ARRAY_BUFFER, sizeof(point4)*Index, sizeof(color4)*Index, &colors[0] );
-    glBufferSubData( GL_ARRAY_BUFFER, sizeof(point4)*Index + sizeof(color4)*Index, sizeof(texture2)*Index, &vertexsTextura);
+    glBufferSubData( GL_ARRAY_BUFFER, sizeof(point4)*Index + sizeof(color4)*Index, sizeof(texture2)*Index, &vertexsTextura[0]);
 
     // Per a conservar el buffer
     int vertexLocation = program->attributeLocation("vPosition");
@@ -127,10 +127,10 @@ void Objecte::toGPU(QGLShaderProgram *pr){
     program->setAttributeBuffer("vPosition", GL_FLOAT, 0, 4);
 
     program->enableAttributeArray(colorLocation);
-    program->setAttributeBuffer("vColor", GL_FLOAT, sizeof(point4) * Index, 4);
+    program->setAttributeBuffer("vColor", GL_FLOAT, sizeof(point4)*Index, 4);
 
     program->enableAttributeArray(coordTextureLocation);
-    program->setAttributeBuffer("vCoordTexture", GL_FLOAT, sizeof(points)+sizeof(colors), 2);
+    program->setAttributeBuffer("vCoordTexture", GL_FLOAT, sizeof(point4)*Index + sizeof(color4)*Index, 2);
 
     glEnable( GL_DEPTH_TEST );
     glEnable( GL_TEXTURE_2D );
@@ -141,11 +141,9 @@ void Objecte::toGPU(QGLShaderProgram *pr){
 void Objecte::draw(){
     glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
     glDrawArrays( GL_TRIANGLES, 0, Index );
-
 }
 
-void Objecte::make()
-{
+void Objecte::make(){
 
     static vec3  base_colors[] = {
         vec3( 1.0, 0.0, 0.0 ),
@@ -157,11 +155,8 @@ void Objecte::make()
     // Cal recorrer l'estructura de l'objecte per a pintar les seves cares
 
     Index = 0;
-
-    for(unsigned int i=0; i<cares.size(); i++)
-    {
-        for(unsigned int j=0; j<cares[i].idxVertices.size(); j++)
-        {
+    for(unsigned int i=0; i<cares.size(); i++){
+        for(unsigned int j=0; j<cares[i].idxVertices.size(); j++){
             points[Index] = vertexs[cares[i].idxVertices[j]];
             colors[Index] = vec4(base_colors[1], 1.0);
             vertexsTextura[Index] = vec2(0.0, 0.0);
@@ -170,16 +165,14 @@ void Objecte::make()
     }
 
     // S'ha de dimensionar uniformement l'objecte a la capsa de l'escena i s'ha posicionar en el lloc corresponent
+
 }
 
 
 // Llegeix un fitxer .obj
 //  Si el fitxer referencia fitxers de materials (.mtl), encara no es llegeixen
 //  Tots els elements del fitxer es llegeixen com a un unic objecte.
-//
-
-void Objecte::readObj(QString filename)
-{
+void Objecte::readObj(QString filename){
 
     FILE *fp = fopen(filename.toLocal8Bit(),"rb");
     if (!fp)

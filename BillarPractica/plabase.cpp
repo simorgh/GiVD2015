@@ -6,7 +6,6 @@ PlaBase::PlaBase() : Objecte(NumVerticesF){
     xorig = 0;
     yorig = 0;
     zorig = 0;
-    Index = 0;
 
     // Vertices of a unit plain centered at origin, sides aligned with axes
     vertices[0] = point4( -0.5, -0.5,  0.0, 1.0 );
@@ -39,6 +38,7 @@ PlaBase::PlaBase() : Objecte(NumVerticesF){
 }
 
 void PlaBase::make(){
+    Index = 0;
     quad(1, 0, 3, 2);
     initTextura();
     capsa = calculCapsa3D();
@@ -71,8 +71,17 @@ void PlaBase::initTextura(){
      texture = new QOpenGLTexture(QImage("://resources/Fabric_Green_L.jpg"));
      texture->setMinificationFilter(QOpenGLTexture::LinearMipMapLinear);
      texture->setMagnificationFilter(QOpenGLTexture::Linear);
-
      texture->bind(0);
+}
+
+void PlaBase::draw(){
+    texture->bind(0);
+
+    // per si han canviat les coordenades dels punts
+    glBufferSubData( GL_ARRAY_BUFFER, 0, sizeof(point4)*Index, &points[0] );
+    glBufferSubData( GL_ARRAY_BUFFER, sizeof(point4)*Index, sizeof(color4)*Index, &colors[0] );
+    glBufferSubData( GL_ARRAY_BUFFER, sizeof(point4)*Index + sizeof(color4)*Index, sizeof(texture2)*Index, &vertexsTextura[0]);
+    Objecte::draw();
 }
 
 PlaBase::~PlaBase(){}

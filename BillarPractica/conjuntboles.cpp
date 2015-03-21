@@ -12,32 +12,35 @@ ConjuntBoles::~ConjuntBoles(){
 void ConjuntBoles::make(){
     qDebug() << "ConjuntBoles -> make()";
 
-    boles[0] = new Bola(9, 4);
-    boles[1] = new Bola(9, 2);
-    boles[2] = new Bola(9, 0);
-    boles[3] = new Bola(9, -2);
-    boles[4] = new Bola(9, -4);
-    boles[5] = new Bola(7, 3);
-    boles[6] = new Bola(7, 1);
-    boles[7] = new Bola(7, -1);
-    boles[8] = new Bola(7, -3);
-    boles[9] = new Bola(5, 2);
-    boles[10] = new Bola(5, 0);
-    boles[11] = new Bola(5, -2);
-    boles[12] = new Bola(3, 1);
-    boles[13] = new Bola(3, -1);
-    boles[14] = new Bola(1, 0);
+    boles[0] = new Bola(1, 9, 4);
+    boles[1] = new Bola(2, 9, 2);
+    boles[2] = new Bola(3, 9, 0);
+    boles[3] = new Bola(4, 9, -2);
+    boles[4] = new Bola(5, 9, -4);
+    boles[5] = new Bola(6, 7, 3);
+    boles[6] = new Bola(7, 7, 1);
+    boles[7] = new Bola(8, 7, -1);
+    boles[8] = new Bola(9, 7, -3);
+    boles[9] = new Bola(10, 5, 2);
+    boles[10] = new Bola(11, 5, 0);
+    boles[11] = new Bola(12, 5, -2);
+    boles[12] = new Bola(13, 3, 1);
+    boles[13] = new Bola(14, 3, -1);
+    boles[14] = new Bola(15, 1, 0);
     this->aplicaTGCentrat( Scale(Bola::scaleFactor, Bola::scaleFactor, Bola::scaleFactor) );
+
 /*
     int count = 0;
-    for(float x=9.; x>= 1.; x-=2){
-        for(float y=4.; y>=0.; y--){
-            for (float z=y; z >=-y; z-=2){
-                boles[count] = new Bola(x, z);
-                count++;
-            }
-        }
-    }*/
+    float z = 0.0;
+    for(float i=0; i<5; i++){  // each row
+        for(float it = 0; it <= i; it++){ // iter. balls per row
+            boles[count] = new Bola(NumBoles-count, 1.+2*(i), z);
+            qDebug() << "new Bola " << NumBoles-count << 1+2*(i) << z;
+            count++;
+         }
+    }
+    this->aplicaTGCentrat( Scale(Bola::scaleFactor, Bola::scaleFactor, Bola::scaleFactor) );
+*/
 }
 
 void ConjuntBoles::toGPU(QGLShaderProgram *pr){
@@ -105,6 +108,3 @@ Capsa3D ConjuntBoles::calculCapsa3D(){
 }
 
 void ConjuntBoles::initTextura(){}
-
-
-

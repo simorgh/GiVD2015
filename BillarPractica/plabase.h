@@ -10,7 +10,7 @@ public:
 
     PlaBase();
     ~PlaBase();
-
+    void draw();
 private:
 
     static const int NumVerticesF = 6; //(1 face)(2 triangles/face)(3 vertex/triangle)
