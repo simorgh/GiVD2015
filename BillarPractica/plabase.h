@@ -7,12 +7,10 @@ class PlaBase : public Objecte
 {
 
 public:
-
     PlaBase();
     ~PlaBase();
-    void draw();
-private:
 
+private:
     static const int NumVerticesF = 6; //(1 face)(2 triangles/face)(3 vertex/triangle)
     static const int NumCares = 2;
 

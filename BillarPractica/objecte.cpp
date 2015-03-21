@@ -103,15 +103,20 @@ void Objecte::toGPU(QGLShaderProgram *pr){
     program = pr;
     //qDebug() <<"Objecte -> toGPU() : Passo les dades de l'objecte a la GPU\n";
 
-    // S'activa la textura i es passa a la GPU
-    texture->bind(0);
-    program->setUniformValue("texMap", 0);
-
     glGenBuffers( 1, &buffer );             // inicialitzacio d'un vertex buffer object (VBO)
     glBindBuffer( GL_ARRAY_BUFFER, buffer );// Activació a GL del Vertex Buffer Object
 
     // Transferència dels punts, colors i coordenades de textura al vertex buffer object
     glBufferData( GL_ARRAY_BUFFER, sizeof(point4)*Index + sizeof(color4)*Index + sizeof(texture2)*Index, NULL, GL_STATIC_DRAW );
+    glEnable( GL_DEPTH_TEST );
+    glEnable( GL_TEXTURE_2D );
+    program->bind();
+}
+
+// Pintat en la GPU.
+void Objecte::draw(){
+
+    glBindBuffer( GL_ARRAY_BUFFER, buffer );
 
     // per si han canviat les coordenades dels punts
     glBufferSubData( GL_ARRAY_BUFFER, 0, sizeof(point4)*Index, &points[0] );
@@ -132,13 +137,10 @@ void Objecte::toGPU(QGLShaderProgram *pr){
     program->enableAttributeArray(coordTextureLocation);
     program->setAttributeBuffer("vCoordTexture", GL_FLOAT, sizeof(point4)*Index + sizeof(color4)*Index, 2);
 
-    glEnable( GL_DEPTH_TEST );
-    glEnable( GL_TEXTURE_2D );
-    program->bind();
-}
+    // S'activa la textura i es passa a la GPU
+    texture->bind(0);
+    program->setUniformValue("texMap", 0);
 
-// Pintat en la GPU.
-void Objecte::draw(){
     glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
     glDrawArrays( GL_TRIANGLES, 0, Index );
 }

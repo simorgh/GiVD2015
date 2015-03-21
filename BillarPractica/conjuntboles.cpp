@@ -10,7 +10,7 @@ ConjuntBoles::~ConjuntBoles(){
 }
 
 void ConjuntBoles::make(){
-    qDebug() << "ConjuntBoles -> make()";
+    //qDebug() << "ConjuntBoles -> make()";
     int count = 0;
     float z = 1;
     for(int i=0; i<5; i++){  // each row

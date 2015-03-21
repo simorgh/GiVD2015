@@ -2,7 +2,6 @@
 
 PlaBase::PlaBase() : Objecte(NumVerticesF){
     qDebug() << "Constructor de PlaBase";
-
     xorig = 0;
     yorig = 0;
     zorig = 0;
@@ -31,6 +30,7 @@ PlaBase::PlaBase() : Objecte(NumVerticesF){
     //cares.push_back(*cara2);
 
     this->make();
+
     // let's scale and translate the plane so it's position and lenght will be 18x15 y=0
     double escalaX = 10.;
     double escalaZ = 18.;
@@ -46,7 +46,7 @@ void PlaBase::make(){
 
 
 // quad generates two triangles for each face and assigns colors
-//    to the vertices
+// to the vertices
 void PlaBase::quad( int a, int b, int c, int d ){
     colors[Index] = vertex_colors[a]; points[Index] = vertices[a];
     vertexsTextura[Index] = vec2(0.0, 0.0); Index++;
@@ -71,17 +71,6 @@ void PlaBase::initTextura(){
      texture = new QOpenGLTexture(QImage("://resources/Fabric_Green_L.jpg"));
      texture->setMinificationFilter(QOpenGLTexture::LinearMipMapLinear);
      texture->setMagnificationFilter(QOpenGLTexture::Linear);
-     texture->bind(0);
-}
-
-void PlaBase::draw(){
-    texture->bind(0);
-
-    // per si han canviat les coordenades dels punts
-    glBufferSubData( GL_ARRAY_BUFFER, 0, sizeof(point4)*Index, &points[0] );
-    glBufferSubData( GL_ARRAY_BUFFER, sizeof(point4)*Index, sizeof(color4)*Index, &colors[0] );
-    glBufferSubData( GL_ARRAY_BUFFER, sizeof(point4)*Index + sizeof(color4)*Index, sizeof(texture2)*Index, &vertexsTextura[0]);
-    Objecte::draw();
 }
 
 PlaBase::~PlaBase(){}

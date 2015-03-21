@@ -16,7 +16,6 @@ public:
     Bola();
     Bola(int id, double x, double z); // Constructor defined for ConjuntBoles impl.
     ~Bola();
-    void draw();
 
 private:
     static const int NumIteracionsEsfera = 4;

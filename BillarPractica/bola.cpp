@@ -1,21 +1,24 @@
 #include<bola.h>
 
 Bola::Bola() : Objecte(NumVerticesF){
-    Index = 0;
     this->id = 0;
-    tetrahedron(NumIteracionsEsfera);
+
+    Index = 0;
+    tetrahedron(NumIteracionsEsfera); //make
     initTextura();
     capsa = calculCapsa3D();
+
     aplicaTGCentrat( Scale(scaleFactor, scaleFactor, scaleFactor));
     aplicaTGCentrat( Translate(0.0, scaleFactor, -5.0)); // place the sphere over the plane and fit size to ratio
-
 }
 
 Bola::Bola(int id, double x, double z) : Objecte(NumVerticesF){
-    Index = 0;
     this->id = id;
+
+    Index = 0;
     tetrahedron(NumIteracionsEsfera);
     initTextura();
+
     capsa = calculCapsa3D();
     aplicaTGCentrat( Translate( x, 1., z) ); // place the sphere over the plane and fit size to ratio
 }
@@ -80,7 +83,11 @@ void Bola::divide_triangle(point4 a, point4 b, point4 c, int n){
 vec2 Bola::calculTexturaCoord(const vec4 &v){
     double u = 0.5 + atan2(v.z, v.x) / (2.*M_PI);
     double j = 0.5 - asin(v.y) / M_PI;
+
+    if(u > 1.0) u = 1.0; else if(u < 0.0) u = 0.0;
+    if(j > 1.0) j = 1.0; else if(j < 0.0) j = 0.0;
     //qDebug() << "u, j: " << u << j;
+
     return vec2(u, j);
 }
 
@@ -99,16 +106,4 @@ void Bola::initTextura(){
      texture = new QOpenGLTexture( QImage(ss.str().c_str()) );
      texture->setMinificationFilter(QOpenGLTexture::LinearMipMapLinear);
      texture->setMagnificationFilter(QOpenGLTexture::Linear);
-
-     texture->bind(0);
-}
-
-void Bola::draw(){
-    texture->bind(0);
-    // per si han canviat les coordenades dels punts
-    glBufferSubData( GL_ARRAY_BUFFER, 0, sizeof(point4)*Index, &points[0] );
-    glBufferSubData( GL_ARRAY_BUFFER, sizeof(point4)*Index, sizeof(color4)*Index, &colors[0] );
-    glBufferSubData( GL_ARRAY_BUFFER, sizeof(point4)*Index + sizeof(color4)*Index, sizeof(texture2)*Index, &vertexsTextura[0]);
-    Objecte::draw();
-
 }
