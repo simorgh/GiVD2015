@@ -30,13 +30,11 @@ TaulaBillar::TaulaBillar(QString n) : Objecte(NumVerticesF)
 }
 
 TaulaBillar::~TaulaBillar(){}
+
 void TaulaBillar::initTextura(){
     qDebug() << "Taula - Initializing textures...";
 
     // Carregar la textura
     glActiveTexture(GL_TEXTURE0);
     texture = new QOpenGLTexture(QImage("://resources/Fabric_Green_L.jpg"));
-
-
-
 }

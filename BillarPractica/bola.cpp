@@ -1,7 +1,7 @@
 #include<bola.h>
 
 Bola::Bola() : Objecte(NumVerticesF){
-    this->id = 0;
+    this->id = 12;
 
     Index = 0;
     tetrahedron(NumIteracionsEsfera); //make
@@ -26,24 +26,29 @@ Bola::Bola(int id, double x, double z) : Objecte(NumVerticesF){
 Bola::~Bola(){}
 
 void Bola::triangle(const point4 &a, const point4 &b, const point4 &c){
-    vec2 tx;
+    vec2 t1, t2, t3;
 
     points[Index] = a;
     colors[Index] = color4(1.0, 1.0, 1.0, 1.0);
-    tx = calculTexturaCoord(a);
-    vertexsTextura[Index] = vec2(tx.x, tx.y);
+    t1 = calculTexturaCoord(a);
+    vertexsTextura[Index] = vec2(t1.x, t1.y);
     Index++;
 
+    double th= 0.5;
     points[Index] = b;
     colors[Index] = color4(1.0, 1.0, 1.0, 1.0);
-    tx = calculTexturaCoord(b);
-    vertexsTextura[Index] = vec2(tx.x, tx.y);
+    t2 = calculTexturaCoord(b);
+    if(t2.x < th && t1.x > th) t2.x += 1.0;
+    else if(t2.x > th && t1.x < th) t2.x -= 1.0;
+    vertexsTextura[Index] = vec2(t2.x, t2.y);
     Index++;
 
     points[Index] = c;
     colors[Index] = color4(1.0, 1.0, 1.0, 1.0);
-    tx = calculTexturaCoord(c);
-    vertexsTextura[Index] = vec2(tx.x, tx.y);
+    t3 = calculTexturaCoord(c);
+    if(t3.x < th && t1.x > th) t3.x += 1.0;
+    else if(t3.x > th && t1.x < th) t3.x -= 1.0;
+    vertexsTextura[Index] = vec2(t3.x, t3.y);
     Index++;
 }
 
@@ -81,14 +86,14 @@ void Bola::divide_triangle(point4 a, point4 b, point4 c, int n){
  * tot suposant v és el vector unitari que va des del punt p de la superfície
  * de l’esfera fins al del centre de l’esfera.*/
 vec2 Bola::calculTexturaCoord(const vec4 &v){
-    double u = 0.5 + atan2(v.z, v.x) / (2.*M_PI);
-    double j = 0.5 - asin(v.y) / M_PI;
+    double U = (double) 0.5f + atan2(v.x, v.z) / ( 2.0f * M_PI );
+    double V = (double) 0.5f - asin(v.y) / M_PI;
 
-    if(u > 1.0) u = 1.0; else if(u < 0.0) u = 0.0;
-    if(j > 1.0) j = 1.0; else if(j < 0.0) j = 0.0;
+    if(U > 1.0) /*qDebug() << "U OVER 1.0:" << U;*/ U = (float)1.0; else if(U < 0.0) /*qDebug() << "u UNDER 0.0:" << u;*/U = (float)0.0;
+    if(V > 1.0) /*qDebug() << "V OVER 1.0:" << V;*/ V = (float)1.0; else if(V < 0.0) /*qDebug() << "j OVER 1.0:" << j; */V = (float)0.0;
     //qDebug() << "u, j: " << u << j;
 
-    return vec2(u, j);
+    return vec2(U, V);
 }
 
 vec4 Bola::calculVectorUnitari(const vec4& v ){
@@ -97,13 +102,13 @@ vec4 Bola::calculVectorUnitari(const vec4& v ){
 }
 
 void Bola::initTextura(){
-     //qDebug() << "Bola - Initializing textures...";
-     ostringstream ss;
-     ss << "://resources/Bola" << this->id << ".jpg";
+    //qDebug() << "Bola - Initializing textures...";
+    ostringstream ss;
+    ss << "://resources/Bola" << this->id << ".jpg";
 
      // Carregar la textura
-     glActiveTexture(GL_TEXTURE0);
-     texture = new QOpenGLTexture( QImage(ss.str().c_str()) );
-     texture->setMinificationFilter(QOpenGLTexture::LinearMipMapLinear);
-     texture->setMagnificationFilter(QOpenGLTexture::Linear);
+    glActiveTexture(GL_TEXTURE0);
+    texture = new QOpenGLTexture( QImage(ss.str().c_str()) );
+    texture->setMinificationFilter(QOpenGLTexture::LinearMipMapLinear);
+    texture->setMagnificationFilter(QOpenGLTexture::Linear);
 }

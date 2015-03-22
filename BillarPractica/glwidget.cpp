@@ -25,7 +25,6 @@ GLWidget::GLWidget(QWidget *parent)
 
     program = 0;
     moviment = false;
-
 }
 
 
@@ -184,19 +183,31 @@ void GLWidget::mouseMoveEvent(QMouseEvent *event)
 void GLWidget::keyPressEvent(QKeyEvent *event)
 {
     // Metode a implementar
-    switch ( event->key() )
-    {
+    switch ( event->key() ){
         case Qt::Key_Up:
-
+            //qDebug() << "KEY_UP pressed";
+            //esc->elements.at(1)->aplicaTG( RotateX( xRot / 16.0 ) * Translate(0.05, 0.0, 0.0) );
+            //esc->elements.at(1)->draw();
             break;
+
         case Qt::Key_Down:
-
+            //qDebug() << "KEY_DOWN pressed";
+            //esc->elements.at(1)->aplicaTG( RotateX( xRot / 16.0 ) * Translate(0.05, 0.0, 0.0 ) );
+            //esc->elements.at(1)->draw();
             break;
+
         case Qt::Key_Left:
-
+            //qDebug() << "KEY_LEFT pressed";
+            //esc->elements.at(1)->aplicaTG( RotateX( xRot / 16.0 ) * Translate(-0.05, 0.0, 0.0) );
+            //updateGL();
+            //esc->elements.at(1)->draw();
             break;
-        case Qt::Key_Right:
 
+        case Qt::Key_Right:
+            //qDebug() << "KEY_RIGHT pressed";
+            //esc->elements.at(1)->aplicaTG( RotateX( xRot / 16.0 ) * Translate(0.05, 0.0, 0.0) );
+            //updateGL();
+            //esc->elements.at(1)->draw();
             break;
     }
 }
@@ -245,19 +256,18 @@ void GLWidget::newPlaBase()
     newObjecte(pla);
 }
 
-void GLWidget::newObj(QString fichero)
-{
+void GLWidget::newObj(QString fichero){
     // Metode que carrega un fitxer .obj llegit de disc
     TaulaBillar *obj;
     obj = new TaulaBillar(fichero);
+    //newObjecte(obj);
 
     obj->toGPU(program);
     esc->addObjecte(obj);
     updateGL();
 }
 
-void GLWidget::newBola()
-{
+void GLWidget::newBola(){
     // Metode que crea la Bola blanca de joc
     Bola *obj;
 
@@ -265,8 +275,7 @@ void GLWidget::newBola()
     newObjecte(obj);
 }
 
-void GLWidget::newConjuntBoles()
-{
+void GLWidget::newConjuntBoles(){
     // Metode que crea les 15 Boles del billar america
     ConjuntBoles *obj;
 
@@ -283,9 +292,6 @@ void GLWidget::newSalaBillar()
     newPlaBase();
     newBola();
     newConjuntBoles();
-
-
-    newObj("://resources/taula.obj");
 }
 
 void GLWidget::clearSalaBillar(){

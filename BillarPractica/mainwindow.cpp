@@ -41,6 +41,7 @@ void MainWindow::Quit(){
 void MainWindow::newFile()
 {
     QString fileName = QFileDialog::getOpenFileName(this);
+    qDebug() << fileName;
     if (!fileName.isNull())
         this->glWidget->newObj(fileName);
 }
