@@ -2,7 +2,7 @@
 
 ConjuntBoles::ConjuntBoles() : Objecte(0){
     ConjuntBoles::make();
-    ConjuntBoles::calculCapsa3D();
+    capsa = this->calculCapsa3D();
 }
 
 ConjuntBoles::~ConjuntBoles(){
@@ -23,43 +23,45 @@ void ConjuntBoles::make(){
          }
         z+=2;
     }
-    this->aplicaTGCentrat(Scale(Bola::scaleFactor, Bola::scaleFactor, Bola::scaleFactor) );
-    this->aplicaTGCentrat(Translate(0.,0.,3.) );
+    this->aplicaTGCentrat( Scale(Bola::scaleFactor, Bola::scaleFactor, Bola::scaleFactor) );
+    this->aplicaTGCentrat( Translate(0. ,0. ,3.) );
 }
 
 void ConjuntBoles::toGPU(QGLShaderProgram *pr){
-     qDebug() << "ConjuntBoles -> toGPU()";
+    //qDebug() << "ConjuntBoles -> toGPU()";
     for(int i=0; i<NumBoles; i++) boles[i]->toGPU(pr);
 }
 
 void ConjuntBoles::draw(){
-    qDebug() << "ConjuntBoles -> draw()";
+    //qDebug() << "ConjuntBoles -> draw()";
     for(int i=0; i<NumBoles; i++) boles[i]->draw();
 }
 
 void ConjuntBoles::aplicaTG(mat4 m){
-    qDebug() << "ConjuntBoles -> aplicaTG";
+    //qDebug() << "ConjuntBoles -> aplicaTG";
     for(int i=0; i<NumBoles; i++) boles[i]->aplicaTG(m);
 }
 
 void ConjuntBoles::aplicaTGPoints(mat4 m){
-    qDebug() << "ConjuntBoles -> aplicaTGPoints";
-    for(int i=0; i<NumBoles; i++) boles[i]->aplicaTGPoints(m);
+    //qDebug() << "ConjuntBoles -> aplicaTGPoints";
+    for(int i=0; i<NumBoles; i++){
+        boles[i]->aplicaTGPoints(m);
+    }
 }
 
 void ConjuntBoles::aplicaTGCentrat(mat4 m){
-    qDebug() << "ConjuntBoles -> aplicaTGCentrat";
+    //qDebug() << "ConjuntBoles -> aplicaTGCentrat";
 
     vec3 centre = vec3(capsa.pmin.x + capsa.a/2.,
                        capsa.pmin.y + capsa.h/2.,
                        capsa.pmin.z + capsa.p/2.);
-    //qDebug() << "ConjuntBoles centre( " << centre.x << "," << centre.y << "," << centre.z << ")";
+    qDebug() << "ConjuntBoles centre( " << centre.x << "," << centre.y << "," << centre.z << ")";
 
     // Contrucció de la matriu de translació al centre
     mat4 t1 = Common::Translate(-centre.x, -centre.y, -centre.z);
     mat4 t2 = Common::Translate( centre.x,  centre.y,  centre.z);
     aplicaTG(t2*m*t1);
-    capsa = this->calculCapsa3D();
+    this->capsa = this->calculCapsa3D();
 }
 
 Capsa3D ConjuntBoles::calculCapsa3D(){
@@ -86,8 +88,6 @@ Capsa3D ConjuntBoles::calculCapsa3D(){
     c.a = pmax.x - pmin.x;
     c.h = pmax.y - pmin.y;
     c.p = pmax.z - pmin.z;
-    qDebug() << "ConjuntBoles -> calculaCapsa3D:\n\tpmin: (" << c.pmin.x << "," << c.pmin.y << ","
-             << c.pmin.z << ") \n\ta:" << c.a << "\n\th:" << c.h << "\n\tp:" << c.p;
     return c;
 }
 

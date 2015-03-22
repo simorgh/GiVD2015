@@ -1,7 +1,7 @@
 #include<bola.h>
 
 Bola::Bola() : Objecte(NumVerticesF){
-    this->id = 12;
+    this->id = 0;
 
     Index = 0;
     tetrahedron(NumIteracionsEsfera); //make
@@ -20,7 +20,7 @@ Bola::Bola(int id, double x, double z) : Objecte(NumVerticesF){
     initTextura();
 
     capsa = calculCapsa3D();
-    aplicaTGCentrat( Translate( x, 1., z) ); // place the sphere over the plane and fit size to ratio
+    aplicaTGCentrat( Translate( x, 1. , z) ); // place the sphere over the plane and fit size to ratio
 }
 
 Bola::~Bola(){}

@@ -16,6 +16,7 @@ Escena::~Escena()
 
 void Escena::addObjecte(Objecte *obj) {
     elements.push_back(obj);
+    CapsaMinCont3DEscena();
 }
 
 
@@ -41,8 +42,6 @@ void Escena::CapsaMinCont3DEscena() {
     capsaMinima.a = pmax.x - pmin.x;
     capsaMinima.h = pmax.y - pmin.y;
     capsaMinima.p = pmax.z - pmin.z;
-    qDebug() << "Escena -> calculaCapsa3D:\n\tpmin: (" << pmin.x << "," << pmin.y << ","
-             << pmin.z << ") \n\ta:" << capsaMinima.a << "\n\th:" << capsaMinima.h << "\n\tp:" << capsaMinima.p;
 }
 
 void Escena::aplicaTG(mat4 m) {
@@ -56,19 +55,17 @@ void Escena::aplicaTG(mat4 m) {
 void Escena::aplicaTGCentrat(mat4 m) {
 
     // Metode a modificar
-
-    vec3 centre = vec3(0.0, 0.0, 0.0);
-    /*vec3 centre = vec3(capsaMinima.pmin.x + capsaMinima.a/2.,
+    vec3 centre = vec3(capsaMinima.pmin.x + capsaMinima.a/2.,
                    capsaMinima.pmin.y + capsaMinima.h/2.,
-                   capsaMinima.pmin.z + capsaMinima.p/2.);*/
-	//qDebug() << "ESCENA centre( " << centre.x << "," << centre.y << "," << centre.z << ")";
+                   capsaMinima.pmin.z + capsaMinima.p/2.);
+   // qDebug() << "ESCENA centre( " << centre.x << "," << centre.y << "," << centre.z << ")";
 
     // Contrucció de la matriu de translació al centre
     mat4 t1 = Common::Translate(-centre.x, -centre.y, -centre.z);
     mat4 t2 = Common::Translate( centre.x,  centre.y,  centre.z);
     aplicaTG(t2*m*t1);
 
-    CapsaMinCont3DEscena();
+   //CapsaMinCont3DEscena();
 }
 
 void Escena::draw() {

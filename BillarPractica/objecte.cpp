@@ -53,17 +53,17 @@ Capsa3D Objecte::calculCapsa3D(){
     c.h = pmax.y - pmin.y;
     c.p = pmax.z - pmin.z;
 
-    qDebug() << "Objecte -> calculaCapsa3D:\n\tpmin: (" << pmin.x << "," << pmin.y << ","
-             << pmin.z << ") \n\ta:" << c.a << "\n\th:" << c.h << "\n\tp:" << c.p;
+    //qDebug() << "Objecte -> calculaCapsa3D:\n\tpmin: (" << pmin.x << "," << pmin.y << ","
+    //         << pmin.z << ") \n\ta:" << c.a << "\n\th:" << c.h << "\n\tp:" << c.p;
     return c;
 }
 
 void Objecte::aplicaTG(mat4 m)
 {
     aplicaTGPoints(m);
-
+    capsa = calculCapsa3D();
     // Actualitzacio del vertex array per a preparar per pintar
-    //glBufferSubData( GL_ARRAY_BUFFER, 0, sizeof(point4) * Index, &points[0] );
+    //glBufferSubData( GL_ARRAY_BUFFER, 0, sizeof(point4) * Index, &points[0] ); //--> DONE directly on post call to draw() (alongside with texture info)
 }
 
 void Objecte::aplicaTGPoints(mat4 m)
@@ -95,7 +95,6 @@ void Objecte::aplicaTGCentrat(mat4 m){
     mat4 t2 = Common::Translate( centre.x,  centre.y,  centre.z);
 
     aplicaTG(t2*m*t1);
-    capsa = calculCapsa3D();
 }
 
 void Objecte::toGPU(QGLShaderProgram *pr){

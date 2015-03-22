@@ -233,9 +233,9 @@ void GLWidget::adaptaObjecteTamanyWidget(Objecte *obj)
     mat4 t1 = Common::Translate(-centre.x, -centre.y, -centre.z);
     mat4 t2 = Common::Translate( centre.x*escala,  centre.y*escala,  centre.z*escala);
 
-    obj->aplicaTGPoints(t2*m*t1);
+    obj->aplicaTG(t2*m*t1);
     qDebug()<< "Calculando Capsa3D desde AdaptaObjecteTamanyWidget en GLWidget"<< endl;
-    obj->calculCapsa3D();
+    obj->capsa = obj->calculCapsa3D();
 }
 
 void GLWidget::newObjecte(Objecte * obj)
