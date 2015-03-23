@@ -18,17 +18,6 @@ PlaBase::PlaBase() : Objecte(NumVerticesF){
     vertex_colors[2] = color4( 0.0, 1.0, 0.0, 1.0 );
     vertex_colors[3] = color4( 0.0, 1.0, 0.0, 1.0 );
 
-    //vertexs.push_back(vertices[0]);
-    //vertexs.push_back(vertices[1]);
-    //vertexs.push_back(vertices[2]);
-    //vertexs.push_back(vertices[3]);
-
-    // let's create both triangles that composes the plane
-    //cara1 = new Cara(0, 2, 1);
-    //cara2 = new Cara(0, 3, 2);
-    //cares.push_back(*cara1);
-    //cares.push_back(*cara2);
-
     this->make();
 
     // let's scale and translate the plane so it's position and lenght will be 18x15 y=0

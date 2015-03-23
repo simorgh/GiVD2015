@@ -23,6 +23,7 @@ void ConjuntBoles::make(){
          }
         z+=2;
     }
+
     this->aplicaTGCentrat( Scale(Bola::scaleFactor, Bola::scaleFactor, Bola::scaleFactor) );
     this->aplicaTGCentrat( Translate(0. ,0. ,3.) );
 }

@@ -19,7 +19,7 @@ GLWidget::GLWidget(QWidget *parent)
     h = 20.0;
     p = 20.0;
 
-    clearColor = Qt::black;
+    clearColor = Qt::gray;
     qtGreen = QColor::fromCmykF(0.40, 0.0, 1.0, 0.0);
     qtPurple = QColor::fromCmykF(0.39, 0.39, 0.0, 0.0);
 
@@ -56,7 +56,6 @@ void GLWidget::InitShader(const char* vShaderFile, const char* fShaderFile){
 void GLWidget::initShadersGPU(){
     // Carrega dels shaders i posa a punt per utilitzar els programes carregats a la GPU
    InitShader( "://vshader1.glsl", "://fshader1.glsl" );
-
 }
 
 
@@ -238,8 +237,7 @@ void GLWidget::adaptaObjecteTamanyWidget(Objecte *obj)
     obj->capsa = obj->calculCapsa3D();
 }
 
-void GLWidget::newObjecte(Objecte * obj)
-{
+void GLWidget::newObjecte(Objecte * obj){
     adaptaObjecteTamanyWidget(obj);
     obj->toGPU(program);
     esc->addObjecte(obj);
@@ -258,13 +256,8 @@ void GLWidget::newPlaBase()
 
 void GLWidget::newObj(QString fichero){
     // Metode que carrega un fitxer .obj llegit de disc
-    TaulaBillar *obj;
-    obj = new TaulaBillar(fichero);
-    //newObjecte(obj);
+    qDebug() << fichero;
 
-    obj->toGPU(program);
-    esc->addObjecte(obj);
-    updateGL();
 }
 
 void GLWidget::newBola(){
@@ -292,6 +285,20 @@ void GLWidget::newSalaBillar()
     newPlaBase();
     newBola();
     newConjuntBoles();
+    newTaulaBillar();
+}
+
+void GLWidget::newTaulaBillar(){
+    QString current = QDir::currentPath();
+    QString relative = current.left( current.lastIndexOf('/')) + "/BillarPractica/resources/taula.obj";
+    //qDebug() << "CURRENT DIRECTORY is:" << current; qDebug() << "RELATIVE DIRECTORY is:" << relative;
+
+    TaulaBillar *obj;
+    obj = new TaulaBillar("/home/simorgh/givd2015/BillarPractica/resources/taula.obj");//relative);
+
+    obj->toGPU(program);
+    esc->addObjecte(obj);
+    updateGL();
 }
 
 void GLWidget::clearSalaBillar(){

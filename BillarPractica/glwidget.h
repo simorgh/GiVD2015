@@ -3,7 +3,6 @@
 
 #include <math.h>
 #include <escena.h>
-
 #include <QtWidgets>
 #include <QGLWidget>
 #include <QTime>
@@ -34,6 +33,7 @@ public slots:
     void newObj(QString fichero);
     void newBola();
     void newConjuntBoles();
+    void newTaulaBillar();
     void newSalaBillar();
 
     // Metode per iniciar la dinàmica del joc
@@ -66,7 +66,6 @@ private:
 
     // Programa de la GPU
     QGLShaderProgram *program;
-
 
     // Metode per a carregar de fitxers el vertex i el fragment shader
     void InitShader( const char* vertexShaderFile, const char* fragmentShaderFile );

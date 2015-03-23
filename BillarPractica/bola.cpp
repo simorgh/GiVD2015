@@ -6,10 +6,12 @@ Bola::Bola() : Objecte(NumVerticesF){
     Index = 0;
     tetrahedron(NumIteracionsEsfera); //make
     initTextura();
+
+    // place the sphere over the plane and fit size to ratio
     capsa = calculCapsa3D();
 
-    aplicaTGCentrat( Scale(scaleFactor, scaleFactor, scaleFactor));
-    aplicaTGCentrat( Translate(0.0, scaleFactor, -5.0)); // place the sphere over the plane and fit size to ratio
+    aplicaTGCentrat( Scale(scaleFactor, scaleFactor, scaleFactor) );
+    aplicaTG( Translate(0.0, scaleFactor, -5.0) );
 }
 
 Bola::Bola(int id, double x, double z) : Objecte(NumVerticesF){
@@ -20,7 +22,7 @@ Bola::Bola(int id, double x, double z) : Objecte(NumVerticesF){
     initTextura();
 
     capsa = calculCapsa3D();
-    aplicaTGCentrat( Translate( x, 1. , z) ); // place the sphere over the plane and fit size to ratio
+    aplicaTG( Translate( x, 1. , z) ); // place the sphere over the plane and fit size to ratio
 }
 
 Bola::~Bola(){}
@@ -89,8 +91,8 @@ vec2 Bola::calculTexturaCoord(const vec4 &v){
     double U = (double) 0.5f + atan2(v.x, v.z) / ( 2.0f * M_PI );
     double V = (double) 0.5f - asin(v.y) / M_PI;
 
-    if(U > 1.0) /*qDebug() << "U OVER 1.0:" << U;*/ U = (float)1.0; else if(U < 0.0) /*qDebug() << "u UNDER 0.0:" << u;*/U = (float)0.0;
-    if(V > 1.0) /*qDebug() << "V OVER 1.0:" << V;*/ V = (float)1.0; else if(V < 0.0) /*qDebug() << "j OVER 1.0:" << j; */V = (float)0.0;
+    if(U > 1.0) U = (float)1.0; else if(U < 0.0) U = (float)0.0;
+    if(V > 1.0) V = (float)1.0; else if(V < 0.0) V = (float)0.0;
     //qDebug() << "u, j: " << u << j;
 
     return vec2(U, V);

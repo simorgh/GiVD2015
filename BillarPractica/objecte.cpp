@@ -52,9 +52,6 @@ Capsa3D Objecte::calculCapsa3D(){
     c.a = pmax.x - pmin.x;
     c.h = pmax.y - pmin.y;
     c.p = pmax.z - pmin.z;
-
-    //qDebug() << "Objecte -> calculaCapsa3D:\n\tpmin: (" << pmin.x << "," << pmin.y << ","
-    //         << pmin.z << ") \n\ta:" << c.a << "\n\th:" << c.h << "\n\tp:" << c.p;
     return c;
 }
 
