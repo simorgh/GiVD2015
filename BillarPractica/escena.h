@@ -33,6 +33,7 @@ public:
 
     void draw();
     void CapsaMinCont3DEscena();
+    bool hasCollided(Objecte *obj);
 
     // Capsa contenedora de l'escena
     Capsa3D capsaMinima;

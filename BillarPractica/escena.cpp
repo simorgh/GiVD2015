@@ -78,4 +78,23 @@ void Escena::draw() {
 }
 
 
+bool Escena::hasCollided(Objecte *obj){
+
+    // horizontal (x-axis)
+    if(obj->capsa.pmin.x <= capsaMinima.pmin.x)  return true;
+    if( (obj->capsa.pmin.x + obj->capsa.a) > (capsaMinima.pmin.x + capsaMinima.a) ) return true;
+
+    // vertical (z-axis)
+    if(obj->capsa.pmin.y <= capsaMinima.pmin.z){
+        //qDebug() << obj->capsa.pmin.z << capsaMinima.pmin.z;
+        return true;
+    }
+    if( (obj->capsa.pmin.y + obj->capsa.h) > (capsaMinima.pmin.z + capsaMinima.p) ){
+        //qDebug() << obj->capsa.pmin.y + obj->capsa.h << capsaMinima.pmin.z + capsaMinima.p;
+        return true;
+    }
+    return false;
+}
+
+
 

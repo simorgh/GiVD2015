@@ -56,7 +56,7 @@ void ConjuntBoles::aplicaTGCentrat(mat4 m){
     vec3 centre = vec3(capsa.pmin.x + capsa.a/2.,
                        capsa.pmin.y + capsa.h/2.,
                        capsa.pmin.z + capsa.p/2.);
-    qDebug() << "ConjuntBoles centre( " << centre.x << "," << centre.y << "," << centre.z << ")";
+    //qDebug() << "ConjuntBoles centre( " << centre.x << "," << centre.y << "," << centre.z << ")";
 
     // Contrucció de la matriu de translació al centre
     mat4 t1 = Common::Translate(-centre.x, -centre.y, -centre.z);

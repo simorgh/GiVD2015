@@ -4,6 +4,7 @@
 
 Objecte::Objecte(int npoints, QObject *parent) : numPoints(npoints) ,QObject(parent){
     points = new point4[npoints];
+    pointsTmp = new point4[npoints];
     colors = new color4[npoints];
     vertexsTextura = new texture2[npoints];
 }
@@ -160,6 +161,16 @@ void Objecte::make(){
         }
     }
 
+}
+
+void Objecte::backupPoints() {
+    for ( int i = 0; i < Index; i++ )
+        pointsTmp[i] = points[i];
+}
+
+void Objecte::restorePoints() {
+    for ( int i = 0; i < Index; i++ )
+        points[i] = pointsTmp[i];
 }
 
 

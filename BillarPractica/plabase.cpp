@@ -1,7 +1,7 @@
 #include<plabase.h>
 
 PlaBase::PlaBase() : Objecte(NumVerticesF){
-    qDebug() << "Constructor de PlaBase";
+    //qDebug() << "Constructor de PlaBase";
     xorig = 0;
     yorig = 0;
     zorig = 0;
@@ -53,7 +53,7 @@ void PlaBase::quad( int a, int b, int c, int d ){
 }
 
 void PlaBase::initTextura(){
-     qDebug() << "PlaBase - Initializing textures...";
+     //qDebug() << "PlaBase - Initializing textures...";
 
      // Carregar la textura
      glActiveTexture(GL_TEXTURE0);

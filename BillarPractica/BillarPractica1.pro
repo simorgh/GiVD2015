@@ -10,7 +10,6 @@ QT       += widgets
 TARGET = BillarPractica1
 TEMPLATE = app
 
-
 SOURCES += main.cpp\
         mainwindow.cpp \
     glwidget.cpp \
@@ -46,10 +45,3 @@ OTHER_FILES += \
 
 RESOURCES += \
     resources.qrc
-
-
-
-
-
-
-

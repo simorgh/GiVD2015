@@ -116,7 +116,6 @@ void GLWidget::initializeGL()
     glEnable(GL_RGBA);
     glEnable(GL_DOUBLE);
 
-    qDebug() <<"inicialitzant els shaders";
     initShadersGPU();
 
     glClearColor(clearColor.redF(), clearColor.greenF(), clearColor.blueF(), clearColor.alphaF());
@@ -185,28 +184,43 @@ void GLWidget::keyPressEvent(QKeyEvent *event)
     switch ( event->key() ){
         case Qt::Key_Up:
             //qDebug() << "KEY_UP pressed";
-            //esc->elements.at(1)->aplicaTG( RotateX( xRot / 16.0 ) * Translate(0.05, 0.0, 0.0) );
-            //esc->elements.at(1)->draw();
+            esc->elements.at(1)->backupPoints();
+            esc->elements.at(1)->aplicaTG( Translate(0.0, 0.05, 0.0) ); //movement
+            if(!esc->hasCollided(esc->elements.at(1))){
+                esc->elements.at(1)->draw();
+                update();
+            } else esc->elements.at(1)->restorePoints();
             break;
 
         case Qt::Key_Down:
             //qDebug() << "KEY_DOWN pressed";
-            //esc->elements.at(1)->aplicaTG( RotateX( xRot / 16.0 ) * Translate(0.05, 0.0, 0.0 ) );
-            //esc->elements.at(1)->draw();
+            esc->elements.at(1)->backupPoints();
+            esc->elements.at(1)->aplicaTG( Translate(0.0, -0.05, 0.0 ) ); //movement
+            if(!esc->hasCollided(esc->elements.at(1))){
+                esc->elements.at(1)->draw();
+                update();
+            } else esc->elements.at(1)->restorePoints();
             break;
 
         case Qt::Key_Left:
             //qDebug() << "KEY_LEFT pressed";
-            //esc->elements.at(1)->aplicaTG( RotateX( xRot / 16.0 ) * Translate(-0.05, 0.0, 0.0) );
-            //updateGL();
-            //esc->elements.at(1)->draw();
+
+            esc->elements.at(1)->backupPoints();
+            esc->elements.at(1)->aplicaTG( Translate(-0.05, 0.0, 0.0) ); //movement
+            if(!esc->hasCollided(esc->elements.at(1))){
+                esc->elements.at(1)->draw();
+                update();
+            } else esc->elements.at(1)->restorePoints();
             break;
 
         case Qt::Key_Right:
             //qDebug() << "KEY_RIGHT pressed";
-            //esc->elements.at(1)->aplicaTG( RotateX( xRot / 16.0 ) * Translate(0.05, 0.0, 0.0) );
-            //updateGL();
-            //esc->elements.at(1)->draw();
+            esc->elements.at(1)->backupPoints();
+            esc->elements.at(1)->aplicaTG( Translate(0.05, 0.0, 0.0) ); //movement
+            if(!esc->hasCollided(esc->elements.at(1))){
+                esc->elements.at(1)->draw();
+                update();
+            } else esc->elements.at(1)->restorePoints();
             break;
     }
 }
@@ -226,14 +240,12 @@ void GLWidget::adaptaObjecteTamanyWidget(Objecte *obj)
 
     mat4 m = Scale(escala, escala, escala);
     vec3 centre = vec3(obj->capsa.pmin.x + obj->capsa.a/2.,obj->capsa.pmin.y + obj->capsa.h/2., obj->capsa.pmin.z + obj->capsa.p/2.);
-    //std::cout << "cente( " << centre.x << " , " << centre.y << " , " << centre.z << ")" << endl;
 
     // Contrucció de la matriu de translació al centre
     mat4 t1 = Common::Translate(-centre.x, -centre.y, -centre.z);
     mat4 t2 = Common::Translate( centre.x*escala,  centre.y*escala,  centre.z*escala);
 
     obj->aplicaTG(t2*m*t1);
-    qDebug()<< "Calculando Capsa3D desde AdaptaObjecteTamanyWidget en GLWidget"<< endl;
     obj->capsa = obj->calculCapsa3D();
 }
 
@@ -285,7 +297,7 @@ void GLWidget::newSalaBillar()
     newPlaBase();
     newBola();
     newConjuntBoles();
-    newTaulaBillar();
+    //newTaulaBillar();
 }
 
 void GLWidget::newTaulaBillar(){
@@ -315,5 +327,5 @@ void GLWidget::clearSalaBillar(){
 // Metode per iniciar la dinàmica del joc
 void GLWidget::Play()
 {
-
+    esc->aplicaTGCentrat( RotateX(-90) );
 }

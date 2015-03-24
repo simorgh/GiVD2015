@@ -38,6 +38,7 @@ protected:
     // Estructures de vertexs i colors per passar a la GPU
     int     numPoints;
     point4 *points;
+    point4 *pointsTmp;
     color4 *colors;
     texture2 *vertexsTextura; // coordenades de textura associades a cada vertex
 
@@ -76,6 +77,10 @@ public:
     // Aplica una TG centrada en el punt central de la capsa de l'objecte a un objecte
     virtual void aplicaTGCentrat(mat4 m);
     virtual void initTextura() = 0; //abstract method to be overwritten to apply new texture on points
+
+    // Funciones necesarias para el movimiento de la bola (en caso de colisinar tenemos que recuperar los puntos anteriores)
+    void backupPoints();
+    void restorePoints();
 
 private:
     void construeix_cara ( char **words, int nwords, Objecte*objActual, int vindexUlt);
