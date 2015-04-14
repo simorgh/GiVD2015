@@ -39,9 +39,10 @@ void Camera::ini(int a, int h, Capsa3D capsaMinima)
 
 
 
-void Camera::toGPU(QGLShaderProgram *program)
+void Camera::toGPU(QGLShaderProgram* program)
 {
-    // CODI A MODIFICAR DURANT LA PRACTICA 2
+   setModelViewToGPU(program, this->modView);
+   setProjectionToGPU(program, this->proj);
 }
 
 
@@ -88,6 +89,8 @@ void Camera::setModelViewToGPU(QGLShaderProgram *program, mat4 m)
 {
 
    // CODI A MODIFICAR DURANT LA PRACTICA 2
+    model_view = program->uniformLocation("model_view");
+    glUniformMatrix4fv( model_view, 1, GL_TRUE, m);
 
 }
 
@@ -95,6 +98,9 @@ void Camera::setProjectionToGPU(QGLShaderProgram *program, mat4 p)
 {
 
        // CODI A MODIFICAR DURANT LA PRACTICA 2
+
+       projection = program->uniformLocation("projection");
+       glUniformMatrix4fv( model_view, 1, GL_TRUE, m);
 }
 
 void  Camera::AmpliaWindow(double r)
