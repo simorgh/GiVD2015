@@ -297,7 +297,7 @@ void GLWidget::newSalaBillar()
     newPlaBase();
     newBola();
     newConjuntBoles();
-    //newTaulaBillar();
+    newTaulaBillar();
 }
 
 void GLWidget::newTaulaBillar(){
@@ -306,7 +306,7 @@ void GLWidget::newTaulaBillar(){
     //qDebug() << "CURRENT DIRECTORY is:" << current; qDebug() << "RELATIVE DIRECTORY is:" << relative;
 
     TaulaBillar *obj;
-    obj = new TaulaBillar("/home/simorgh/givd2015/BillarPractica/resources/taula.obj");//relative);
+    obj = new TaulaBillar("/Users/simorgh/givd2015/BillarPractica/resources/taula.obj");//relative);
 
     obj->toGPU(program);
     esc->addObjecte(obj);
@@ -328,4 +328,5 @@ void GLWidget::clearSalaBillar(){
 void GLWidget::Play()
 {
     esc->aplicaTGCentrat( RotateX(-90) );
+    update();
 }
