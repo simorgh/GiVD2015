@@ -25,11 +25,10 @@ void Camera::ini(int a, int h, Capsa3D capsaMinima)
     // CAL IMPLEMENTAR
     // CODI A MODIFICAR DURANT LA PRACTICA 2
 
-
-
-    vs.vrp[0] = 0.0;
-    vs.vrp[1] = 0.0;
-    vs.vrp[2] = 0.0;
+    vec3 centre  = vec3(capsa.pmin.x + capsa.a/2., capsa.pmin.y + capsa.h/2., capsa.pmin.z + capsa.p/2.);
+    vs.vrp[0] = centre.x;
+    vs.vrp[1] = centre.y;
+    vs.vrp[2] = centre.z;
 
     vs.angx = 0;
     vs.angy = 0;
@@ -37,8 +36,7 @@ void Camera::ini(int a, int h, Capsa3D capsaMinima)
 
     vp.a = a;
     vp.h = h;
-    vp.pmin[0] = 0;
-    vp.pmin[1] = 0;
+    vp.pmin = capsaMinima.pmin;
 
     piram.d = 20;
     piram.dant = -1;
@@ -49,9 +47,7 @@ void Camera::ini(int a, int h, Capsa3D capsaMinima)
     wd.a = 2;
     wd.h = 2;
 
-
     piram.proj = PARALLELA;
-
 }
 
 
@@ -88,8 +84,13 @@ void Camera::CalculaMatriuModelView()
 void Camera::CalculaMatriuProjection()
 {
     // CODI A MODIFICAR DURANT LA PRACTICA 2
-    proj = identity();
+    //proj = identity();
 
+    if(piram.proj == PARALLELA) {
+        proj = Ortho(wd.pmin[0], wd.pmin[0]+wd.a, wd.pmin[1], wd.pmin[1]+wd.h, piram.dant, piram.dpost);
+    } else {
+        proj = Frustum(wd.pmin[0], wd.pmin[0]+wd.a, wd.pmin[1], wd.pmin[1]+wd.h, piram.dant, piram.dpost);
+    }
 }
 
 
@@ -102,7 +103,6 @@ void Camera::CalculWindow( Capsa3D c)
 
     wd.a = 2;
     wd.h = 2;
-
 
 }
 
@@ -170,14 +170,12 @@ void  Camera::CalculWindowAmbRetallat()
   Capsa2D c;
 
   if (piram.proj == PARALLELA) {
-    /* Projeccio paral.lela:
-         el window ve donat: amplada o alcada o tots dos. */
+    /* Projeccio paral.lela: el window ve donat: amplada o alcada o tots dos. */
 
     if( fabs(wd.h) <EPS ) {
       c.a = wd.a;
       c.h = ((float)(vp.h)/ (float)(vp.a) ) * wd.a;
-    }
-    else {
+    } else {
       c.h = wd.h;
       c.a = ((float)(vp.a)/ (float)(vp.h) ) * wd.h;
     }
