@@ -24,7 +24,7 @@ class Escena
 {
 public:
     Escena();
-    Escena(Camera* camera);
+    Escena(int a, int h);
     ~Escena();
 
     void addObjecte(Objecte *obj);
@@ -36,6 +36,13 @@ public:
     void draw();
     void CapsaMinCont3DEscena();
     bool hasCollided(Objecte *obj);
+
+    void iniCamera(bool camGeneral, int ampladaViewport, int alcadaViewport, QGLShaderProgram *program);
+    void setAnglesCamera(bool camGeneral, float angX, float angY, float angZ);
+    void setVRPCamera(bool camGeneral, point4 vrp);
+    void setWindowCamera(bool camGeneral, bool retallat, Capsa2D window);
+    void setDCamera(bool camGeneral, float d);
+
 
     // Capsa contenedora de l'escena
     Capsa3D capsaMinima;

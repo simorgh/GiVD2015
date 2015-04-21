@@ -1,18 +1,14 @@
 #include "escena.h"
 
-Escena::Escena()
+Escena::Escena(int a, int h)
 {
     // Capsa minima contenidora provisional: S'ha de fer un recorregut dels objectes de l'escenes
     capsaMinima.pmin[0] = 0; capsaMinima.pmin[1] = 0; capsaMinima.pmin[2]=0;
     capsaMinima.a = 1; capsaMinima.h = 1; capsaMinima.p = 1;
-}
 
-Escena::Escena(Camera* camera){
-    // Capsa minima contenidora provisional: S'ha de fer un recorregut dels objectes de l'escenes
-    capsaMinima.pmin[0] = 0; capsaMinima.pmin[1] = 0; capsaMinima.pmin[2]=0;
-    capsaMinima.a = 1; capsaMinima.h = 1; capsaMinima.p = 1;
-
-    camGeneral = camera;
+    // init camera
+    camGeneral = new Camera();
+    camGeneral->ini(a, h, capsaMinima);
 }
 
 Escena::~Escena()
@@ -25,6 +21,8 @@ Escena::~Escena()
 void Escena::addObjecte(Objecte *obj) {
     elements.push_back(obj);
     CapsaMinCont3DEscena();
+
+    iniCamera(true, capsaMinima.a, capsaMinima.h, program);
 }
 
 
@@ -85,7 +83,6 @@ void Escena::draw() {
 
 }
 
-
 bool Escena::hasCollided(Objecte *obj){
 
     // horizontal (x-axis)
@@ -110,6 +107,12 @@ void iniCamera(bool camGeneral, int ampladaViewport, int alcadaViewport, QGLShad
    * Si el valor del paràmetre és cert, s'inicialitza la càmera general de l'escena. En cas
    * contrari s'inicialitza la càmera en primera persona.
    */
+
+    if(camGeneral){
+
+    } else {
+        //TODO: FPC initialization
+    }
 
 }
 

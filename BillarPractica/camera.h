@@ -48,12 +48,9 @@ class Camera
 {
 public:
     explicit Camera();
-     Camera(int a,int h);
     ~Camera() {}
 
     void ini(int a, int h, Capsa3D c);
-
-
     void CalculaMatriuModelView();
     void CalculaMatriuProjection();
     void CalculWindow(Capsa3D);

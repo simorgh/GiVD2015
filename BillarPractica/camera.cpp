@@ -10,8 +10,8 @@ Camera::Camera()
     vs.angy = 0;
     vs.angz = 0;
 
-    //vp.a = 600;
-    //vp.h = 600;
+    vp.a = 600;
+    vp.h = 600;
     vp.pmin[0] = 0;
     vp.pmin[1] = 0;
 
@@ -19,31 +19,29 @@ Camera::Camera()
     piram.d = 100;
 }
 
-Camera:: Camera(int a, int h):Camera(){
-    vp.a = a;
-    vp.h = h;
-}
 
 void Camera::ini(int a, int h, Capsa3D capsaMinima)
 {
-   /* Inicialitza els atributs inicials de la càmera, entre els quals és necessari definir el
-    viewport i el vrp. El mètode ini(int a, int h, Capsa3D capsaMinima) rep la
-    mida del viewport actual, que es coneix en la classe glWidget, consultant els atributs
-    this->size().width() i this->size().height().
+   /*
+    * Inicialitza els atributs inicials de la càmera, entre els quals és necessari definir el
+    * viewport i el vrp. El mètode ini(int a, int h, Capsa3D capsaMinima) rep la
+    * mida del viewport actual, que es coneix en la classe glWidget, consultant els atributs
+    * this->size().width() i this->size().height().
     */
 
     // Calcul del vrp com el centre de la capsa minima contenedora 3D
     // CAL IMPLEMENTAR
     // CODI A MODIFICAR DURANT LA PRACTICA 2
-
-    vec3 centre  = vec3(capsa.pmin.x + capsa.a/2., capsa.pmin.y + capsa.h/2., capsa.pmin.z + capsa.p/2.);
+    vec3 centre  = vec3(capsaMinima.pmin.x + capsaMinima.a/2., capsaMinima.pmin.y +
+                        capsaMinima.h/2., capsaMinima.pmin.z + capsaMinima.p/2.);
     vs.vrp[0] = centre.x;
     vs.vrp[1] = centre.y;
     vs.vrp[2] = centre.z;
 
     vp.a = a;
     vp.h = h;
-    vp.pmin = capsaMinima.pmin;
+    vp.pmin.x = capsaMinima.pmin.x;
+    vp.pmin.y = capsaMinima.pmin.y;
 
     piram.d = 20;
     piram.dant = -1;
@@ -57,8 +55,7 @@ void Camera::ini(int a, int h, Capsa3D capsaMinima)
     piram.proj = PARALLELA;
 }
 
-void Camera::toGPU(QGLShaderProgram* program)
-{
+void Camera::toGPU(QGLShaderProgram* program){
    setModelViewToGPU(program, this->modView);
    setProjectionToGPU(program, this->proj);
 }
@@ -74,7 +71,7 @@ void Camera::CalculaMatriuModelView()
     vec4 at;
     vec4 up;
 
-    eye=vec4(CalculObs(this->vs.vrp, this->piram.d,this->vs.angx,this->vs.angy),1);
+    eye=CalculObs(this->vs.vrp, this->piram.d,this->vs.angx,this->vs.angy);
     std::cout<<"\tEye: "<<eye<<std::endl;
 
     at=vec4(this->vs.vrp[0],this->vs.vrp[1],this->vs.vrp[2],1);
@@ -128,7 +125,7 @@ void Camera::setModelViewToGPU(QGLShaderProgram *program, mat4 m)
 void Camera::setProjectionToGPU(QGLShaderProgram *program, mat4 p)
 {
        projection = program->uniformLocation("projection");
-       glUniformMatrix4fv( model_view, 1, GL_TRUE, m);
+       glUniformMatrix4fv( model_view, 1, GL_TRUE, p);
 }
 
 void  Camera::AmpliaWindow(double r)
