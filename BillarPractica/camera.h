@@ -48,6 +48,7 @@ class Camera
 {
 public:
     explicit Camera();
+     Camera(int a,int h);
     ~Camera() {}
 
     void ini(int a, int h, Capsa3D c);
@@ -79,8 +80,8 @@ public:
     void zoom();
 
 
-    VisuSystem vs;      /* Sistema de visualitzacio  */
-    PiramProj piram;    /* Piramide de visualitzacio */
+    VisuSystem vs;    /* Sistema de visualitzacio  */
+    PiramProj piram;  /* Piramide de visualitzacio */
     Capsa2D wd;	      /* Window                    */
     Capsa2D vp;       /* Viewport                  */
 

@@ -10,8 +10,8 @@ Camera::Camera()
     vs.angy = 0;
     vs.angz = 0;
 
-    vp.a = 600;
-    vp.h = 600;
+    //vp.a = 600;
+    //vp.h = 600;
     vp.pmin[0] = 0;
     vp.pmin[1] = 0;
 
@@ -19,8 +19,19 @@ Camera::Camera()
     piram.d = 100;
 }
 
+Camera:: Camera(int a, int h):Camera(){
+    vp.a = a;
+    vp.h = h;
+}
+
 void Camera::ini(int a, int h, Capsa3D capsaMinima)
 {
+   /* Inicialitza els atributs inicials de la càmera, entre els quals és necessari definir el
+    viewport i el vrp. El mètode ini(int a, int h, Capsa3D capsaMinima) rep la
+    mida del viewport actual, que es coneix en la classe glWidget, consultant els atributs
+    this->size().width() i this->size().height().
+    */
+
     // Calcul del vrp com el centre de la capsa minima contenedora 3D
     // CAL IMPLEMENTAR
     // CODI A MODIFICAR DURANT LA PRACTICA 2
@@ -29,10 +40,6 @@ void Camera::ini(int a, int h, Capsa3D capsaMinima)
     vs.vrp[0] = centre.x;
     vs.vrp[1] = centre.y;
     vs.vrp[2] = centre.z;
-
-    vs.angx = 0;
-    vs.angy = 0;
-    vs.angz = 0;
 
     vp.a = a;
     vp.h = h;
@@ -49,8 +56,6 @@ void Camera::ini(int a, int h, Capsa3D capsaMinima)
 
     piram.proj = PARALLELA;
 }
-
-
 
 void Camera::toGPU(QGLShaderProgram* program)
 {
@@ -98,11 +103,11 @@ void Camera::CalculWindow( Capsa3D c)
 {
    // CODI A MODIFICAR DURANT LA PRACTICA 2
 
-    wd.pmin.x = -1;
-    wd.pmin.y = -1;
+    wd.pmin.x = c.pmin.x;
+    wd.pmin.y = c.pmin.y;
 
-    wd.a = 2;
-    wd.h = 2;
+    wd.a = c.a;
+    wd.h = c.h;
 
 }
 
@@ -244,7 +249,7 @@ void Camera::CreaMatDp(mat4 &MDP)
 }
 
 
-
+//Metodo que al pasarle los 8 vertices de la escena, devuelve la capsa2D minima
 Capsa2D  Camera::CapsaMinCont2DXYVert( vec4 *v, int nv)
 {
     Capsa2D c;
@@ -306,7 +311,9 @@ vec4 Camera::CalculObs(vec4 vrp, double d, double angx, double angy)
 
 }
 
+//De momento VUP = (0,0,1,0)
 
+//para asegurar que se visualize bien la escena, ampliamos un 20% el window (?)
 vec3 Camera::CalculVup(double angx, double angy, double angz)
 {
   vec3 v;

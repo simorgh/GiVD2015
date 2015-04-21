@@ -16,6 +16,7 @@
 #include <plabase.h>
 #include <bola.h>
 #include <conjuntboles.h>
+#include <camera.h>
 
 using namespace std;
 
@@ -23,6 +24,7 @@ class Escena
 {
 public:
     Escena();
+    Escena(Camera* camera);
     ~Escena();
 
     void addObjecte(Objecte *obj);
@@ -41,6 +43,8 @@ public:
     // Objectes de l'escena: a modificar. Ara nomes té un objecte: la taula de billar.
     // Cal afegir la bola blanca o el pla base per testejar o les 15 boles
     vector <Objecte*> elements;
+
+    Camera* camGeneral;
 
 };
 

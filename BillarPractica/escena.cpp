@@ -7,6 +7,14 @@ Escena::Escena()
     capsaMinima.a = 1; capsaMinima.h = 1; capsaMinima.p = 1;
 }
 
+Escena::Escena(Camera* camera){
+    // Capsa minima contenidora provisional: S'ha de fer un recorregut dels objectes de l'escenes
+    capsaMinima.pmin[0] = 0; capsaMinima.pmin[1] = 0; capsaMinima.pmin[2]=0;
+    capsaMinima.a = 1; capsaMinima.h = 1; capsaMinima.p = 1;
+
+    camGeneral = camera;
+}
+
 Escena::~Escena()
 {
     // Cal anar fent delete dels objectes que se'l hagi fet new
@@ -94,6 +102,45 @@ bool Escena::hasCollided(Objecte *obj){
         return true;
     }
     return false;
+}
+
+
+void iniCamera(bool camGeneral, int ampladaViewport, int alcadaViewport, QGLShaderProgram *program){
+  /*
+   * Si el valor del paràmetre és cert, s'inicialitza la càmera general de l'escena. En cas
+   * contrari s'inicialitza la càmera en primera persona.
+   */
+
+}
+
+void setAnglesCamera(bool camGeneral, float angX, float angY, float angZ){
+    /*
+     *  Si el valor del paràmetre és cert, es canvien la posició de la càmera general de
+     *  l'escena segons els angles d'entrada. Cal actualitzar els atributs que calguin per a
+     *  deixar coherent tota la informació de la càmera.
+     */
+}
+
+void setVRPCamera(bool camGeneral, point4 vrp){
+    /*
+     * Si el valor del paràmetre és cert, es canvien el punt on enfoca la càmera general de
+     * l'escena segons el punt d'entrada. Cal actualitzar els atributs que calguin per a deixar
+     * coherent tota la informació de la càmera.
+     */
+}
+
+void setWindowCamera(bool camGeneral, bool retallat, Capsa2D window){
+    /*
+    * Si el valor del paràmetre és cert, es canvia la window de la càmera general i tots els
+    * atributs depenents d'aquest canvi.
+    */
+}
+
+void setDCamera(bool camGeneral, float d){
+    /*
+     * Si el valor del paràmetre és cert, es canvia la distància de la càmera general al pla de
+     *projecció i tots els atributs depenents d'aquest canvi.
+     */
 }
 
 
