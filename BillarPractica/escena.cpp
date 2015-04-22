@@ -1,14 +1,11 @@
 #include "escena.h"
 
-Escena::Escena(int a, int h)
+Escena::Escena(int a, int h, QGLShaderProgram *program)
 {
     // Capsa minima contenidora provisional: S'ha de fer un recorregut dels objectes de l'escenes
     capsaMinima.pmin[0] = 0; capsaMinima.pmin[1] = 0; capsaMinima.pmin[2]=0;
     capsaMinima.a = 1; capsaMinima.h = 1; capsaMinima.p = 1;
-
-    // init camera
-    camGeneral = new Camera();
-    camGeneral->ini(a, h, capsaMinima);
+    iniCamera(true, a, h, program);
 }
 
 Escena::~Escena()
@@ -22,7 +19,7 @@ void Escena::addObjecte(Objecte *obj) {
     elements.push_back(obj);
     CapsaMinCont3DEscena();
 
-    iniCamera(true, capsaMinima.a, capsaMinima.h, program);
+    // iniCamera(true, capsaMinima.a, capsaMinima.h, program);
 }
 
 
@@ -109,9 +106,10 @@ void iniCamera(bool camGeneral, int ampladaViewport, int alcadaViewport, QGLShad
    */
 
     if(camGeneral){
-
+        this.camGeneral = new Camera();
+        this.camGeneral->ini(a, h, capsaMinima);
     } else {
-        //TODO: FPC initialization
+        //TODO: Camera primera Persona
     }
 
 }

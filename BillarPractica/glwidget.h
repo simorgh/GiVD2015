@@ -7,7 +7,6 @@
 #include <QGLWidget>
 #include <QTime>
 
-
 #define PROGRAM_VERTEX_ATTRIBUTE 0
 #define PROGRAM_COLOR_ATTRIBUTE 1
 
@@ -48,7 +47,6 @@ protected:
     void keyPressEvent(QKeyEvent *event);
     void keyReleaseEvent(QKeyEvent *event);
 
-
 private:
     Escena *esc;
 
@@ -63,6 +61,7 @@ private:
     QColor qtPurple;
 
     bool moviment;
+    bool cameraActual;
 
     // Programa de la GPU
     QGLShaderProgram *program;
@@ -82,6 +81,5 @@ private:
     // Metode per netejar l'escena al crear una nova partida
     void clearSalaBillar();
 };
-
 
 #endif // GLWIDGET_H

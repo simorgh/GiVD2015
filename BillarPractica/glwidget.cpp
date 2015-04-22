@@ -25,6 +25,7 @@ GLWidget::GLWidget(QWidget *parent)
 
     program = 0;
     moviment = false;
+    cameraActual = true;
 }
 
 
@@ -250,7 +251,7 @@ void GLWidget::adaptaObjecteTamanyWidget(Objecte *obj)
 }
 
 void GLWidget::newObjecte(Objecte * obj){
-    adaptaObjecteTamanyWidget(obj);
+    //adaptaObjecteTamanyWidget(obj);
     obj->toGPU(program);
     esc->addObjecte(obj);
 
