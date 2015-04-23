@@ -110,8 +110,7 @@ void GLWidget::setZRotation(int angle)
 }
 
 
-void GLWidget::initializeGL()
-{
+void GLWidget::initializeGL() {
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_CULL_FACE);
     glEnable(GL_RGBA);
@@ -121,7 +120,6 @@ void GLWidget::initializeGL()
 
     glClearColor(clearColor.redF(), clearColor.greenF(), clearColor.blueF(), clearColor.alphaF());
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
 }
 
 void GLWidget::paintGL()
@@ -133,13 +131,15 @@ void GLWidget::paintGL()
    qNormalizeAngle(yRot);
    qNormalizeAngle(zRot);
 
+   esc->setAnglesCamera(this->cameraActual, xRot, yRot, zRot );
+/*
+   // A modificar si cal girar tots els objectes
    mat4 transform = ( RotateX( xRot / 16.0 ) *
                        RotateY( yRot / 16.0 ) *
                        RotateZ( zRot / 16.0 ) );
-
-   // A modificar si cal girar tots els objectes
    esc->aplicaTGCentrat(transform);
    esc->draw();
+*/
 }
 
 
@@ -298,7 +298,7 @@ void GLWidget::newSalaBillar()
     newPlaBase();
     newBola();
     newConjuntBoles();
-    newTaulaBillar();
+    //newTaulaBillar();
 }
 
 void GLWidget::newTaulaBillar(){

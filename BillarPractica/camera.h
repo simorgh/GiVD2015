@@ -71,6 +71,7 @@ public:
     void setModelViewToGPU(QGLShaderProgram *program, mat4 m);
     void setProjectionToGPU(QGLShaderProgram *program, mat4 p);
     void toGPU(QGLShaderProgram *program);
+    void setRotation(float angX, float angY, float angZ);
 
     void rotate(Capsa3D c);
     void pan();

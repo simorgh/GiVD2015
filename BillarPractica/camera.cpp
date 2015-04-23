@@ -3,15 +3,15 @@
 Camera::Camera()
 {
     vs.vrp = vec4(0.0, 0.0, 0.0, 1.0);
-    vs.vup = vec4(0.0, 1.0, 0.0, 0.0);
-    vs.obs = vec4(0.0, 0.0, 200.0, 1.0);
+    vs.vup = vec4(0.0, 0.0, 1.0, 0.0);
+    vs.obs = vec4(0.0, 20.0, 0.0, 1.0);
 
     vs.angx = 0;
     vs.angy = 0;
     vs.angz = 0;
 
-    vp.a = 600;
-    vp.h = 600;
+    vp.a = 60;
+    vp.h = 60;
     vp.pmin[0] = 0;
     vp.pmin[1] = 0;
 
@@ -42,17 +42,6 @@ void Camera::ini(int a, int h, Capsa3D capsaMinima)
     vp.h = h;
     vp.pmin.x = capsaMinima.pmin.x;
     vp.pmin.y = capsaMinima.pmin.y;
-
-    piram.d = 20;
-    piram.dant = -1;
-    piram.dpost = 1;
-
-    wd.pmin[0] = -1;
-    wd.pmin[1] = -1;
-    wd.a = 2;
-    wd.h = 2;
-
-    piram.proj = PARALLELA;
 }
 
 void Camera::toGPU(QGLShaderProgram* program){
@@ -64,7 +53,6 @@ void Camera::toGPU(QGLShaderProgram* program){
 
 
 // Suposa que les dades d'obs, vrp i vup son correctes en la camera
-
 void Camera::CalculaMatriuModelView()
 {
     vec4 eye;
@@ -98,14 +86,27 @@ void Camera::CalculaMatriuProjection()
 
 void Camera::CalculWindow( Capsa3D c)
 {
-   // CODI A MODIFICAR DURANT LA PRACTICA 2
+    // CODI A MODIFICAR DURANT LA PRACTICA 2
+    vec4 vaux[8], vaux2[8];
+    mat4 MDP;
 
-    wd.pmin.x = c.pmin.x;
-    wd.pmin.y = c.pmin.y;
+    CalculaMatriuModelView();
 
-    wd.a = c.a;
-    wd.h = c.h;
+    if(piram.proj == PERSPECTIVA ) {
+        CreaMatDp(MDP);
+        modView = MDP * modView;
+    }
 
+    /* Passo els 8 vertexs de la capsa per MVIS */
+    VertexCapsa3D(c, vaux);
+    for(int i = 0; i< 8; i++) {
+        vaux2[i] = modView * vaux[i];
+    }
+    wd = CapsaMinCont2DXYVert(vaux2, 8);
+
+    /* 20% ampliació del Window */
+    AmpliaWindow(0.2);
+    AjustaAspectRatioWd();
 }
 
 void Camera::setViewport(int x, int y, int a, int h)
@@ -149,8 +150,7 @@ void  Camera::AmpliaWindow(double r)
 // a partir de l'alcada total del window (h) i la distancia
 // a l'observador
 
-void Camera::CalculAngleOberturaVertical()
-{
+void Camera::CalculAngleOberturaVertical() {
   piram.alfav =  180.0 * atan2(wd.h/2.0, piram.d)/PI;
 
 }
@@ -159,12 +159,22 @@ void Camera::CalculAngleOberturaVertical()
 // a partir de l'amplada total del window (a) i la distancia
 // a l'observador
 
-void Camera::CalculAngleOberturaHoritzontal()
-{
+void Camera::CalculAngleOberturaHoritzontal(){
 
   piram.alfah =  180.0 * atan2(wd.a/2.0, piram.d)/PI;
 
 }
+
+
+void Camera::setRotation(float angX, float angY, float angZ) {
+    this->vs.angx = angX;
+    this->vs.angy = angY;
+    this->vs.angz = angZ;
+
+    this->vs.obs = CalculObs(this->vs.vrp, this->piram.d, this->vs.angx, this->vs.angy);
+    CalculaMatriuModelView();
+}
+
 
 void  Camera::CalculWindowAmbRetallat()
 {
@@ -185,8 +195,8 @@ void  Camera::CalculWindowAmbRetallat()
   else {
 
     /* Projeccio perspectiva:
-         el window ve donat pels angles d'obertura de la camera: el
-         vertical, l'horitzontal o tots dos.  */
+     * el window ve donat pels angles d'obertura de la camera: el
+     * vertical, l'horitzontal o tots dos.*/
 
     if( fabs(piram.alfav) <EPS ) {
       c.a = 2.0  * piram.d * tan( PI*piram.alfah/180.);
@@ -217,9 +227,7 @@ void  Camera::CalculWindowAmbRetallat()
 // Donat un window i un viewport, amplia el window per tal que el seu
 // aspect ratio sigui igual al del viewport
 
-void    Camera::AjustaAspectRatioWd()
-{
-
+void Camera::AjustaAspectRatioWd() {
     double arvp, arwd;
 
     arvp = ((double) vp.h)/((double)(vp.a));
@@ -238,32 +246,28 @@ void    Camera::AjustaAspectRatioWd()
 
 
 // Accio que crea la matriu de deformacio perspectiva
-
-void Camera::CreaMatDp(mat4 &MDP)
-{
+void Camera::CreaMatDp(mat4 &MDP) {
     MDP = identity();
     MDP[3][2] = -1/piram.d;
 }
 
 
 //Metodo que al pasarle los 8 vertices de la escena, devuelve la capsa2D minima
-Capsa2D  Camera::CapsaMinCont2DXYVert( vec4 *v, int nv)
-{
+Capsa2D  Camera::CapsaMinCont2DXYVert( vec4 *v, int nv) {
     Capsa2D c;
     vec2    pmin, pmax;
     int     i;
+    pmin[0] = v[0][0];
+    pmin[1] = v[0][1];
 
-    pmin[0] = v[0][0];       pmin[1] = v[0][1];
-    pmax[0] = v[0][0];       pmax[1] = v[0][1];
+    pmax[0] = v[0][0];
+    pmax[1] = v[0][1];
+
     for(i=1; i<nv; i++) {
-      if(v[i][0] <pmin[0])
-        pmin[0] = v[i][0];
-      if(v[i][1] <pmin[1])
-        pmin[1] = v[i][1];
-      if(v[i][0] >pmax[0])
-        pmax[0] = v[i][0];
-      if(v[i][1] >pmax[1])
-        pmax[1] = v[i][1];
+      if(v[i][0] <pmin[0]) pmin[0] = v[i][0];
+      if(v[i][1] <pmin[1]) pmin[1] = v[i][1];
+      if(v[i][0] >pmax[0]) pmax[0] = v[i][0];
+      if(v[i][1] >pmax[1]) pmax[1] = v[i][1];
     }
 
     c.a = pmax[0]-pmin[0]+1;
@@ -280,14 +284,12 @@ Capsa2D  Camera::CapsaMinCont2DXYVert( vec4 *v, int nv)
 //   distancia d = distancia (obs, vrp) si la projeccio es perspectiva
 //   i d'una distancia prou gran si la projeccio es paral.lela
 
-vec4 Camera::CalculObs(vec4 vrp, double d, double angx, double angy)
-{
+vec4 Camera::CalculObs(vec4 vrp, double d, double angx, double angy) {
  vec4 obs2;
  vec3 v;
  double norma;
 
  /* Calcul del vector de visio a partir dels angles */
-
  v[0] = sin (PI*angy/180.) * cos (PI*angx/180.);
  v[2] = cos (PI*angy/180.) * cos (PI*angx/180.);
  v[1]= - sin (PI*angx/180.);
@@ -311,8 +313,7 @@ vec4 Camera::CalculObs(vec4 vrp, double d, double angx, double angy)
 //De momento VUP = (0,0,1,0)
 
 //para asegurar que se visualize bien la escena, ampliamos un 20% el window (?)
-vec3 Camera::CalculVup(double angx, double angy, double angz)
-{
+vec3 Camera::CalculVup(double angx, double angy, double angz) {
   vec3 v;
   int   x, y;
 
@@ -329,11 +330,9 @@ vec3 Camera::CalculVup(double angx, double angy, double angz)
   v[2] = 0.0;
 
   return(v);
-
 }
 
-void Camera::VertexCapsa3D(Capsa3D capsaMinima, vec4 vaux[8])
-{
+void Camera::VertexCapsa3D(Capsa3D capsaMinima, vec4 vaux[8]) {
     vec3 ptfi;
 
     ptfi[0] = capsaMinima.pmin[0]+capsaMinima.a;

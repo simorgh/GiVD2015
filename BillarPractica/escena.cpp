@@ -1,25 +1,22 @@
 #include "escena.h"
 
-Escena::Escena(int a, int h, QGLShaderProgram *program)
-{
+Escena::Escena(int a, int h/*, QGLShaderProgram *program */) {
     // Capsa minima contenidora provisional: S'ha de fer un recorregut dels objectes de l'escenes
     capsaMinima.pmin[0] = 0; capsaMinima.pmin[1] = 0; capsaMinima.pmin[2]=0;
     capsaMinima.a = 1; capsaMinima.h = 1; capsaMinima.p = 1;
-    iniCamera(true, a, h, program);
+    iniCamera(true, a, h/*, program*/);
 }
 
-Escena::~Escena()
-{
+Escena::~Escena() {
     // Cal anar fent delete dels objectes que se'l hagi fet new
     elements.clear();
-
 }
 
 void Escena::addObjecte(Objecte *obj) {
     elements.push_back(obj);
     CapsaMinCont3DEscena();
 
-    // iniCamera(true, capsaMinima.a, capsaMinima.h, program);
+    iniCamera(true, capsaMinima.a, capsaMinima.h/*, program*/);
 }
 
 
@@ -57,7 +54,6 @@ void Escena::aplicaTG(mat4 m) {
 
 void Escena::aplicaTGCentrat(mat4 m) {
     // Metode a modificar
-
     vec3 centre = vec3(capsaMinima.pmin.x + capsaMinima.a/2.,
                    capsaMinima.pmin.y + capsaMinima.h/2.,
                    capsaMinima.pmin.z + capsaMinima.p/2.);
@@ -72,6 +68,7 @@ void Escena::aplicaTGCentrat(mat4 m) {
 }
 
 void Escena::draw() {
+    this->camGeneral->toGPU(program);//TODO add program as Escena attribute ??
 
     // Metode a modificar
     for(int i=0; i<elements.size(); i++){
@@ -81,7 +78,6 @@ void Escena::draw() {
 }
 
 bool Escena::hasCollided(Objecte *obj){
-
     // horizontal (x-axis)
     if(obj->capsa.pmin.x <= capsaMinima.pmin.x)  return true;
     if( (obj->capsa.pmin.x + obj->capsa.a) > (capsaMinima.pmin.x + capsaMinima.a) ) return true;
@@ -99,48 +95,61 @@ bool Escena::hasCollided(Objecte *obj){
 }
 
 
-void iniCamera(bool camGeneral, int ampladaViewport, int alcadaViewport, QGLShaderProgram *program){
+void Escena::iniCamera(bool camGeneral, int ampladaViewport, int alcadaViewport/*, QGLShaderProgram *program */){
   /*
    * Si el valor del paràmetre és cert, s'inicialitza la càmera general de l'escena. En cas
    * contrari s'inicialitza la càmera en primera persona.
    */
 
     if(camGeneral){
-        this.camGeneral = new Camera();
-        this.camGeneral->ini(a, h, capsaMinima);
+        this->camGeneral = new Camera();
+        this->camGeneral->ini(ampladaViewport, alcadaViewport, capsaMinima);
     } else {
         //TODO: Camera primera Persona
     }
 
 }
 
-void setAnglesCamera(bool camGeneral, float angX, float angY, float angZ){
+void Escena::setAnglesCamera(bool camGeneral, float angX, float angY, float angZ){
     /*
-     *  Si el valor del paràmetre és cert, es canvien la posició de la càmera general de
-     *  l'escena segons els angles d'entrada. Cal actualitzar els atributs que calguin per a
-     *  deixar coherent tota la informació de la càmera.
+     * Si el valor del paràmetre és cert, es canvien la posició de la càmera general de
+     * l'escena segons els angles d'entrada. Cal actualitzar els atributs que calguin per a
+     * deixar coherent tota la informació de la càmera.
      */
+
+    if(camGeneral){
+        this->camGeneral->setRotation(angX, angY, angZ);
+    } else {
+
+    }
 }
 
-void setVRPCamera(bool camGeneral, point4 vrp){
+void Escena::setVRPCamera(bool camGeneral, point4 vrp){
     /*
      * Si el valor del paràmetre és cert, es canvien el punt on enfoca la càmera general de
      * l'escena segons el punt d'entrada. Cal actualitzar els atributs que calguin per a deixar
      * coherent tota la informació de la càmera.
      */
+
+    if(camGeneral){
+        this->camGeneral->vs.vrp = vrp;
+    } else {
+        //TODO: Camera primera Persona
+    }
+
 }
 
-void setWindowCamera(bool camGeneral, bool retallat, Capsa2D window){
-    /*
+void Escena::setWindowCamera(bool camGeneral, bool retallat, Capsa2D window){
+   /*
     * Si el valor del paràmetre és cert, es canvia la window de la càmera general i tots els
     * atributs depenents d'aquest canvi.
     */
 }
 
-void setDCamera(bool camGeneral, float d){
+void Escena::setDCamera(bool camGeneral, float d){
     /*
      * Si el valor del paràmetre és cert, es canvia la distància de la càmera general al pla de
-     *projecció i tots els atributs depenents d'aquest canvi.
+     * projecció i tots els atributs depenents d'aquest canvi.
      */
 }
 
