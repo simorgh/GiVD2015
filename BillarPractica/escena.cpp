@@ -1,10 +1,12 @@
 #include "escena.h"
 
-Escena::Escena(int a, int h/*, QGLShaderProgram *program */) {
+Escena::Escena(QGLShaderProgram *program) {
+    qDebug() << "Entering Escena constructor...";
     // Capsa minima contenidora provisional: S'ha de fer un recorregut dels objectes de l'escenes
+    this->program = program;
+
     capsaMinima.pmin[0] = 0; capsaMinima.pmin[1] = 0; capsaMinima.pmin[2]=0;
-    capsaMinima.a = 1; capsaMinima.h = 1; capsaMinima.p = 1;
-    iniCamera(true, a, h/*, program*/);
+    capsaMinima.a = 0; capsaMinima.h = 0; capsaMinima.p = 0;
 }
 
 Escena::~Escena() {
@@ -14,9 +16,9 @@ Escena::~Escena() {
 
 void Escena::addObjecte(Objecte *obj) {
     elements.push_back(obj);
-    CapsaMinCont3DEscena();
 
-    iniCamera(true, capsaMinima.a, capsaMinima.h/*, program*/);
+    CapsaMinCont3DEscena();
+    camGeneral->CalculWindow(capsaMinima);
 }
 
 
@@ -24,7 +26,7 @@ void Escena::CapsaMinCont3DEscena() {
     vec3 pmin = vec3(  99999,  99999,  99999);
     vec3 pmax = vec3( -99999, -99999, -99999);
 
-    for(int i=0; i<elements.size(); i++){
+    for(int i=0; i<elements.size(); i++) {
         vec3 bmax = vec3( elements.at(i)->capsa.a + elements.at(i)->capsa.pmin.x,
                           elements.at(i)->capsa.h + elements.at(i)->capsa.pmin.y,
                           elements.at(i)->capsa.p + elements.at(i)->capsa.pmin.z);
@@ -46,7 +48,6 @@ void Escena::CapsaMinCont3DEscena() {
 
 void Escena::aplicaTG(mat4 m) {
     // Metode a modificar
-
     for(int i=0; i<elements.size(); i++){
         elements.at(i)->aplicaTG(m);
     }
@@ -68,13 +69,12 @@ void Escena::aplicaTGCentrat(mat4 m) {
 }
 
 void Escena::draw() {
-    this->camGeneral->toGPU(program);//TODO add program as Escena attribute ??
-
     // Metode a modificar
-    for(int i=0; i<elements.size(); i++){
+    camGeneral->toGPU(program);
+
+    for(int i=0; i<elements.size(); i++){    
         elements.at(i)->draw();
     }
-
 }
 
 bool Escena::hasCollided(Objecte *obj){
@@ -95,7 +95,7 @@ bool Escena::hasCollided(Objecte *obj){
 }
 
 
-void Escena::iniCamera(bool camGeneral, int ampladaViewport, int alcadaViewport/*, QGLShaderProgram *program */){
+void Escena::iniCamera(bool camGeneral, int ampladaViewport, int alcadaViewport, QGLShaderProgram *program){
   /*
    * Si el valor del paràmetre és cert, s'inicialitza la càmera general de l'escena. En cas
    * contrari s'inicialitza la càmera en primera persona.
@@ -117,11 +117,7 @@ void Escena::setAnglesCamera(bool camGeneral, float angX, float angY, float angZ
      * deixar coherent tota la informació de la càmera.
      */
 
-    if(camGeneral){
-        this->camGeneral->setRotation(angX, angY, angZ);
-    } else {
-
-    }
+    if(camGeneral) this->camGeneral->setRotation(angX, angY, angZ);
 }
 
 void Escena::setVRPCamera(bool camGeneral, point4 vrp){

@@ -30,8 +30,6 @@ protected:
 
     GLfloat tam; // Escala de l'objecte aplicada al fitxer d'entrada
 
-    // Programa de shaders de la GPU
-    QGLShaderProgram *program;
     QOpenGLTexture *texture;
     GLuint buffer; // Buffer de comunicacio amb la GPU
 
@@ -49,6 +47,9 @@ public:
 
     // Capsa mínima contenidora de l'objecte
     Capsa3D capsa;
+
+    // Programa de shaders de la GPU
+    QGLShaderProgram *program;
 
     //explicit Objecte(QObject *parent = 0);
     Objecte(const int npoints, QObject *parent = 0);

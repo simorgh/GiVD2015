@@ -4,12 +4,8 @@
 #include <QString>
 
 
-GLWidget::GLWidget(QWidget *parent)
-    : QGLWidget(QGLFormat(QGL::SampleBuffers), parent)
-
-{
+GLWidget::GLWidget(QWidget *parent) : QGLWidget(QGLFormat(QGL::SampleBuffers), parent) {
     setFocusPolicy( Qt::StrongFocus );
-    esc = new Escena(this->size().width(), this->size().height());
 
     xRot = 0;
     yRot = 0;
@@ -56,24 +52,20 @@ void GLWidget::InitShader(const char* vShaderFile, const char* fShaderFile){
 
 void GLWidget::initShadersGPU(){
     // Carrega dels shaders i posa a punt per utilitzar els programes carregats a la GPU
-   InitShader( "://vshader1.glsl", "://fshader1.glsl" );
+    InitShader( "://vshader1.glsl", "://fshader1.glsl" );
 }
 
 
-QSize GLWidget::minimumSizeHint() const
-{
+QSize GLWidget::minimumSizeHint() const {
     return QSize(50, 50);
 }
 
-QSize GLWidget::sizeHint() const
-
-{
+QSize GLWidget::sizeHint() const {
     return QSize(400, 400);
 }
 
 
-static void qNormalizeAngle(int &angle)
-{
+static void qNormalizeAngle(int &angle) {
     while (angle < 0)
         angle += 360 * 16;
     while (angle > 360 * 16)
@@ -81,8 +73,7 @@ static void qNormalizeAngle(int &angle)
 }
 
 
-void GLWidget::setXRotation(int angle)
-{
+void GLWidget::setXRotation(int angle) {
     qNormalizeAngle(angle);
     if (angle != xRot) {
         xRot = angle;
@@ -91,8 +82,7 @@ void GLWidget::setXRotation(int angle)
 }
 
 
-void GLWidget::setYRotation(int angle)
-{
+void GLWidget::setYRotation(int angle) {
     qNormalizeAngle(angle);
     if (angle != yRot) {
         yRot = angle;
@@ -100,8 +90,7 @@ void GLWidget::setYRotation(int angle)
     }
 }
 
-void GLWidget::setZRotation(int angle)
-{
+void GLWidget::setZRotation(int angle) {
     qNormalizeAngle(angle);
     if (angle != zRot) {
         zRot = angle;
@@ -111,19 +100,22 @@ void GLWidget::setZRotation(int angle)
 
 
 void GLWidget::initializeGL() {
+    qDebug() << "Entering initializeGL()...";
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_CULL_FACE);
     glEnable(GL_RGBA);
     glEnable(GL_DOUBLE);
 
     initShadersGPU();
+    esc = new Escena(this->program);
+    qDebug() << "GLWidget::initializeGL() ViewPort size [w, h] :" << this->size().width() << "x" << this->size().height();
+    esc->iniCamera(true, size().width(), size().height(), this->program);
 
     glClearColor(clearColor.redF(), clearColor.greenF(), clearColor.blueF(), clearColor.alphaF());
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
-void GLWidget::paintGL()
-{
+void GLWidget::paintGL() {
    glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
    program->setUniformValue("texture", 0);
 
@@ -131,20 +123,19 @@ void GLWidget::paintGL()
    qNormalizeAngle(yRot);
    qNormalizeAngle(zRot);
 
-   esc->setAnglesCamera(this->cameraActual, xRot, yRot, zRot );
+   esc->setAnglesCamera(cameraActual, xRot, yRot, zRot );
 /*
    // A modificar si cal girar tots els objectes
    mat4 transform = ( RotateX( xRot / 16.0 ) *
                        RotateY( yRot / 16.0 ) *
                        RotateZ( zRot / 16.0 ) );
    esc->aplicaTGCentrat(transform);
-   esc->draw();
 */
+   esc->draw();
 }
 
 
-void GLWidget::resizeGL(int width, int height)
-{
+void GLWidget::resizeGL(int width, int height) {
     int side = qMin(width, height);
     glViewport((width - side) / 2, (height - side) / 2, side, side);
 
@@ -159,8 +150,7 @@ void GLWidget::resizeGL(int width, int height)
 }
 
 
-void GLWidget::mousePressEvent(QMouseEvent *event)
-{
+void GLWidget::mousePressEvent(QMouseEvent *event) {
     lastPos = event->pos();
 }
 
