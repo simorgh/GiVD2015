@@ -108,7 +108,7 @@ void GLWidget::initializeGL() {
 
     initShadersGPU();
     esc = new Escena(this->program);
-    qDebug() << "GLWidget::initializeGL() ViewPort size [w, h] :" << this->size().width() << "x" << this->size().height();
+    //qDebug() << "GLWidget::initializeGL() -> ViewPort size [w, h] :" << this->size().width() << "x" << this->size().height();
     esc->iniCamera(true, size().width(), size().height(), this->program);
 
     glClearColor(clearColor.redF(), clearColor.greenF(), clearColor.blueF(), clearColor.alphaF());
@@ -224,8 +224,7 @@ void GLWidget::keyReleaseEvent(QKeyEvent *event)
 
 
 
-void GLWidget::adaptaObjecteTamanyWidget(Objecte *obj)
-{
+void GLWidget::adaptaObjecteTamanyWidget(Objecte *obj) {
     // Metode a implementar
     double escala = 2/20.;
 
@@ -316,8 +315,7 @@ void GLWidget::clearSalaBillar(){
 }
 
 // Metode per iniciar la dinàmica del joc
-void GLWidget::Play()
-{
+void GLWidget::Play() {
     esc->aplicaTGCentrat( RotateX(-90) );
     update();
 }

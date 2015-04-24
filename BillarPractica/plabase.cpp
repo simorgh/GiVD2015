@@ -29,6 +29,7 @@ PlaBase::PlaBase() : Objecte(NumVerticesF){
 void PlaBase::make(){
     Index = 0;
     quad(1, 0, 3, 2);
+    quad(2, 3, 0, 1);
     initTextura();
     capsa = calculCapsa3D();
 }

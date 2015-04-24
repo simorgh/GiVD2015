@@ -52,7 +52,6 @@ void ConjuntBoles::aplicaTGPoints(mat4 m){
 
 void ConjuntBoles::aplicaTGCentrat(mat4 m){
     //qDebug() << "ConjuntBoles -> aplicaTGCentrat";
-
     vec3 centre = vec3(capsa.pmin.x + capsa.a/2.,
                        capsa.pmin.y + capsa.h/2.,
                        capsa.pmin.z + capsa.p/2.);
