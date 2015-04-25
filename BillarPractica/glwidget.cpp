@@ -21,7 +21,8 @@ GLWidget::GLWidget(QWidget *parent) : QGLWidget(QGLFormat(QGL::SampleBuffers), p
 
     program = 0;
     moviment = false;
-    cameraActual = true;
+    cameraActual = true; //true-> s'ha de modificar la càmera general; false -> s'ha de modificar la càmera en primera persona.
+    esc = new Escena();
 }
 
 
@@ -107,9 +108,7 @@ void GLWidget::initializeGL() {
     glEnable(GL_DOUBLE);
 
     initShadersGPU();
-    esc = new Escena(this->program);
-    //qDebug() << "GLWidget::initializeGL() -> ViewPort size [w, h] :" << this->size().width() << "x" << this->size().height();
-    esc->iniCamera(true, size().width(), size().height(), this->program);
+    esc->iniCamera(true, this->size().width(), this->size().height(), this->program);
 
     glClearColor(clearColor.redF(), clearColor.greenF(), clearColor.blueF(), clearColor.alphaF());
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -119,18 +118,11 @@ void GLWidget::paintGL() {
    glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
    program->setUniformValue("texture", 0);
 
+   // Camera rotation if needed
    qNormalizeAngle(xRot);
    qNormalizeAngle(yRot);
    qNormalizeAngle(zRot);
-
    esc->setAnglesCamera(cameraActual, xRot, yRot, zRot );
-/*
-   // A modificar si cal girar tots els objectes
-   mat4 transform = ( RotateX( xRot / 16.0 ) *
-                       RotateY( yRot / 16.0 ) *
-                       RotateZ( zRot / 16.0 ) );
-   esc->aplicaTGCentrat(transform);
-*/
    esc->draw();
 }
 
@@ -175,26 +167,6 @@ void GLWidget::mouseMoveEvent(QMouseEvent *event)
 
 void GLWidget::keyPressEvent(QKeyEvent *event)
 {
-/*
-    if(event->modifiers() & Qt::AltModifier){
-        if(event->key() == Qt::Key_Up) {
-            qDebug() << "ALT+UP pressed";
-            Pan(0,-5);
-        } else if(event->key() ==  Qt::Key_Down) {
-            qDebug() << "ALT+DOWN pressed";
-            Pan(0,5);
-        } else if(event->key() ==  Qt::Key_Left) {
-            qDebug() << "ALT+LEFT pressed";
-            Pan(5,0);
-        } else if(event->key() ==  Qt::Key_Right) {
-            qDebug() << "ALT+RIGHT pressed";
-            Pan(5,0);
-        }
-     }
-*/
-
-
-
     // Metode a implementar
     switch ( event->key() ){
 

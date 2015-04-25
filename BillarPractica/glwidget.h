@@ -61,7 +61,7 @@ private:
     QColor qtPurple;
 
     bool moviment;
-    bool cameraActual;
+    bool cameraActual; //true-> s'ha de modificar la càmera general; false -> s'ha de modificar la càmera en primera persona.
 
     const int PAN = 1;
 

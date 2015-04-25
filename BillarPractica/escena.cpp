@@ -1,12 +1,34 @@
 #include "escena.h"
 
-Escena::Escena(QGLShaderProgram *program) {
-    qDebug() << "Entering Escena constructor...";
-    // Capsa minima contenidora provisional: S'ha de fer un recorregut dels objectes de l'escenes
-    this->program = program;
+/*
+ * (0)
+ * Constructor without parameters, note that in this case is our responsability to call
+ * iniCamera when program has been set up.
+ */
+Escena::Escena() {
+    qDebug() << "Entering Escena constructor 0...";
+    this->program = 0;
 
+    // Capsa minima contenidora provisional: S'ha de fer un recorregut dels objectes de l'escenes
     capsaMinima.pmin[0] = 0; capsaMinima.pmin[1] = 0; capsaMinima.pmin[2]=0;
     capsaMinima.a = 0; capsaMinima.h = 0; capsaMinima.p = 0;
+}
+
+/*
+ * (1)
+ * Constructor implementing inner camera initialization, using this contructor ensures us
+ * that camera will be set in object construction-time. In that case new Escena must be created
+ * once program has been configured (i.e. after initShadersGPU() call).
+ */
+Escena::Escena(int ampladaViewport, int alcadaViewport, QGLShaderProgram *program ) {
+    qDebug() << "Entering Escena constructor 1...";
+    this->program = program;
+
+    // Capsa minima contenidora provisional: S'ha de fer un recorregut dels objectes de l'escenes
+    capsaMinima.pmin[0] = 0; capsaMinima.pmin[1] = 0; capsaMinima.pmin[2]=0;
+    capsaMinima.a = 0; capsaMinima.h = 0; capsaMinima.p = 0;
+
+    iniCamera(true, ampladaViewport, alcadaViewport, program);
 }
 
 Escena::~Escena() {
@@ -100,13 +122,12 @@ void Escena::iniCamera(bool camGeneral, int ampladaViewport, int alcadaViewport,
    * Si el valor del paràmetre és cert, s'inicialitza la càmera general de l'escena. En cas
    * contrari s'inicialitza la càmera en primera persona.
    */
+    this->program = program;
+    this->camGeneral = new Camera();
+    this->camGeneral->ini(ampladaViewport, alcadaViewport, capsaMinima);
 
-    if(camGeneral){
-        this->camGeneral = new Camera();
-        this->camGeneral->ini(ampladaViewport, alcadaViewport, capsaMinima);
-    } else {
-        //TODO: Camera primera Persona
-    }
+    //if(camGeneral) this->camGeneral->projection = PARALLELA;
+    //else this->camGeneral->projection = PERSPECTIVA;
 
 }
 
@@ -118,6 +139,9 @@ void Escena::setAnglesCamera(bool camGeneral, float angX, float angY, float angZ
      */
 
     if(camGeneral) this->camGeneral->setRotation(angX, angY, angZ);
+    else {
+        //TODO: Camera primera Persona
+    }
 }
 
 void Escena::setVRPCamera(bool camGeneral, point4 vrp){
