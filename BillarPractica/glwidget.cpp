@@ -213,6 +213,18 @@ void GLWidget::keyPressEvent(QKeyEvent *event)
                 update();
             } else esc->elements.at(1)->restorePoints();
             break;
+
+        case Qt::Key_Plus:
+            qDebug() << "KEY_PLUS pressed";
+            esc->camGeneral->AmpliaWindow(-0.05);
+            update();
+
+        break;
+        case Qt::Key_Minus:
+            qDebug() << "KEY_MINUS pressed";
+            esc->camGeneral->AmpliaWindow(0.05);
+            update();
+            break;
     }
 }
 
