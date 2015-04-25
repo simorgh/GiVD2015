@@ -5,7 +5,7 @@ Camera::Camera() {
     vs.angy = 180;
     vs.angz = 0;
 
-    piram.proj = PARALLELA;
+    piram.proj = PARALLELA; //default
     piram.d = 20;
     piram.dant = 10.0;
     piram.dpost = 30.0;
@@ -19,12 +19,6 @@ void Camera::ini(int a, int h, Capsa3D capsaMinima) {
     */
 
     // Calcul del vrp com el centre de la capsa minima contenedora 3D
-/*
-    qDebug() << "Camera::ini -> capsaMinima: pmin:(" <<
-                capsaMinima.pmin.x << "," << capsaMinima.pmin.y << "," << capsaMinima.pmin.z <<
-             ") a:" << capsaMinima.a << " h:" << capsaMinima.h << " p:" << capsaMinima.p;
-*/
-
     vec3 centre  = vec3(capsaMinima.pmin.x + capsaMinima.a/2., capsaMinima.pmin.y +
                         capsaMinima.h/2., capsaMinima.pmin.z + capsaMinima.p/2.);
     vs.vrp[0] = centre.x;
@@ -39,9 +33,6 @@ void Camera::ini(int a, int h, Capsa3D capsaMinima) {
 }
 
 void Camera::toGPU(QGLShaderProgram* program){
-    //this->CalculaMatriuModelView();
-    //this->CalculaMatriuProjection();
-
     setModelViewToGPU(program, this->modView);
     setProjectionToGPU(program,this->proj);
 }
@@ -55,14 +46,11 @@ void Camera::CalculaMatriuModelView() {
     qDebug() <<"\tAt (vs.vrp): \t"  << vs.vrp;
     qDebug() <<"\tVup (vs.vup): \t" << vs.vup;
 */
-    //this->modView = identity();
     this->modView = LookAt(vs.obs, vs.vrp, vs.vup);
 }
 
 void Camera::CalculaMatriuProjection() {
     // CODI A MODIFICAR DURANT LA PRACTICA 2
-    //proj = identity();
-
     if(piram.proj == PARALLELA) {
         proj = Ortho(wd.pmin[0], wd.pmin[0]+wd.a, wd.pmin[1], wd.pmin[1]+wd.h, piram.dant, piram.dpost);
     } else {
@@ -90,7 +78,7 @@ void Camera::CalculWindow( Capsa3D c) {
     }
     wd = CapsaMinCont2DXYVert(vaux2, 8);
 
-    /* 20% ampliació del Window */
+    /* per assegurar visualitzar completament la escena: 20% ampliació del Window */
     AmpliaWindow(0.2);
     AjustaAspectRatioWd();
 }
@@ -254,10 +242,10 @@ Capsa2D  Camera::CapsaMinCont2DXYVert( vec4 *v, int nv) {
 }
 
 
-//   Calcul del observador:
-//   obs es el vrp translladat en la direccio del vector de visio  d'una
-//   distancia d = distancia (obs, vrp) si la projeccio es perspectiva
-//   i d'una distancia prou gran si la projeccio es paral.lela
+/* Calcul del observador:
+ * obs es el vrp translladat en la direccio del vector de visio  d'una
+ * distancia d = distancia (obs, vrp) si la projeccio es perspectiva
+ * i d'una distancia prou gran si la projeccio es paral.lela */
 vec4 Camera::CalculObs(vec4 vrp, double d, double angx, double angy) {
     vec4 obs2;
     vec3 v;
@@ -282,8 +270,7 @@ vec4 Camera::CalculObs(vec4 vrp, double d, double angx, double angy) {
     return(obs2);
 }
 
-//De momento VUP = (0,0,1,0)
-//para asegurar que se visualize bien la escena, ampliamos un 20% el window (?)
+
 vec3 Camera::CalculVup(double angx, double angy, double angz) {
     vec3 v;
     int   x, y;

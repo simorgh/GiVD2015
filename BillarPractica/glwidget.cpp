@@ -21,7 +21,8 @@ GLWidget::GLWidget(QWidget *parent) : QGLWidget(QGLFormat(QGL::SampleBuffers), p
 
     program = 0;
     moviment = false;
-    cameraActual = true;
+    cameraActual = true; //true-> s'ha de modificar la càmera general; false -> s'ha de modificar la càmera en primera persona.
+    esc = new Escena();
 }
 
 
@@ -107,9 +108,7 @@ void GLWidget::initializeGL() {
     glEnable(GL_DOUBLE);
 
     initShadersGPU();
-    esc = new Escena(this->program);
-    //qDebug() << "GLWidget::initializeGL() -> ViewPort size [w, h] :" << this->size().width() << "x" << this->size().height();
-    esc->iniCamera(true, size().width(), size().height(), this->program);
+    esc->iniCamera(true, this->size().width(), this->size().height(), this->program);
 
     glClearColor(clearColor.redF(), clearColor.greenF(), clearColor.blueF(), clearColor.alphaF());
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -119,18 +118,11 @@ void GLWidget::paintGL() {
    glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
    program->setUniformValue("texture", 0);
 
+   // Camera rotation if needed
    qNormalizeAngle(xRot);
    qNormalizeAngle(yRot);
    qNormalizeAngle(zRot);
-
    esc->setAnglesCamera(cameraActual, xRot, yRot, zRot );
-/*
-   // A modificar si cal girar tots els objectes
-   mat4 transform = ( RotateX( xRot / 16.0 ) *
-                       RotateY( yRot / 16.0 ) *
-                       RotateZ( zRot / 16.0 ) );
-   esc->aplicaTGCentrat(transform);
-*/
    esc->draw();
 }
 
@@ -195,7 +187,6 @@ void GLWidget::keyPressEvent(QKeyEvent *event)
 
         case Qt::Key_Left:
             //qDebug() << "KEY_LEFT pressed";
-
             esc->elements.at(1)->backupPoints();
             esc->elements.at(1)->aplicaTG( Translate(-0.05, 0.0, 0.0) ); //movement
             if(!esc->hasCollided(esc->elements.at(1))){
@@ -215,13 +206,13 @@ void GLWidget::keyPressEvent(QKeyEvent *event)
             break;
 
         case Qt::Key_Plus:
-            qDebug() << "KEY_PLUS pressed";
+            //qDebug() << "KEY_PLUS pressed";
             esc->camGeneral->AmpliaWindow(-0.05);
             update();
 
         break;
         case Qt::Key_Minus:
-            qDebug() << "KEY_MINUS pressed";
+            //qDebug() << "KEY_MINUS pressed";
             esc->camGeneral->AmpliaWindow(0.05);
             update();
             break;

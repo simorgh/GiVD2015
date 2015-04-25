@@ -24,7 +24,7 @@ class Escena
 {
 public:
     Escena();
-    Escena(QGLShaderProgram *program);
+    Escena(int ampladaViewport, int alcadaViewport, QGLShaderProgram *program);
     ~Escena();
 
     void addObjecte(Objecte *obj);
