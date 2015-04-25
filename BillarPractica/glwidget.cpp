@@ -162,70 +162,106 @@ void GLWidget::mouseMoveEvent(QMouseEvent *event)
     if (event->buttons() & Qt::LeftButton) {
         setXRotation(xRot + 0.1 * dy);
     } else if (event->buttons() & Qt::RightButton) {
+
         setXRotation(xRot + 0.1 * dy);
         setZRotation(zRot + 0.1 * dx);
     }
     lastPos = event->pos();
+
+
+
 }
 
 
 void GLWidget::keyPressEvent(QKeyEvent *event)
 {
+/*
+    if(event->modifiers() & Qt::AltModifier){
+        if(event->key() == Qt::Key_Up) {
+            qDebug() << "ALT+UP pressed";
+            Pan(0,-5);
+        } else if(event->key() ==  Qt::Key_Down) {
+            qDebug() << "ALT+DOWN pressed";
+            Pan(0,5);
+        } else if(event->key() ==  Qt::Key_Left) {
+            qDebug() << "ALT+LEFT pressed";
+            Pan(5,0);
+        } else if(event->key() ==  Qt::Key_Right) {
+            qDebug() << "ALT+RIGHT pressed";
+            Pan(5,0);
+        }
+     }
+*/
+
+
+
     // Metode a implementar
     switch ( event->key() ){
+
         case Qt::Key_Up:
-            //qDebug() << "KEY_UP pressed";
-            esc->elements.at(1)->backupPoints();
-            esc->elements.at(1)->aplicaTG( Translate(0.0, 0.05, 0.0) ); //movement
-            if(!esc->hasCollided(esc->elements.at(1))){
-                esc->elements.at(1)->draw();
-                update();
-            } else esc->elements.at(1)->restorePoints();
+            if(event->modifiers() & Qt::AltModifier) Pan(0,-PAN);
+            else{
+                //qDebug() << "KEY_UP pressed";
+                esc->elements.at(1)->backupPoints();
+                esc->elements.at(1)->aplicaTG( Translate(0.0, 0.05, 0.0) ); //movement
+                if(!esc->hasCollided(esc->elements.at(1))){
+                    esc->elements.at(1)->draw();
+                    update();
+                } else esc->elements.at(1)->restorePoints();
+            }
             break;
 
         case Qt::Key_Down:
             //qDebug() << "KEY_DOWN pressed";
-            esc->elements.at(1)->backupPoints();
-            esc->elements.at(1)->aplicaTG( Translate(0.0, -0.05, 0.0 ) ); //movement
-            if(!esc->hasCollided(esc->elements.at(1))){
-                esc->elements.at(1)->draw();
-                update();
-            } else esc->elements.at(1)->restorePoints();
+            if(event->modifiers() & Qt::AltModifier) Pan(0,PAN);
+            else{
+                esc->elements.at(1)->backupPoints();
+                esc->elements.at(1)->aplicaTG( Translate(0.0, -0.05, 0.0 ) ); //movement
+                if(!esc->hasCollided(esc->elements.at(1))){
+                    esc->elements.at(1)->draw();
+                    update();
+                } else esc->elements.at(1)->restorePoints();
+            }
             break;
 
         case Qt::Key_Left:
             //qDebug() << "KEY_LEFT pressed";
-
-            esc->elements.at(1)->backupPoints();
-            esc->elements.at(1)->aplicaTG( Translate(-0.05, 0.0, 0.0) ); //movement
-            if(!esc->hasCollided(esc->elements.at(1))){
-                esc->elements.at(1)->draw();
-                update();
-            } else esc->elements.at(1)->restorePoints();
+            if(event->modifiers() & Qt::AltModifier) Pan(-PAN,0);
+            else{
+                esc->elements.at(1)->backupPoints();
+                esc->elements.at(1)->aplicaTG( Translate(-0.05, 0.0, 0.0) ); //movement
+                if(!esc->hasCollided(esc->elements.at(1))){
+                    esc->elements.at(1)->draw();
+                    update();
+                } else esc->elements.at(1)->restorePoints();
+            }
             break;
 
         case Qt::Key_Right:
             //qDebug() << "KEY_RIGHT pressed";
-            esc->elements.at(1)->backupPoints();
-            esc->elements.at(1)->aplicaTG( Translate(0.05, 0.0, 0.0) ); //movement
-            if(!esc->hasCollided(esc->elements.at(1))){
-                esc->elements.at(1)->draw();
-                update();
-            } else esc->elements.at(1)->restorePoints();
+            if(event->modifiers() & Qt::AltModifier) Pan(PAN,0);
+            else{
+                esc->elements.at(1)->backupPoints();
+                esc->elements.at(1)->aplicaTG( Translate(0.05, 0.0, 0.0) ); //movement
+                if(!esc->hasCollided(esc->elements.at(1))){
+                    esc->elements.at(1)->draw();
+                    update();
+                } else esc->elements.at(1)->restorePoints();
+            }
             break;
 
         case Qt::Key_Plus:
             qDebug() << "KEY_PLUS pressed";
-            esc->camGeneral->AmpliaWindow(-0.05);
-            update();
+            this->Zoom(1);
+            break;
 
-        break;
         case Qt::Key_Minus:
             qDebug() << "KEY_MINUS pressed";
-            esc->camGeneral->AmpliaWindow(0.05);
-            update();
+            this->Zoom(-1);
             break;
+
     }
+
 }
 
 void GLWidget::keyReleaseEvent(QKeyEvent *event)
@@ -328,6 +364,24 @@ void GLWidget::clearSalaBillar(){
 
 // Metode per iniciar la dinàmica del joc
 void GLWidget::Play() {
-    esc->aplicaTGCentrat( RotateX(-90) );
+    //esc->aplicaTGCentrat( RotateX(-90) );
+    esc->camGeneral->vs.obs = esc->camGeneral->CalculObs(esc->camGeneral->vs.vrp,esc->camGeneral->piram.d,52412,0);
+    esc->camGeneral->CalculaMatriuModelView();
+    esc->camGeneral->CalculaMatriuProjection();
+    update();
+}
+
+//method for zoom in/zoom out. If the parameter is a positive value, the zoom in will be performed and vice versa
+void GLWidget::Zoom(int positiu){
+    if(positiu > 0)  esc->camGeneral->AmpliaWindow(-0.05);
+    else  esc->camGeneral->AmpliaWindow(0.05);
+
+    update();
+}
+
+
+void GLWidget::Pan(int dx, int dy) {
+    GLfloat factor = 0.05f;
+    esc->camGeneral->pan(factor*dx,factor*dy);
     update();
 }

@@ -63,6 +63,8 @@ private:
     bool moviment;
     bool cameraActual;
 
+    const int PAN = 1;
+
     // Programa de la GPU
     QGLShaderProgram *program;
 
@@ -80,6 +82,9 @@ private:
 
     // Metode per netejar l'escena al crear una nova partida
     void clearSalaBillar();
+
+    void Zoom (int positiu);
+    void Pan(int dx, int dy);
 };
 
 #endif // GLWIDGET_H

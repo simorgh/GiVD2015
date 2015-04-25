@@ -74,7 +74,7 @@ public:
     void setRotation(float angX, float angY, float angZ);
 
     void rotate(Capsa3D c);
-    void pan();
+    void pan(float dx, float dy);
     void zoom();
 
 

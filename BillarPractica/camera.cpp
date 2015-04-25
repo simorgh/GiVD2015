@@ -33,9 +33,6 @@ void Camera::ini(int a, int h, Capsa3D capsaMinima) {
 
     //qDebug() << "Camera::ini -> ViewPort size [w, h] :" << a << "x" << h;
     setViewport(capsaMinima.pmin.x, capsaMinima.pmin.y, a, h);
-
-    CalculWindow(capsaMinima);
-    //CalculaMatriuProjection();
 }
 
 void Camera::toGPU(QGLShaderProgram* program){
@@ -144,10 +141,13 @@ void Camera::CalculAngleOberturaHoritzontal() {
 
 
 void Camera::setRotation(float angX, float angY, float angZ) {
-    this->vs.angx = (angX/RSPEED);
-    this->vs.angy = (angY/RSPEED);
-    this->vs.angz = (angZ/RSPEED);
+    //this->vs.angx = (angX/RSPEED);
+    //this->vs.angy = (angY/RSPEED);
+    //this->vs.angz = (angZ/RSPEED);
 
+    this->vs.angx += (angX/RSPEED);
+    this->vs.angy -= (angY/RSPEED);
+    //this->vs.angz += (angZ/RSPEED);
     this->vs.obs = CalculObs(this->vs.vrp, this->piram.d, this->vs.angx, this->vs.angy);
     CalculaMatriuModelView();
     CalculaMatriuProjection();
@@ -317,3 +317,9 @@ void Camera::VertexCapsa3D(Capsa3D capsaMinima, vec4 vaux[8]) {
     vaux[6] = vec4(ptfi[0], ptfi[1], capsaMinima.pmin[2], 1.0);
     vaux[7] = vec4(ptfi[0], ptfi[1], ptfi[2], 1.0);
 }
+
+ void Camera::pan(float dx, float dy){
+     wd.pmin[0] -= dx;
+     wd.pmin[1] += dy;
+     CalculaMatriuProjection();
+ }
