@@ -122,11 +122,15 @@ void Escena::iniCamera(bool camGeneral, int ampladaViewport, int alcadaViewport,
    * contrari s'inicialitza la càmera en primera persona.
    */
     this->program = program;
-    this->camGeneral = new Camera();
-    this->camGeneral->ini(ampladaViewport, alcadaViewport, capsaMinima);
-
-    //if(camGeneral) this->camGeneral->projection = PARALLELA;
-    //else this->camGeneral->projection = PERSPECTIVA;
+    if(camGeneral) {
+        this->camGeneral = new Camera();
+        this->camGeneral->ini(ampladaViewport, alcadaViewport, capsaMinima);
+        this->camGeneral->projection = PARALLELA;
+    } else {
+        this->camFP = new Camera();
+        this->camFP->ini(ampladaViewport, alcadaViewport, elements.at(1)->capsa);
+        this->camGeneral->projection = PERSPECTIVA;
+    }
 
 }
 
@@ -138,9 +142,7 @@ void Escena::setAnglesCamera(bool camGeneral, float angX, float angY, float angZ
      */
 
     if(camGeneral) this->camGeneral->setRotation(angX, angY, angZ);
-    else {
-        //TODO: Camera primera Persona
-    }
+    //else this->camFP->setRotation(angX, angY, angZ);
 }
 
 void Escena::setVRPCamera(bool camGeneral, point4 vrp){

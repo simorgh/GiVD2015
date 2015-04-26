@@ -105,7 +105,7 @@ void GLWidget::initializeGL() {
     glEnable(GL_DOUBLE);
 
     initShadersGPU();
-    esc->iniCamera(true, this->size().width(), this->size().height(), this->program);
+    esc->iniCamera(cameraActual, this->size().width(), this->size().height(), this->program);
 
     glClearColor(clearColor.redF(), clearColor.greenF(), clearColor.blueF(), clearColor.alphaF());
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -141,12 +141,13 @@ void GLWidget::mousePressEvent(QMouseEvent *event) {
 }
 
 void GLWidget::mouseMoveEvent(QMouseEvent *event) {
+    /* si hi ha un desplaçament en X de viewport, es canviarà l'angle Y de la càmera
+     * si hi ha un desplaçament en Y de viewport, es canviarà l'angle X de la càmera.*/
 
     int dx = event->x() - lastPos.x();
     int dy = event->y() - lastPos.y();
 
     if (event->buttons() & Qt::LeftButton) {
-        //qDebug() << "call to setXRotation";
         setXRotation(xRot + RSPEED * dy);
         setYRotation(yRot + RSPEED * dx);
     }
@@ -155,9 +156,8 @@ void GLWidget::mouseMoveEvent(QMouseEvent *event) {
 }
 
 
-void GLWidget::keyPressEvent(QKeyEvent *event)
-{
-    // Metode a implementar
+void GLWidget::keyPressEvent(QKeyEvent *event) {
+
     switch ( event->key() ){
 
         case Qt::Key_Up:
@@ -167,6 +167,7 @@ void GLWidget::keyPressEvent(QKeyEvent *event)
                 esc->elements.at(1)->backupPoints();
                 esc->elements.at(1)->aplicaTG( Translate(0.0, 0.0, 0.08) ); //movement
                 if(!esc->hasCollided(esc->elements.at(1))){
+                    //TODO update camFP here!!
                     esc->elements.at(1)->draw();
                     update();
                 } else esc->elements.at(1)->restorePoints();
@@ -180,6 +181,7 @@ void GLWidget::keyPressEvent(QKeyEvent *event)
                 esc->elements.at(1)->backupPoints();
                 esc->elements.at(1)->aplicaTG( Translate(0.0, 0.0, -0.08 ) ); //movement
                 if(!esc->hasCollided(esc->elements.at(1))){
+                    //TODO update camFP here!!
                     esc->elements.at(1)->draw();
                     update();
                 } else esc->elements.at(1)->restorePoints();
@@ -193,6 +195,7 @@ void GLWidget::keyPressEvent(QKeyEvent *event)
                 esc->elements.at(1)->backupPoints();
                 esc->elements.at(1)->aplicaTG( Translate(0.08, 0.0, 0.0) ); //movement
                 if(!esc->hasCollided(esc->elements.at(1))){
+                    //TODO update camFP here!!
                     esc->elements.at(1)->draw();
                     update();
                 } else esc->elements.at(1)->restorePoints();
@@ -206,6 +209,7 @@ void GLWidget::keyPressEvent(QKeyEvent *event)
                 esc->elements.at(1)->backupPoints();
                 esc->elements.at(1)->aplicaTG( Translate(-0.08, 0.0, 0.0) ); //movement
                 if(!esc->hasCollided(esc->elements.at(1))){
+                    //TODO update camFP here!!
                     esc->elements.at(1)->draw();
                     update();
                 } else esc->elements.at(1)->restorePoints();
@@ -221,6 +225,21 @@ void GLWidget::keyPressEvent(QKeyEvent *event)
             //qDebug() << "KEY_MINUS pressed";
             this->Zoom(-1);
             break;
+
+
+        case Qt::Key_B:
+            //qDebug() << "KEY_B pressed";
+
+            //canviar des de la càmera general a la càmera en primera persona.
+            if(cameraActual) cameraActual = false;
+            break;
+
+        case Qt::Key_T:
+            //qDebug() << "KEY_T pressed";
+
+            //canviar des de la càmera en primera persona a la càmera general.
+            if(!cameraActual) cameraActual = true;
+            break;
     }
 
 }
@@ -233,7 +252,6 @@ void GLWidget::keyReleaseEvent(QKeyEvent *event) {
 
 
 void GLWidget::adaptaObjecteTamanyWidget(Objecte *obj) {
-    // Metode a implementar
     double escala = 2/20.;
 
     mat4 m = Scale(escala, escala, escala);
@@ -248,7 +266,6 @@ void GLWidget::adaptaObjecteTamanyWidget(Objecte *obj) {
 }
 
 void GLWidget::newObjecte(Objecte * obj){
-    //adaptaObjecteTamanyWidget(obj);
     obj->toGPU(program);
     esc->addObjecte(obj);
 
@@ -285,8 +302,7 @@ void GLWidget::newConjuntBoles(){
     newObjecte(obj);
 }
 
-void GLWidget::newSalaBillar()
-{
+void GLWidget::newSalaBillar() {
     // Metode que construeix tota la sala de billar: taula, 15 boles i bola blanca
     clearSalaBillar();
 
@@ -323,11 +339,7 @@ void GLWidget::clearSalaBillar(){
 
 // Metode per iniciar la dinàmica del joc
 void GLWidget::Play() {
-    //esc->aplicaTGCentrat( RotateX(-90) );
-    esc->camGeneral->vs.obs = esc->camGeneral->CalculObs(esc->camGeneral->vs.vrp,esc->camGeneral->piram.d,52412,0);
-    esc->camGeneral->CalculaMatriuModelView();
-    esc->camGeneral->CalculaMatriuProjection();
-    update();
+    //TODO: i.e. boolean to be checked when white ball should move?
 }
 
 //method for zoom in/zoom out. If the parameter is a positive value, the zoom in will be performed and vice versa

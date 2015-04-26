@@ -20,9 +20,9 @@ TaulaBillar::TaulaBillar(QString n) : Objecte(NumVerticesF){
     capsa = calculCapsa3D();
 
     // Codi adhoc per a la taula carregada de fitxer taula.obj. Cal modificar-lo per a que sigui general
-    double escalaZ = 2.0 / 8.63;
+    double escalaZ = 2.3;
 
-    aplicaTG( Scale(escalaZ, escalaZ, escalaZ) * Translate(-2.55, +3.8, -0.515) );
+    aplicaTG( Scale(escalaZ, escalaZ, escalaZ) * Translate(-2.55, +1.8, -0.515));
     aplicaTG(Translate(0.,-0.475,0.));
 }
 

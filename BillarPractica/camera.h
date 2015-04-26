@@ -22,20 +22,18 @@ typedef enum {YAMUNT = 0, YABAIX = 1} Orienty;
 typedef enum {PARALLELA = 0, PERSPECTIVA = 1} TipProj;
 
 
-typedef struct
- {
-  double      angy, angx, angz;  /* angles de gir del sistema de coords obser */
-  vec4        vrp;               /* view reference point */
-  vec4        obs;               /* posicio de l'observador */
-  vec4        vup;               /* verticalitat de la càmera */
+typedef struct {
+    double      angy, angx, angz;  /* angles de gir del sistema de coords obser */
+    vec4        vrp;               /* view reference point */
+    vec4        obs;               /* posicio de l'observador */
+    vec4        vup;               /* verticalitat de la càmera */
  } VisuSystem;
 
-typedef struct
- {
-  TipProj    proj;           /* tipus de proj: 0 paral.lela 1 perspectiva */
-  double     d;              /* distancia observador a pla de projeccio */
-  double     dant, dpost;    /* distancies al pla de retallat anterior i posterior desde l'observador*/
-  double     alfav, alfah;   /* angles d'obertura camera vertical i horitzontal */
+typedef struct {
+    TipProj    proj;           /* tipus de proj: 0 paral.lela 1 perspectiva */
+    double     d;              /* distancia observador a pla de projeccio */
+    double     dant, dpost;    /* distancies al pla de retallat anterior i posterior desde l'observador*/
+    double     alfav, alfah;   /* angles d'obertura camera vertical i horitzontal */
 } PiramProj;
 
 /* =================================== */
@@ -82,7 +80,7 @@ public:
     PiramProj piram;  /* Piramide de visualitzacio */
     Capsa2D wd;	      /* Window                    */
     Capsa2D vp;       /* Viewport                  */
-
+    GLuint  projection;  // projection matrix uniform shader variable (GPU)
 
 private:
     void VertexCapsa3D(Capsa3D capsaMinima, vec4 vaux[8]);
@@ -90,7 +88,6 @@ private:
     mat4  modView; // Matriu model-view de la CPU
     mat4  proj;  // Matriu projection de la CPU
     GLuint  model_view;  // model-view matrix uniform shader variable (GPU)
-    GLuint  projection;  // projection matrix uniform shader variable (GPU)
 };
 
 

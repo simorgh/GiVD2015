@@ -52,6 +52,7 @@ public:
     vector <Objecte*> elements;
     QGLShaderProgram* program;
     Camera* camGeneral;
+    Camera* camFP;
 
 };
 
