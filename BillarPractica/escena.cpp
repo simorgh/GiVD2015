@@ -105,17 +105,16 @@ bool Escena::hasCollided(Objecte *obj){
     if( (obj->capsa.pmin.x + obj->capsa.a) > (capsaMinima.pmin.x + capsaMinima.a) ) return true;
 
     // vertical (z-axis)
-    if(obj->capsa.pmin.y <= capsaMinima.pmin.z){
+    if(obj->capsa.pmin.z <= capsaMinima.pmin.z){
         //qDebug() << obj->capsa.pmin.z << capsaMinima.pmin.z;
         return true;
     }
-    if( (obj->capsa.pmin.y + obj->capsa.h) > (capsaMinima.pmin.z + capsaMinima.p) ){
+    if( (obj->capsa.pmin.z + obj->capsa.p) > (capsaMinima.pmin.z + capsaMinima.p) ){
         //qDebug() << obj->capsa.pmin.y + obj->capsa.h << capsaMinima.pmin.z + capsaMinima.p;
         return true;
     }
     return false;
 }
-
 
 void Escena::iniCamera(bool camGeneral, int ampladaViewport, int alcadaViewport, QGLShaderProgram *program){
   /*

@@ -168,7 +168,7 @@ void GLWidget::keyPressEvent(QKeyEvent *event)
             else{
                 //qDebug() << "KEY_UP pressed";
                 esc->elements.at(1)->backupPoints();
-                esc->elements.at(1)->aplicaTG( Translate(0.0, 0.05, 0.0) ); //movement
+                esc->elements.at(1)->aplicaTG( Translate(0.0, 0.0, 0.08) ); //movement
                 if(!esc->hasCollided(esc->elements.at(1))){
                     esc->elements.at(1)->draw();
                     update();
@@ -181,7 +181,7 @@ void GLWidget::keyPressEvent(QKeyEvent *event)
             if(event->modifiers() & Qt::AltModifier) Pan(0,PAN);
             else{
                 esc->elements.at(1)->backupPoints();
-                esc->elements.at(1)->aplicaTG( Translate(0.0, -0.05, 0.0 ) ); //movement
+                esc->elements.at(1)->aplicaTG( Translate(0.0, 0.0, -0.08 ) ); //movement
                 if(!esc->hasCollided(esc->elements.at(1))){
                     esc->elements.at(1)->draw();
                     update();
@@ -194,7 +194,7 @@ void GLWidget::keyPressEvent(QKeyEvent *event)
             if(event->modifiers() & Qt::AltModifier) Pan(-PAN,0);
             else{
                 esc->elements.at(1)->backupPoints();
-                esc->elements.at(1)->aplicaTG( Translate(-0.05, 0.0, 0.0) ); //movement
+                esc->elements.at(1)->aplicaTG( Translate(0.08, 0.0, 0.0) ); //movement
                 if(!esc->hasCollided(esc->elements.at(1))){
                     esc->elements.at(1)->draw();
                     update();
@@ -207,7 +207,7 @@ void GLWidget::keyPressEvent(QKeyEvent *event)
             if(event->modifiers() & Qt::AltModifier) Pan(PAN,0);
             else{
                 esc->elements.at(1)->backupPoints();
-                esc->elements.at(1)->aplicaTG( Translate(0.05, 0.0, 0.0) ); //movement
+                esc->elements.at(1)->aplicaTG( Translate(-0.08, 0.0, 0.0) ); //movement
                 if(!esc->hasCollided(esc->elements.at(1))){
                     esc->elements.at(1)->draw();
                     update();
