@@ -140,8 +140,7 @@ void GLWidget::mousePressEvent(QMouseEvent *event) {
     lastPos = event->pos();
 }
 
-void GLWidget::mouseMoveEvent(QMouseEvent *event)
-{
+void GLWidget::mouseMoveEvent(QMouseEvent *event) {
 
     int dx = event->x() - lastPos.x();
     int dy = event->y() - lastPos.y();
@@ -149,11 +148,9 @@ void GLWidget::mouseMoveEvent(QMouseEvent *event)
     if (event->buttons() & Qt::LeftButton) {
         //qDebug() << "call to setXRotation";
         setXRotation(xRot + RSPEED * dy);
-    } else if (event->buttons() & Qt::RightButton) {
-        //qDebug() << "call to setXRotation / setZRotation";
-        setXRotation(xRot + RSPEED * dy);
-        setZRotation(zRot + RSPEED * dx);
+        setYRotation(yRot + RSPEED * dx);
     }
+
     lastPos = event->pos();
 }
 
@@ -224,7 +221,6 @@ void GLWidget::keyPressEvent(QKeyEvent *event)
             //qDebug() << "KEY_MINUS pressed";
             this->Zoom(-1);
             break;
-
     }
 
 }
@@ -321,7 +317,7 @@ void GLWidget::clearSalaBillar(){
 
         esc->capsaMinima.pmin[0]=0; esc->capsaMinima.pmin[1] = 0; esc->capsaMinima.pmin[2]=0;
         esc->capsaMinima.a = 1; esc->capsaMinima.h = 1; esc->capsaMinima.p = 1;
-        xRot = 0; yRot = 180; zRot = 0;
+        xRot = -90; yRot = 180; zRot = 0;
     }
 }
 
