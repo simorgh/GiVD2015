@@ -2,7 +2,7 @@
 
 Camera::Camera() {
     vs.angx = 0;
-    vs.angy = 180;
+    vs.angy = 0;
     vs.angz = 0;
 
     piram.proj = PARALLELA; //default
@@ -127,20 +127,15 @@ void Camera::CalculAngleOberturaHoritzontal() {
     piram.alfah =  180.0 * atan2(wd.a/2.0, piram.d)/PI;
 }
 
-
 void Camera::setRotation(float angX, float angY, float angZ) {
-    //this->vs.angx = (angX/RSPEED);
-    //this->vs.angy = (angY/RSPEED);
-    //this->vs.angz = (angZ/RSPEED);
+    this->vs.angx = (angX);
+    this->vs.angy = (angY);
+    this->vs.angz = (angZ);
 
-    this->vs.angx += (angX/RSPEED);
-    this->vs.angy -= (angY/RSPEED);
-    //this->vs.angz += (angZ/RSPEED);
     this->vs.obs = CalculObs(this->vs.vrp, this->piram.d, this->vs.angx, this->vs.angy);
     CalculaMatriuModelView();
     CalculaMatriuProjection();
 }
-
 
 void  Camera::CalculWindowAmbRetallat() {
     Capsa2D c;

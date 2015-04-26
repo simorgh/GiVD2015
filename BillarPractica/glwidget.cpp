@@ -7,8 +7,8 @@
 GLWidget::GLWidget(QWidget *parent) : QGLWidget(QGLFormat(QGL::SampleBuffers), parent) {
     setFocusPolicy( Qt::StrongFocus );
 
-    xRot = 0;
-    yRot = 0;
+    xRot = -90;
+    yRot = 180;
     zRot = 0;
 
     a = 20.0;
@@ -25,13 +25,10 @@ GLWidget::GLWidget(QWidget *parent) : QGLWidget(QGLFormat(QGL::SampleBuffers), p
     esc = new Escena();
 }
 
-
-GLWidget::~GLWidget()
-{
+GLWidget::~GLWidget() {
     makeCurrent();
     delete esc;
 }
-
 
 // Create a GLSL program object from vertex and fragment shader files
 void GLWidget::InitShader(const char* vShaderFile, const char* fShaderFile){
@@ -115,15 +112,12 @@ void GLWidget::initializeGL() {
 }
 
 void GLWidget::paintGL() {
-   glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
-   program->setUniformValue("texture", 0);
+    glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
+    program->setUniformValue("texture", 0);
 
-   // Camera rotation if needed
-   qNormalizeAngle(xRot);
-   qNormalizeAngle(yRot);
-   qNormalizeAngle(zRot);
-   esc->setAnglesCamera(cameraActual, xRot, yRot, zRot );
-   esc->draw();
+    // Camera rotation if needed
+    esc->setAnglesCamera(cameraActual, xRot, yRot, zRot );
+    esc->draw();
 }
 
 
@@ -148,20 +142,19 @@ void GLWidget::mousePressEvent(QMouseEvent *event) {
 
 void GLWidget::mouseMoveEvent(QMouseEvent *event)
 {
+
     int dx = event->x() - lastPos.x();
     int dy = event->y() - lastPos.y();
 
     if (event->buttons() & Qt::LeftButton) {
-        setXRotation(xRot + 0.1 * dy);
+        //qDebug() << "call to setXRotation";
+        setXRotation(xRot + RSPEED * dy);
     } else if (event->buttons() & Qt::RightButton) {
-
-        setXRotation(xRot + 0.1 * dy);
-        setZRotation(zRot + 0.1 * dx);
+        //qDebug() << "call to setXRotation / setZRotation";
+        setXRotation(xRot + RSPEED * dy);
+        setZRotation(zRot + RSPEED * dx);
     }
     lastPos = event->pos();
-
-
-
 }
 
 
@@ -223,12 +216,12 @@ void GLWidget::keyPressEvent(QKeyEvent *event)
             break;
 
         case Qt::Key_Plus:
-            qDebug() << "KEY_PLUS pressed";
+            //qDebug() << "KEY_PLUS pressed";
             this->Zoom(1);
             break;
 
         case Qt::Key_Minus:
-            qDebug() << "KEY_MINUS pressed";
+            //qDebug() << "KEY_MINUS pressed";
             this->Zoom(-1);
             break;
 
@@ -236,8 +229,7 @@ void GLWidget::keyPressEvent(QKeyEvent *event)
 
 }
 
-void GLWidget::keyReleaseEvent(QKeyEvent *event)
-{
+void GLWidget::keyReleaseEvent(QKeyEvent *event) {
     // Metode a implementar en el cas que es mogui la bola
 
 }
@@ -267,8 +259,7 @@ void GLWidget::newObjecte(Objecte * obj){
     updateGL();
 }
 
-void GLWidget::newPlaBase()
-{
+void GLWidget::newPlaBase() {
     // Metode que crea un objecte PlaBase poligon amb el punt central al (0,0,0) i perpendicular a Y=0
     PlaBase *pla;
 
@@ -330,7 +321,7 @@ void GLWidget::clearSalaBillar(){
 
         esc->capsaMinima.pmin[0]=0; esc->capsaMinima.pmin[1] = 0; esc->capsaMinima.pmin[2]=0;
         esc->capsaMinima.a = 1; esc->capsaMinima.h = 1; esc->capsaMinima.p = 1;
-        xRot = 0; yRot = 0; zRot = 0;
+        xRot = 0; yRot = 180; zRot = 0;
     }
 }
 
@@ -344,7 +335,7 @@ void GLWidget::Play() {
 }
 
 //method for zoom in/zoom out. If the parameter is a positive value, the zoom in will be performed and vice versa
-void GLWidget::Zoom(int positiu){
+void GLWidget::Zoom(int positiu) {
     if(positiu > 0)  esc->camGeneral->AmpliaWindow(-0.05);
     else  esc->camGeneral->AmpliaWindow(0.05);
 

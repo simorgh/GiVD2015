@@ -50,6 +50,7 @@ protected:
 private:
     Escena *esc;
 
+    const double RSPEED = 1.0;
     int xRot;
     int yRot;
     int zRot;

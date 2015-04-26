@@ -85,8 +85,6 @@ public:
 
 
 private:
-    const double RSPEED = 8.0;
-
     void VertexCapsa3D(Capsa3D capsaMinima, vec4 vaux[8]);
 
     mat4  modView; // Matriu model-view de la CPU
