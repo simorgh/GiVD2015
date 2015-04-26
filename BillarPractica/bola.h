@@ -34,6 +34,7 @@ private:
     void divide_triangle(point4 a, point4 b, point4 c, int n);
     vec4 calculVectorUnitari(const vec4& v );
     void initTextura();
+
     vec2 calculTexturaCoord(const vec4 &v);
 };
 #endif // BOLA

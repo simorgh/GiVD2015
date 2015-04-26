@@ -24,6 +24,7 @@ public:
     void aplicaTGCentrat(mat4 m);
 
     Capsa3D calculCapsa3D();
+    bool hasCollided(Objecte* obj);
 
 private:
     static const int NumBoles = 15;

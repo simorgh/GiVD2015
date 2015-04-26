@@ -114,3 +114,5 @@ void Bola::initTextura(){
     texture->setMinificationFilter(QOpenGLTexture::LinearMipMapLinear);
     texture->setMagnificationFilter(QOpenGLTexture::Linear);
 }
+
+
