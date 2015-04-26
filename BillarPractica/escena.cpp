@@ -12,6 +12,9 @@ Escena::Escena() {
     // Capsa minima contenidora provisional: S'ha de fer un recorregut dels objectes de l'escenes
     capsaMinima.pmin[0] = 0; capsaMinima.pmin[1] = 0; capsaMinima.pmin[2]=0;
     capsaMinima.a = 0; capsaMinima.h = 0; capsaMinima.p = 0;
+
+    this->camFP = 0;
+    this->camGeneral = 0;
 }
 
 /*
@@ -66,6 +69,9 @@ void Escena::CapsaMinCont3DEscena() {
     capsaMinima.a = pmax.x - pmin.x;
     capsaMinima.h = pmax.y - pmin.y;
     capsaMinima.p = pmax.z - pmin.z;
+
+    qDebug() << "Capsa Minima (Escena) is now... a:" << capsaMinima.a << "h:" << capsaMinima.h << "p:" << capsaMinima.p;
+    qDebug() << "pmin (" << capsaMinima.pmin.x << "," << capsaMinima.pmin.y << "," << capsaMinima.pmin.z;
 }
 
 void Escena::aplicaTG(mat4 m) {
@@ -124,12 +130,12 @@ void Escena::iniCamera(bool camGeneral, int ampladaViewport, int alcadaViewport,
     this->program = program;
     if(camGeneral) {
         this->camGeneral = new Camera();
-        this->camGeneral->ini(ampladaViewport, alcadaViewport, capsaMinima);
         this->camGeneral->projection = PARALLELA;
+        this->camGeneral->ini(ampladaViewport, alcadaViewport, capsaMinima);
     } else {
         this->camFP = new Camera();
-        this->camFP->ini(ampladaViewport, alcadaViewport, elements.at(1)->capsa);
         this->camGeneral->projection = PERSPECTIVA;
+        this->camFP->ini(ampladaViewport, alcadaViewport, elements.at(1)->capsa);
     }
 
 }
@@ -155,7 +161,7 @@ void Escena::setVRPCamera(bool camGeneral, point4 vrp){
     if(camGeneral){
         this->camGeneral->vs.vrp = vrp;
     } else {
-        //TODO: Camera primera Persona
+        this->camFP->vs.vrp = vrp;
     }
 
 }
@@ -165,6 +171,15 @@ void Escena::setWindowCamera(bool camGeneral, bool retallat, Capsa2D window){
     * Si el valor del paràmetre és cert, es canvia la window de la càmera general i tots els
     * atributs depenents d'aquest canvi.
     */
+    this->camGeneral->wd = window;
+
+    if(camGeneral) {
+        if(retallat) this->camGeneral->CalculWindowAmbRetallat();
+        else this->camGeneral->CalculWindow(this->capsaMinima);
+    }/* else {
+        if(retallat) this->camFP->CalculWindowAmbRetallat();
+        else this->camFP->CalculWindow(elements.at(1)->capsa);
+    }*/
 }
 
 void Escena::setDCamera(bool camGeneral, float d){

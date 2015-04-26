@@ -7,7 +7,7 @@ Camera::Camera() {
 
     piram.proj = PARALLELA; //default
     piram.d = 20;
-    piram.dant = 10.0;
+    piram.dant = 10;
     piram.dpost = 30.0;
 }
 
@@ -27,6 +27,7 @@ void Camera::ini(int a, int h, Capsa3D capsaMinima) {
 
     //qDebug() << "Camera::ini -> ViewPort size [w, h] :" << a << "x" << h;
     setViewport(capsaMinima.pmin.x, capsaMinima.pmin.y, a, h);
+    CalculWindow(capsaMinima);
 }
 
 void Camera::toGPU(QGLShaderProgram* program){

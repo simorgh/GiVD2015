@@ -235,22 +235,37 @@ void GLWidget::keyPressEvent(QKeyEvent *event) {
             //qDebug() << "KEY_B pressed";
 
             //canviar des de la càmera general a la càmera en primera persona.
-            if(cameraActual) cameraActual = false;
+            if(cameraActual) {
+                cameraActual = false;
+                if(!esc->camFP) {
+                    qDebug() << "First Person Camera initialization";
+                    esc->iniCamera(cameraActual, this->size().width(), this->size().height(), this->program);
+                }
+
+                 esc->camFP->CalculaMatriuProjection();
+            }
             break;
 
         case Qt::Key_T:
             //qDebug() << "KEY_T pressed";
 
             //canviar des de la càmera en primera persona a la càmera general.
-            if(!cameraActual) cameraActual = true;
+            if(!cameraActual) {
+                cameraActual = true;
+                if(!esc->camGeneral) {
+                    qDebug() << "General Camara initialization";
+                    esc->iniCamera(cameraActual, this->size().width(), this->size().height(), this->program);
+                }
+
+                esc->camGeneral->CalculaMatriuProjection();
+            }
             break;
     }
 
 }
 
 void GLWidget::keyReleaseEvent(QKeyEvent *event) {
-    // Metode a implementar en el cas que es mogui la bola
-
+    // Metode a implementar en el cas que es mogui la bola (aceleració)
 }
 
 
@@ -270,9 +285,9 @@ void GLWidget::adaptaObjecteTamanyWidget(Objecte *obj) {
 }
 
 void GLWidget::newObjecte(Objecte * obj){
-    obj->toGPU(program);
     esc->addObjecte(obj);
 
+    obj->toGPU(program);
     updateGL();
 }
 
@@ -336,8 +351,9 @@ void GLWidget::clearSalaBillar(){
         esc->elements.clear();
 
         esc->capsaMinima.pmin[0]=0; esc->capsaMinima.pmin[1] = 0; esc->capsaMinima.pmin[2]=0;
-        esc->capsaMinima.a = 1; esc->capsaMinima.h = 1; esc->capsaMinima.p = 1;
+        esc->capsaMinima.a = 0; esc->capsaMinima.h = 0; esc->capsaMinima.p = 0;
         xRot = -90; yRot = 180; zRot = 0;
+        cameraActual = true;
     }
 }
 
