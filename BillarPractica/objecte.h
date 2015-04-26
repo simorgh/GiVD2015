@@ -78,7 +78,7 @@ public:
     // Aplica una TG centrada en el punt central de la capsa de l'objecte a un objecte
     virtual void aplicaTGCentrat(mat4 m);
     virtual void initTextura() = 0; //abstract method to be overwritten to apply new texture on points
-
+    virtual bool hasCollided(Objecte* obj);
     // Funciones necesarias para el movimiento de la bola (en caso de colisinar tenemos que recuperar los puntos anteriores)
     void backupPoints();
     void restorePoints();

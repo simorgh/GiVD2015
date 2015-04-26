@@ -297,4 +297,12 @@ void Objecte::construeix_cara ( char **words, int nwords, Objecte*objActual, int
     objActual->cares.push_back(face);
 }
 
-
+bool Objecte::hasCollided(Objecte* obj){
+    if(obj->capsa.pmin.x > (capsa.pmin.x + capsa.a)) return false;
+    else if((obj->capsa.pmin.x + obj->capsa.a) < capsa.pmin.x) return false;
+    else{
+        if(obj->capsa.pmin.z > (capsa.pmin.z + capsa.p)) return false;
+        else if((obj->capsa.pmin.z + obj->capsa.p) < capsa.pmin.z ) return false;
+    }
+    return true;
+}

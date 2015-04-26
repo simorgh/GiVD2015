@@ -166,7 +166,8 @@ void GLWidget::keyPressEvent(QKeyEvent *event) {
                 //qDebug() << "KEY_UP pressed";
                 esc->elements.at(1)->backupPoints();
                 esc->elements.at(1)->aplicaTG( Translate(0.0, 0.0, 0.08) ); //movement
-                if(!esc->hasCollided(esc->elements.at(1))){
+
+                if(!esc->hasCollided(esc->elements.at(1)) && !(esc->elements.at(2)->hasCollided(esc->elements.at(1)))){
                     //TODO update camFP here!!
                     esc->elements.at(1)->draw();
                     update();
@@ -180,7 +181,8 @@ void GLWidget::keyPressEvent(QKeyEvent *event) {
             else{
                 esc->elements.at(1)->backupPoints();
                 esc->elements.at(1)->aplicaTG( Translate(0.0, 0.0, -0.08 ) ); //movement
-                if(!esc->hasCollided(esc->elements.at(1))){
+
+                if(!esc->hasCollided(esc->elements.at(1)) && !(esc->elements.at(2)->hasCollided(esc->elements.at(1)))){
                     //TODO update camFP here!!
                     esc->elements.at(1)->draw();
                     update();
@@ -190,11 +192,12 @@ void GLWidget::keyPressEvent(QKeyEvent *event) {
 
         case Qt::Key_Left:
             //qDebug() << "KEY_LEFT pressed";
-            if(event->modifiers() & Qt::AltModifier) Pan(-PAN,0);
+            if(event->modifiers() & Qt::AltModifier) Pan(PAN,0);
             else{
                 esc->elements.at(1)->backupPoints();
                 esc->elements.at(1)->aplicaTG( Translate(0.08, 0.0, 0.0) ); //movement
-                if(!esc->hasCollided(esc->elements.at(1))){
+
+                if(!esc->hasCollided(esc->elements.at(1)) && !(esc->elements.at(2)->hasCollided(esc->elements.at(1)))){
                     //TODO update camFP here!!
                     esc->elements.at(1)->draw();
                     update();
@@ -204,11 +207,12 @@ void GLWidget::keyPressEvent(QKeyEvent *event) {
 
         case Qt::Key_Right:
             //qDebug() << "KEY_RIGHT pressed";
-            if(event->modifiers() & Qt::AltModifier) Pan(PAN,0);
+            if(event->modifiers() & Qt::AltModifier) Pan(-PAN,0);
             else{
                 esc->elements.at(1)->backupPoints();
                 esc->elements.at(1)->aplicaTG( Translate(-0.08, 0.0, 0.0) ); //movement
-                if(!esc->hasCollided(esc->elements.at(1))){
+
+                if(!esc->hasCollided(esc->elements.at(1)) && !(esc->elements.at(2)->hasCollided(esc->elements.at(1)))){
                     //TODO update camFP here!!
                     esc->elements.at(1)->draw();
                     update();

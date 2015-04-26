@@ -92,3 +92,11 @@ Capsa3D ConjuntBoles::calculCapsa3D(){
 }
 
 void ConjuntBoles::initTextura(){}
+
+bool ConjuntBoles::hasCollided(Objecte* obj){
+    for (int i = 0; i< this->NumBoles; i++) {
+        if(boles[i]->hasCollided(obj)) return true;
+    }
+    return false;
+}
+
