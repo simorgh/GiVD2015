@@ -5,10 +5,10 @@ Camera::Camera() {
     vs.angy = 0;
     vs.angz = 0;
 
+    piram.d = 0;
+    piram.dant = 0;
+    piram.dpost = 0;
     piram.proj = PARALLELA; //default
-    piram.d = 20;
-    piram.dant = 10;
-    piram.dpost = 30.0;
 }
 
 
@@ -24,6 +24,16 @@ void Camera::ini(int a, int h, Capsa3D capsaMinima) {
     vs.vrp[0] = centre.x;
     vs.vrp[1] = centre.y;
     vs.vrp[2] = centre.z;
+
+    if(piram.proj == PERSPECTIVA) {
+        piram.d = 20;
+        piram.dant = 10;
+        piram.dpost = 40;
+    } else {
+        piram.d = 10;
+        piram.dant = 5;
+        piram.dpost = 30;
+    }
 
     //qDebug() << "Camera::ini -> ViewPort size [w, h] :" << a << "x" << h;
     setViewport(capsaMinima.pmin.x, capsaMinima.pmin.y, a, h);
@@ -296,7 +306,7 @@ void Camera::VertexCapsa3D(Capsa3D capsaMinima, vec4 vaux[8]) {
     vaux[2] = vec4(capsaMinima.pmin[0],  ptfi[1], capsaMinima.pmin[2],1.0);
     vaux[3] = vec4(capsaMinima.pmin[0], ptfi[1], ptfi[2], 1.0);
     vaux[4] = vec4(ptfi[0],capsaMinima.pmin[1], capsaMinima.pmin[2],1.0);
-    vaux[5] = vec4(ptfi[0], capsaMinima.pmin[1], ptfi[2],1.0);
+    vaux[5] = vec4(ptfi[0], capsaMinima.pmin[1], ptfi[2] ,1.0);
     vaux[6] = vec4(ptfi[0], ptfi[1], capsaMinima.pmin[2], 1.0);
     vaux[7] = vec4(ptfi[0], ptfi[1], ptfi[2], 1.0);
 }

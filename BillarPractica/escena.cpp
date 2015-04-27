@@ -70,8 +70,8 @@ void Escena::CapsaMinCont3DEscena() {
     capsaMinima.h = pmax.y - pmin.y;
     capsaMinima.p = pmax.z - pmin.z;
 
-    qDebug() << "Capsa Minima (Escena) is now... a:" << capsaMinima.a << "h:" << capsaMinima.h << "p:" << capsaMinima.p;
-    qDebug() << "pmin (" << capsaMinima.pmin.x << "," << capsaMinima.pmin.y << "," << capsaMinima.pmin.z;
+    //qDebug() << "Capsa Minima (Escena) is now... a:" << capsaMinima.a << "h:" << capsaMinima.h << "p:" << capsaMinima.p;
+    //qDebug() << "pmin (" << capsaMinima.pmin.x << "," << capsaMinima.pmin.y << "," << capsaMinima.pmin.z;
 }
 
 void Escena::aplicaTG(mat4 m) {
@@ -98,9 +98,9 @@ void Escena::aplicaTGCentrat(mat4 m) {
 
 void Escena::draw() {
     // Metode a modificar
-    camGeneral->toGPU(program);
+    //camGeneral->toGPU(program); //now it's done at GLWidget::paintGL()
 
-    for(int i=0; i<elements.size(); i++){    
+    for(int i=0; i<elements.size(); i++){
         elements.at(i)->draw();
     }
 }
@@ -130,12 +130,16 @@ void Escena::iniCamera(bool camGeneral, int ampladaViewport, int alcadaViewport,
     this->program = program;
     if(camGeneral) {
         this->camGeneral = new Camera();
-        this->camGeneral->projection = PARALLELA;
+        this->camGeneral->piram.proj = PARALLELA;
+
         this->camGeneral->ini(ampladaViewport, alcadaViewport, capsaMinima);
+        this->camGeneral->toGPU(program);
     } else {
         this->camFP = new Camera();
-        this->camGeneral->projection = PERSPECTIVA;
+        this->camFP->piram.proj = PERSPECTIVA;
+
         this->camFP->ini(ampladaViewport, alcadaViewport, elements.at(1)->capsa);
+        this->camFP->toGPU(program);
     }
 
 }
@@ -148,7 +152,7 @@ void Escena::setAnglesCamera(bool camGeneral, float angX, float angY, float angZ
      */
 
     if(camGeneral) this->camGeneral->setRotation(angX, angY, angZ);
-    //else this->camFP->setRotation(angX, angY, angZ);
+    else this->camFP->setRotation(angX, angY, angZ);
 }
 
 void Escena::setVRPCamera(bool camGeneral, point4 vrp){
@@ -158,10 +162,12 @@ void Escena::setVRPCamera(bool camGeneral, point4 vrp){
      * coherent tota la informació de la càmera.
      */
 
-    if(camGeneral){
+    if(camGeneral) {
         this->camGeneral->vs.vrp = vrp;
+        this->camFP->CalculaMatriuModelView();
     } else {
         this->camFP->vs.vrp = vrp;
+        this->camGeneral->CalculaMatriuModelView();
     }
 
 }

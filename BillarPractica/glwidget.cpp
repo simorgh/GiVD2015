@@ -117,6 +117,11 @@ void GLWidget::paintGL() {
 
     // Camera rotation if needed
     esc->setAnglesCamera(cameraActual, xRot, yRot, zRot );
+
+    // update active camera
+    if(cameraActual) esc->camGeneral->toGPU(program);
+    else esc->camFP->toGPU(program);
+
     esc->draw();
 }
 
@@ -168,8 +173,15 @@ void GLWidget::keyPressEvent(QKeyEvent *event) {
                 esc->elements.at(1)->aplicaTG( Translate(0.0, 0.0, 0.08) ); //movement
 
                 if(!esc->hasCollided(esc->elements.at(1)) && !(esc->elements.at(2)->hasCollided(esc->elements.at(1)))){
-                    //TODO update camFP here!!
                     esc->elements.at(1)->draw();
+
+                    // if FP Camera, let's update it
+                    if(!cameraActual) {
+                        point4 c = point4(esc->elements.at(1)->capsa.pmin.x + esc->elements.at(1)->capsa.a/2.,
+                                          esc->elements.at(1)->capsa.pmin.y + esc->elements.at(1)->capsa.h/2.,
+                                          esc->elements.at(1)->capsa.pmin.z + esc->elements.at(1)->capsa.p/2., 1.0);
+                        esc->setVRPCamera(cameraActual, c);
+                    }
                     update();
                 } else esc->elements.at(1)->restorePoints();
             }
@@ -183,8 +195,14 @@ void GLWidget::keyPressEvent(QKeyEvent *event) {
                 esc->elements.at(1)->aplicaTG( Translate(0.0, 0.0, -0.08 ) ); //movement
 
                 if(!esc->hasCollided(esc->elements.at(1)) && !(esc->elements.at(2)->hasCollided(esc->elements.at(1)))){
-                    //TODO update camFP here!!
                     esc->elements.at(1)->draw();
+                    // if FP Camera, let's update it
+                    if(!cameraActual) {
+                        point4 c = point4(esc->elements.at(1)->capsa.pmin.x + esc->elements.at(1)->capsa.a/2.,
+                                          esc->elements.at(1)->capsa.pmin.y + esc->elements.at(1)->capsa.h/2.,
+                                          esc->elements.at(1)->capsa.pmin.z + esc->elements.at(1)->capsa.p/2., 1.0);
+                        esc->setVRPCamera(cameraActual, c);
+                    }
                     update();
                 } else esc->elements.at(1)->restorePoints();
             }
@@ -198,8 +216,14 @@ void GLWidget::keyPressEvent(QKeyEvent *event) {
                 esc->elements.at(1)->aplicaTG( Translate(0.08, 0.0, 0.0) ); //movement
 
                 if(!esc->hasCollided(esc->elements.at(1)) && !(esc->elements.at(2)->hasCollided(esc->elements.at(1)))){
-                    //TODO update camFP here!!
                     esc->elements.at(1)->draw();
+                    // if FP Camera, let's update it
+                    if(!cameraActual) {
+                        point4 c = point4(esc->elements.at(1)->capsa.pmin.x + esc->elements.at(1)->capsa.a/2.,
+                                          esc->elements.at(1)->capsa.pmin.y + esc->elements.at(1)->capsa.h/2.,
+                                          esc->elements.at(1)->capsa.pmin.z + esc->elements.at(1)->capsa.p/2., 1.0);
+                        esc->setVRPCamera(cameraActual, c);
+                    }
                     update();
                 } else esc->elements.at(1)->restorePoints();
             }
@@ -213,8 +237,14 @@ void GLWidget::keyPressEvent(QKeyEvent *event) {
                 esc->elements.at(1)->aplicaTG( Translate(-0.08, 0.0, 0.0) ); //movement
 
                 if(!esc->hasCollided(esc->elements.at(1)) && !(esc->elements.at(2)->hasCollided(esc->elements.at(1)))){
-                    //TODO update camFP here!!
                     esc->elements.at(1)->draw();
+                    // if FP Camera, let's update it
+                    if(!cameraActual) {
+                        point4 c = point4(esc->elements.at(1)->capsa.pmin.x + esc->elements.at(1)->capsa.a/2.,
+                                          esc->elements.at(1)->capsa.pmin.y + esc->elements.at(1)->capsa.h/2.,
+                                          esc->elements.at(1)->capsa.pmin.z + esc->elements.at(1)->capsa.p/2., 1.0);
+                        esc->setVRPCamera(cameraActual, c);
+                    }
                     update();
                 } else esc->elements.at(1)->restorePoints();
             }
@@ -241,8 +271,9 @@ void GLWidget::keyPressEvent(QKeyEvent *event) {
                     qDebug() << "First Person Camera initialization";
                     esc->iniCamera(cameraActual, this->size().width(), this->size().height(), this->program);
                 }
-
-                 esc->camFP->CalculaMatriuProjection();
+                xRot = -15;
+                yRot = 180;
+                update();
             }
             break;
 
@@ -256,8 +287,9 @@ void GLWidget::keyPressEvent(QKeyEvent *event) {
                     qDebug() << "General Camara initialization";
                     esc->iniCamera(cameraActual, this->size().width(), this->size().height(), this->program);
                 }
-
-                esc->camGeneral->CalculaMatriuProjection();
+                xRot = -90;
+                yRot = 180;
+                update();
             }
             break;
     }
@@ -364,15 +396,18 @@ void GLWidget::Play() {
 
 //method for zoom in/zoom out. If the parameter is a positive value, the zoom in will be performed and vice versa
 void GLWidget::Zoom(int positiu) {
-    if(positiu > 0)  esc->camGeneral->AmpliaWindow(-0.05);
-    else  esc->camGeneral->AmpliaWindow(0.05);
-
-    update();
+    if (cameraActual) {
+        if(positiu > 0)  esc->camGeneral->AmpliaWindow(-0.05);
+        else  esc->camGeneral->AmpliaWindow(0.05);
+        update();
+    }
 }
 
 
 void GLWidget::Pan(int dx, int dy) {
     GLfloat factor = 0.05f;
-    esc->camGeneral->pan(factor*dx,factor*dy);
-    update();
+    if (cameraActual) {
+        esc->camGeneral->pan(factor*dx,factor*dy);
+        update();
+    }
 }
