@@ -273,6 +273,10 @@ void GLWidget::keyPressEvent(QKeyEvent *event) {
                 }
                 xRot = -15;
                 yRot = 180;
+                point4 c = point4(esc->elements.at(1)->capsa.pmin.x + esc->elements.at(1)->capsa.a/2.,
+                                  esc->elements.at(1)->capsa.pmin.y + esc->elements.at(1)->capsa.h/2.,
+                                  esc->elements.at(1)->capsa.pmin.z + esc->elements.at(1)->capsa.p/2., 1.0);
+                esc->setVRPCamera(cameraActual, c);
                 update();
             }
             break;

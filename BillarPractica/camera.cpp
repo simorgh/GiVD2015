@@ -25,7 +25,7 @@ void Camera::ini(int a, int h, Capsa3D capsaMinima) {
     vs.vrp[1] = centre.y;
     vs.vrp[2] = centre.z;
 
-    if(piram.proj == PERSPECTIVA) {
+    if(piram.proj == PARALLELA) {
         piram.d = 20;
         piram.dant = 10;
         piram.dpost = 40;

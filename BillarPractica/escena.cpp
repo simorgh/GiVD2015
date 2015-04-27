@@ -164,10 +164,10 @@ void Escena::setVRPCamera(bool camGeneral, point4 vrp){
 
     if(camGeneral) {
         this->camGeneral->vs.vrp = vrp;
-        this->camFP->CalculaMatriuModelView();
+        this->camGeneral->CalculaMatriuModelView();
     } else {
         this->camFP->vs.vrp = vrp;
-        this->camGeneral->CalculaMatriuModelView();
+        this->camFP->CalculaMatriuModelView();
     }
 
 }
