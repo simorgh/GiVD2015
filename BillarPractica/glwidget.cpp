@@ -170,7 +170,8 @@ void GLWidget::keyPressEvent(QKeyEvent *event) {
             else{
                 //qDebug() << "KEY_UP pressed";
                 esc->elements.at(1)->backupPoints();
-                esc->elements.at(1)->aplicaTG( Translate(0.0, 0.0, 0.08) ); //movement
+                esc->elements.at(1)->aplicaTG(Translate(0.0, 0.0, 0.08)); //movement
+                esc->elements.at(1)->aplicaTGCentrat(RotateX(15));
 
                 if(!esc->hasCollided(esc->elements.at(1)) && !(esc->elements.at(2)->hasCollided(esc->elements.at(1)))){
                     esc->elements.at(1)->draw();
@@ -193,7 +194,7 @@ void GLWidget::keyPressEvent(QKeyEvent *event) {
             else{
                 esc->elements.at(1)->backupPoints();
                 esc->elements.at(1)->aplicaTG( Translate(0.0, 0.0, -0.08 ) ); //movement
-
+                esc->elements.at(1)->aplicaTGCentrat(RotateX(-15));
                 if(!esc->hasCollided(esc->elements.at(1)) && !(esc->elements.at(2)->hasCollided(esc->elements.at(1)))){
                     esc->elements.at(1)->draw();
                     // if FP Camera, let's update it
@@ -214,7 +215,7 @@ void GLWidget::keyPressEvent(QKeyEvent *event) {
             else{
                 esc->elements.at(1)->backupPoints();
                 esc->elements.at(1)->aplicaTG( Translate(0.08, 0.0, 0.0) ); //movement
-
+                esc->elements.at(1)->aplicaTGCentrat(RotateZ(-15));
                 if(!esc->hasCollided(esc->elements.at(1)) && !(esc->elements.at(2)->hasCollided(esc->elements.at(1)))){
                     esc->elements.at(1)->draw();
                     // if FP Camera, let's update it
@@ -235,6 +236,7 @@ void GLWidget::keyPressEvent(QKeyEvent *event) {
             else{
                 esc->elements.at(1)->backupPoints();
                 esc->elements.at(1)->aplicaTG( Translate(-0.08, 0.0, 0.0) ); //movement
+                esc->elements.at(1)->aplicaTGCentrat(RotateZ(15));
 
                 if(!esc->hasCollided(esc->elements.at(1)) && !(esc->elements.at(2)->hasCollided(esc->elements.at(1)))){
                     esc->elements.at(1)->draw();

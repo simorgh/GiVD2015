@@ -1,7 +1,7 @@
 #include<bola.h>
 
 Bola::Bola() : Objecte(NumVerticesF){
-    this->id = 0;
+    this->id = 15; //Deuria ser 0, actualment posem id 15 per a que e spugui apreciar la rotacio de la bola
 
     Index = 0;
     tetrahedron(NumIteracionsEsfera); //make
