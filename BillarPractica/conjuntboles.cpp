@@ -26,6 +26,7 @@ void ConjuntBoles::make(){
 
     this->aplicaTGCentrat( Scale(Bola::scaleFactor, Bola::scaleFactor, Bola::scaleFactor) );
     this->aplicaTGCentrat( Translate(0. ,0. ,3.) );
+    for(int i=0; i<NumBoles; i++) boles[i]->aplicaTGCentrat( RotateY(180) );
 }
 
 void ConjuntBoles::toGPU(QGLShaderProgram *pr){

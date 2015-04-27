@@ -182,10 +182,10 @@ void Escena::setWindowCamera(bool camGeneral, bool retallat, Capsa2D window){
     if(camGeneral) {
         if(retallat) this->camGeneral->CalculWindowAmbRetallat();
         else this->camGeneral->CalculWindow(this->capsaMinima);
-    }/* else {
+    } else {
         if(retallat) this->camFP->CalculWindowAmbRetallat();
         else this->camFP->CalculWindow(elements.at(1)->capsa);
-    }*/
+    }
 }
 
 void Escena::setDCamera(bool camGeneral, float d){
@@ -193,6 +193,14 @@ void Escena::setDCamera(bool camGeneral, float d){
      * Si el valor del paràmetre és cert, es canvia la distància de la càmera general al pla de
      * projecció i tots els atributs depenents d'aquest canvi.
      */
+    if(camGeneral) {
+        this->camGeneral->piram.d = d;
+        this->camGeneral->CalculaMatriuModelView();
+    } else {
+        this->camFP->piram.d = d;
+        this->camFP->CalculaMatriuModelView();
+    }
+
 }
 
 
