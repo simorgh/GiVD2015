@@ -5,13 +5,13 @@
 Objecte::Objecte(int npoints, QObject *parent) : numPoints(npoints) ,QObject(parent){
     points = new point4[npoints];
     pointsTmp = new point4[npoints];
-    colors = new color4[npoints];
+    normals = new point4[numPoints];
     vertexsTextura = new texture2[npoints];
 }
 
 Objecte::Objecte(int npoints, QString n) : numPoints(npoints){
     points = new point4[npoints];
-    colors = new color4[npoints];
+    normals = new point4[numPoints];
     vertexsTextura = new texture2[npoints];
     qDebug() << "Estic en el constructor parametritzat del objecte\n";
 
@@ -27,8 +27,8 @@ Objecte::Objecte(int npoints, QString n) : numPoints(npoints){
 
 Objecte::~Objecte(){
     delete points;
-    delete colors;
     delete vertexsTextura;
+    delete normals;
 }
 
 
@@ -102,8 +102,8 @@ void Objecte::toGPU(QGLShaderProgram *pr){
     glGenBuffers( 1, &buffer );             // inicialitzacio d'un vertex buffer object (VBO)
     glBindBuffer( GL_ARRAY_BUFFER, buffer );// Activació a GL del Vertex Buffer Object
 
-    // Transferència dels punts, colors i coordenades de textura al vertex buffer object
-    glBufferData( GL_ARRAY_BUFFER, sizeof(point4)*Index + sizeof(color4)*Index + sizeof(texture2)*Index, NULL, GL_STATIC_DRAW );
+    // Transferència dels punts, colors, normals i coordenades de textura al vertex buffer object
+    glBufferData( GL_ARRAY_BUFFER, sizeof(point4)*Index + sizeof(point4)*Index + sizeof(texture2)*Index, NULL, GL_STATIC_DRAW );
     glEnable( GL_DEPTH_TEST );
     glEnable( GL_TEXTURE_2D );
     program->bind();
@@ -155,7 +155,8 @@ void Objecte::make(){
     for(unsigned int i=0; i<cares.size(); i++){
         for(unsigned int j=0; j<cares[i].idxVertices.size(); j++){
             points[Index] = vertexs[cares[i].idxVertices[j]];
-            colors[Index] = vec4(base_colors[1], 1.0);
+            //TODO: normals ??
+            //colors[Index] = vec4(base_colors[1], 1.0);
             vertexsTextura[Index] = vec2(0.0, 0.0);
             Index++;
         }

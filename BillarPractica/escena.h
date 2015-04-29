@@ -17,6 +17,7 @@
 #include <bola.h>
 #include <conjuntboles.h>
 #include <camera.h>
+#include <llum.h>
 
 using namespace std;
 
@@ -42,18 +43,23 @@ public:
     void setVRPCamera(bool camGeneral, point4 vrp);
     void setWindowCamera(bool camGeneral, bool retallat, Capsa2D window);
     void setDCamera(bool camGeneral, float d);
-
+    void setAmbientToGPU(QGLShaderProgram *program);
 
     // Capsa contenedora de l'escena
     Capsa3D capsaMinima;
 
-    // Objectes de l'escena: a modificar. Ara nomes té un objecte: la taula de billar.
-    // Cal afegir la bola blanca o el pla base per testejar o les 15 boles
+    // Objectes de l'escena
     vector <Objecte*> elements;
     QGLShaderProgram* program;
+
+    // Cameras de l'escena
     Camera* camGeneral;
     Camera* camFP;
 
+    // Llum
+    vec3 Ia;
+    vec3 ka;
+    Llum* llum;
 };
 
 #endif // ESCENA_H

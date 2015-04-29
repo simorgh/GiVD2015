@@ -15,6 +15,7 @@ Escena::Escena() {
 
     this->camFP = 0;
     this->camGeneral = 0;
+    this->llum = 0;
 }
 
 /*
@@ -32,6 +33,9 @@ Escena::Escena(int ampladaViewport, int alcadaViewport, QGLShaderProgram *progra
     capsaMinima.a = 0; capsaMinima.h = 0; capsaMinima.p = 0;
 
     iniCamera(true, ampladaViewport, alcadaViewport, program);
+
+    //this->llum = new Llum();
+    //setAmbientToGPU(program);
 }
 
 Escena::~Escena() {
@@ -204,4 +208,9 @@ void Escena::setDCamera(bool camGeneral, float d){
 }
 
 
-
+void Escena::setAmbientToGPU(QGLShaderProgram *program) {
+    GLuint k_a = program->uniformLocation("ka_global");
+    GLuint I_a = program->uniformLocation("Ia_global");
+    glUniform3fv(k_a, 1, ka);
+    glUniform3fv(I_a, 1, Ia);
+}

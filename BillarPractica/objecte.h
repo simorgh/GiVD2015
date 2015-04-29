@@ -7,10 +7,10 @@
 #include <cara.h>
 #include <QGLShaderProgram>
 #include <QOpenGLTexture>
+#include <material.h>
 
 using namespace std;
 
-typedef Common::vec4  color4;
 typedef Common::vec4  point4;
 typedef Common::vec2  texture2;
 
@@ -37,7 +37,6 @@ protected:
     int     numPoints;
     point4 *points;
     point4 *pointsTmp;
-    color4 *colors;
     texture2 *vertexsTextura; // coordenades de textura associades a cada vertex
 
     int Index; // index de control del numero de vertexs a posar a la GPU
@@ -50,6 +49,7 @@ public:
 
     // Programa de shaders de la GPU
     QGLShaderProgram *program;
+    Material *m;
 
     //explicit Objecte(QObject *parent = 0);
     Objecte(const int npoints, QObject *parent = 0);
