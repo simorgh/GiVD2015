@@ -1,6 +1,12 @@
 #include "material.h"
 
-Material::Material(){}
+Material::Material(vec3 ambient, vec3 diffuse, vec3 specular, float reflection) {
+    this->ambient = ambient;
+    this->diffuse = diffuse;
+    this->specular = specular;
+    this->reflection = reflection;
+}
+
 
 void Material::toGPU(QGLShaderProgram *program) {
     gl_IdMaterial m;

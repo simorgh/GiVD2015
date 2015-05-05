@@ -34,8 +34,8 @@ Escena::Escena(int ampladaViewport, int alcadaViewport, QGLShaderProgram *progra
 
     iniCamera(true, ampladaViewport, alcadaViewport, program);
 
-    //this->llum = new Llum();
-    //setAmbientToGPU(program);
+    this->llum = new Llum();
+    setAmbientToGPU(program);
 }
 
 Escena::~Escena() {

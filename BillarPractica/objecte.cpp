@@ -5,8 +5,12 @@
 Objecte::Objecte(int npoints, QObject *parent) : numPoints(npoints) ,QObject(parent){
     points = new point4[npoints];
     pointsTmp = new point4[npoints];
+
     normals = new point4[numPoints];
     vertexsTextura = new texture2[npoints];
+
+    /* by default using 'Black Rubber' def. See "http://devernay.free.fr/cours/opengl/materials.html" */
+    this->m = new Material(vec3(0.02, 0.02, 0.02), vec3(0.01, 0.01, 0.01), vec3(0.4, 0.4, 0.4), .078125f);
 }
 
 Objecte::Objecte(int npoints, QString n) : numPoints(npoints){
@@ -97,6 +101,7 @@ void Objecte::aplicaTGCentrat(mat4 m){
 
 void Objecte::toGPU(QGLShaderProgram *pr){
     program = pr;
+    m->toGPU(pr);
     //qDebug() <<"Objecte -> toGPU() : Passo les dades de l'objecte a la GPU\n";
 
     glGenBuffers( 1, &buffer );             // inicialitzacio d'un vertex buffer object (VBO)
@@ -116,21 +121,22 @@ void Objecte::draw(){
 
     // per si han canviat les coordenades dels punts
     glBufferSubData( GL_ARRAY_BUFFER, 0, sizeof(point4)*Index, &points[0] ); // Actualitzacio del vertex array per a preparar per pintar
-    glBufferSubData( GL_ARRAY_BUFFER, sizeof(point4)*Index, sizeof(color4)*Index, &colors[0] );
-    glBufferSubData( GL_ARRAY_BUFFER, sizeof(point4)*Index + sizeof(color4)*Index, sizeof(texture2)*Index, &vertexsTextura[0]);
+    glBufferSubData( GL_ARRAY_BUFFER, sizeof(point4)*Index, sizeof(point4)*Index, &normals[0] );
+    glBufferSubData( GL_ARRAY_BUFFER, sizeof(point4)*Index + sizeof(point4)*Index, sizeof(texture2)*Index, &vertexsTextura[0]);
 
     // Per a conservar el buffer
     int vertexLocation = program->attributeLocation("vPosition");
-    int colorLocation = program->attributeLocation("vColor");
+    int normalLocation = program->attributeLocation("vNormal");
     int coordTextureLocation = program->attributeLocation("vCoordTexture");
 
     program->enableAttributeArray(vertexLocation);
     program->setAttributeBuffer("vPosition", GL_FLOAT, 0, 4);
 
-    program->enableAttributeArray(colorLocation);
-    program->setAttributeBuffer("vColor", GL_FLOAT, sizeof(point4)*Index, 4);
+    program->enableAttributeArray(normalLocation);
+    program->setAttributeBuffer("vNormal", GL_FLOAT, sizeof(point4)*Index, 4);
+
     program->enableAttributeArray(coordTextureLocation);
-    program->setAttributeBuffer("vCoordTexture", GL_FLOAT, sizeof(point4)*Index + sizeof(color4)*Index, 2);
+    program->setAttributeBuffer("vCoordTexture", GL_FLOAT, sizeof(point4)*Index + sizeof(point4)*Index, 2);
 
     // S'activa la textura i es passa a la GPU
     texture->bind(0);

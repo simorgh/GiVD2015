@@ -1,7 +1,14 @@
-#include<bola.h>
+#include<bola.h>ç
 
+/**
+ * Constructor utilitzat per la bola blanca.
+ * @brief Bola::Bola
+ */
 Bola::Bola() : Objecte(NumVerticesF){
     this->id = 15; //Deuria ser 0, actualment posem id 15 per a que e spugui apreciar la rotacio de la bola
+
+    /* using 'Obsidian' def. See "http://devernay.free.fr/cours/opengl/materials.html" */
+    this->m = new Material( vec3(0.05375, 0.05, 0.06625), vec3(0.18275, 0.17, 0.22525), vec3(0.332741, 0.328634, 0.346435), 0.3f);
 
     Index = 0;
     tetrahedron(NumIteracionsEsfera); //make
@@ -14,8 +21,18 @@ Bola::Bola() : Objecte(NumVerticesF){
     aplicaTG( Translate(0.0, scaleFactor, -5.0) );
 }
 
+/**
+ * Constructor preparat per ConjuntBoles.
+ * @brief Bola::Bola
+ * @param id
+ * @param x
+ * @param z
+ */
 Bola::Bola(int id, double x, double z) : Objecte(NumVerticesF){
     this->id = id;
+
+    /* using obsidian def. See "http://devernay.free.fr/cours/opengl/materials.html" */
+    this->m = new Material( vec3(0.05375, 0.05, 0.06625), vec3(0.18275, 0.17, 0.22525), vec3(0.332741, 0.328634, 0.346435), 0.3f);
 
     Index = 0;
     tetrahedron(NumIteracionsEsfera);

@@ -37,6 +37,7 @@ protected:
     int     numPoints;
     point4 *points;
     point4 *pointsTmp;
+    point4 *normals;
     texture2 *vertexsTextura; // coordenades de textura associades a cada vertex
 
     int Index; // index de control del numero de vertexs a posar a la GPU

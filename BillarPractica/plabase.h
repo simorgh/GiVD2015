@@ -16,7 +16,7 @@ private:
 
     //Cara *cara1, *cara2;
     point4 vertices[4]; // 4 vertexs del plaBase
-    color4 vertex_colors[4]; // 4 colors RGBA associats a cada vertex
+    //color4 vertex_colors[4]; // 4 colors RGBA associats a cada vertex
 
     void make();
     void quad(int a, int b, int c, int d);

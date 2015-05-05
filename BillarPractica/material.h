@@ -19,14 +19,15 @@ struct gl_IdMaterial{
 class Material {
 
 public:
-    Material();
+    Material(vec3 ambient, vec3 diffuse, vec3 specular, float reflection);
+    void toGPU(QGLShaderProgram*);
 
+private:
     vec3 ambient;
     vec3 diffuse;
     vec3 specular;
     float reflection;
 
-    void toGPU(QGLShaderProgram*);
 };
 
 #endif // MATERIAL_H
