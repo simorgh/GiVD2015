@@ -6,7 +6,6 @@
 #define OUT out
 #endif
 
-
 struct tipusLlum {
     vec4 posicio;
     vec4 dir;

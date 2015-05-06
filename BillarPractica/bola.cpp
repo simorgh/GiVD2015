@@ -48,14 +48,14 @@ void Bola::triangle(const point4 &a, const point4 &b, const point4 &c){
     vec2 t1, t2, t3;
 
     points[Index] = a;
-    colors[Index] = color4(1.0, 1.0, 1.0, 1.0);
+    //colors[Index] = color4(1.0, 1.0, 1.0, 1.0);
     t1 = calculTexturaCoord(a);
     vertexsTextura[Index] = vec2(t1.x, t1.y);
     Index++;
 
     double th= 0.5;
     points[Index] = b;
-    colors[Index] = color4(1.0, 1.0, 1.0, 1.0);
+    //colors[Index] = color4(1.0, 1.0, 1.0, 1.0);
     t2 = calculTexturaCoord(b);
     if(t2.x < th && t1.x > th) t2.x += 1.0;
     else if(t2.x > th && t1.x < th) t2.x -= 1.0;
@@ -63,7 +63,7 @@ void Bola::triangle(const point4 &a, const point4 &b, const point4 &c){
     Index++;
 
     points[Index] = c;
-    colors[Index] = color4(1.0, 1.0, 1.0, 1.0);
+    //colors[Index] = color4(1.0, 1.0, 1.0, 1.0);
     t3 = calculTexturaCoord(c);
     if(t3.x < th && t1.x > th) t3.x += 1.0;
     else if(t3.x > th && t1.x < th) t3.x -= 1.0;
@@ -131,5 +131,17 @@ void Bola::initTextura(){
     texture->setMinificationFilter(QOpenGLTexture::LinearMipMapLinear);
     texture->setMagnificationFilter(QOpenGLTexture::Linear);
 }
+
+
+void Bola::calculaNormalCara() {
+    vec3 normal = vec3( 0.0, 0.0, 0.0);
+    vec3 c = vec3( capsa.pmin.x + capsa.a/2., capsa.pmin.y + capsa.h/2., capsa.pmin.z + capsa.p/2.);
+    for(int i=0; i<NumVerticesF; i++){
+        normal = vec3( points[i].x - c.x, points[i].y - c.y, points[i].z - c.z);
+        normals[i] = calculVectorUnitari(normal);
+    }
+}
+
+
 
 

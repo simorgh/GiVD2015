@@ -15,7 +15,6 @@ private:
     static const int NumCares = 300000;
 
     void initTextura();
-
 };
 
 #endif // TAULABILLAR_H

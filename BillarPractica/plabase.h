@@ -21,6 +21,9 @@ private:
     void make();
     void quad(int a, int b, int c, int d);
     void initTextura();
+
+protected:
+    void calculaNormalCara();
 };
 
 #endif // PLABASE_H

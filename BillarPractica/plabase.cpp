@@ -12,12 +12,6 @@ PlaBase::PlaBase() : Objecte(NumVerticesF){
     vertices[2] = point4(  0.5,  0.5,  0.0, 1.0 );
     vertices[3] = point4(  0.5, -0.5,  0.0, 1.0 );
 
-    // RGBA colors
-    vertex_colors[0] = color4( 0.0, 1.0, 0.0, 1.0 );
-    vertex_colors[1] = color4( 0.0, 1.0, 0.0, 1.0 );
-    vertex_colors[2] = color4( 0.0, 1.0, 0.0, 1.0 );
-    vertex_colors[3] = color4( 0.0, 1.0, 0.0, 1.0 );
-
     /* by default using 'Green Rubber' def. See "http://devernay.free.fr/cours/opengl/materials.html" */
     this->m = new Material(vec3(0.0, 0.05, 0.0), vec3(0.4, 0.5, 0.4), vec3(0.04, 0.7, 0.04), .078125f);
     this->make();
@@ -40,19 +34,15 @@ void PlaBase::make(){
 // quad generates two triangles for each face and assigns colors
 // to the vertices
 void PlaBase::quad( int a, int b, int c, int d ){
-    colors[Index] = vertex_colors[a]; points[Index] = vertices[a];
-    vertexsTextura[Index] = vec2(0.0, 0.0); Index++;
-    colors[Index] = vertex_colors[b]; points[Index] = vertices[b];
-    vertexsTextura[Index] = vec2(1.0, 0.0); Index++;
-    colors[Index] = vertex_colors[c]; points[Index] = vertices[c];
-    vertexsTextura[Index] = vec2(1.0, 1.0); Index++;
+    points[Index] = vertices[a]; vertexsTextura[Index] = vec2(0.0, 0.0); Index++;
+    points[Index] = vertices[b]; vertexsTextura[Index] = vec2(1.0, 0.0); Index++;
+    points[Index] = vertices[c]; vertexsTextura[Index] = vec2(1.0, 1.0); Index++;
+    calculaNormalCara();
 
-    colors[Index] = vertex_colors[a]; points[Index] = vertices[a];
-    vertexsTextura[Index] = vec2(0.0, 0.0); Index++;
-    colors[Index] = vertex_colors[c]; points[Index] = vertices[c];
-    vertexsTextura[Index] = vec2(1.0, 1.0); Index++;
-    colors[Index] = vertex_colors[d]; points[Index] = vertices[d];
-    vertexsTextura[Index] = vec2(0.0, 1.0); Index++;
+    points[Index] = vertices[a]; vertexsTextura[Index] = vec2(0.0, 0.0); Index++;
+    points[Index] = vertices[c]; vertexsTextura[Index] = vec2(1.0, 1.0); Index++;
+    points[Index] = vertices[d]; vertexsTextura[Index] = vec2(0.0, 1.0); Index++;
+    calculaNormalCara();
 }
 
 void PlaBase::initTextura(){
@@ -64,5 +54,30 @@ void PlaBase::initTextura(){
      texture->setMinificationFilter(QOpenGLTexture::LinearMipMapLinear);
      texture->setMagnificationFilter(QOpenGLTexture::Linear);
 }
+
+/**
+ * @brief PlaBase::calculaNormalCara
+ */
+void PlaBase::calculaNormalCara() {
+    int j;
+    vec3 normal = vec3(0.0, 0.0, 0.0);
+
+    for (int i=Index-2; i<=Index; i++) {
+        j = (i+1)%3;
+        normal.x += ((points[i].z + points[j].z) * (points[i].y - points[j].y));
+        normal.y += ((points[i].x + points[j].x) * (points[i].z - points[j].z));
+        normal.z += ((points[i].y + points[j].y) * (points[i].x - points[j].x));
+    }
+
+    normal.x *= 0.5;
+    normal.y *= 0.5;
+    normal.z *= 0.5;
+
+    normals[Index-2] = normal;
+    normals[Index-1] = normal;
+    normals[Index] = normal;
+    //normal.normalize();
+}
+
 
 PlaBase::~PlaBase(){}

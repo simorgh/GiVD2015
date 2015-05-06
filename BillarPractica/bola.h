@@ -36,6 +36,9 @@ private:
     void initTextura();
 
     vec2 calculTexturaCoord(const vec4 &v);
+
+protected:
+    void calculaNormalCara();
 };
 #endif // BOLA
 

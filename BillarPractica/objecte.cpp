@@ -170,6 +170,7 @@ void Objecte::make(){
 
 }
 
+
 void Objecte::backupPoints() {
     for ( int i = 0; i < Index; i++ )
         pointsTmp[i] = points[i];
@@ -270,8 +271,7 @@ void Objecte::readObj(QString filename){
 }
 
 
-void Objecte::construeix_cara ( char **words, int nwords, Objecte*objActual, int vindexUlt)
-{
+void Objecte::construeix_cara ( char **words, int nwords, Objecte*objActual, int vindexUlt) {
     Cara face;
     for (int i = 0; i < nwords; i++)
     {
