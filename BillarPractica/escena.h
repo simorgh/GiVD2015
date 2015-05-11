@@ -58,7 +58,6 @@ public:
 
     // Llum
     vec3 Ia;
-    vec3 ka;
     Llum* llum;
 };
 

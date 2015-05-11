@@ -35,15 +35,13 @@ uniform tipusLlum light;
 uniform tipusMaterial material;
 
 uniform vec3 Ia_global;
-uniform vec3 ka_global;
 
 uniform mat4 model_view;
 uniform mat4 projection;
 
-
 void main() {
   gl_Position = projection*model_view*vPosition;
-  color = vColor;
+  color = vNormal;//vColor;
 
   // Pas de les coordenades de textura al fragment shader
   // El valor del color i les coordenades de textura s'interpolaran automaticament

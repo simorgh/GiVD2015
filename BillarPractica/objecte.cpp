@@ -10,13 +10,17 @@ Objecte::Objecte(int npoints, QObject *parent) : numPoints(npoints) ,QObject(par
     vertexsTextura = new texture2[npoints];
 
     /* by default using 'Black Rubber' def. See "http://devernay.free.fr/cours/opengl/materials.html" */
-    this->m = new Material(vec3(0.02, 0.02, 0.02), vec3(0.01, 0.01, 0.01), vec3(0.4, 0.4, 0.4), .078125f);
+    m = new Material(vec3(0.02, 0.02, 0.02), vec3(0.01, 0.01, 0.01), vec3(0.4, 0.4, 0.4), .078125f);
 }
 
 Objecte::Objecte(int npoints, QString n) : numPoints(npoints){
     points = new point4[npoints];
     normals = new point4[numPoints];
     vertexsTextura = new texture2[npoints];
+
+    /* by default using 'Black Rubber' def. See "http://devernay.free.fr/cours/opengl/materials.html" */
+    m = new Material(vec3(0.02, 0.02, 0.02), vec3(0.01, 0.01, 0.01), vec3(0.4, 0.4, 0.4), .078125f);
+
     qDebug() << "Estic en el constructor parametritzat del objecte\n";
 
     xRot = 0;
@@ -33,6 +37,7 @@ Objecte::~Objecte(){
     delete points;
     delete vertexsTextura;
     delete normals;
+    delete m;
 }
 
 
@@ -147,13 +152,14 @@ void Objecte::draw(){
 }
 
 void Objecte::make(){
-
+/*
     static vec3  base_colors[] = {
         vec3( 1.0, 0.0, 0.0 ),
         vec3( 0.0, 1.0, 0.0 ),
         vec3( 0.0, 0.0, 1.0 ),
         vec3( 1.0, 1.0, 0.0 )
     };
+*/
     // Recorregut de totes les cares per a posar-les en les estructures de la GPU
     // Cal recorrer l'estructura de l'objecte per a pintar les seves cares
 

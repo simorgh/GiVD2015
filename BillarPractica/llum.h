@@ -25,11 +25,13 @@ struct {
 
 class Llum {
     public:
-        Llum();
+        //Llum();
+        Llum( point4 position, point4 dir, GLfloat angle, GLfloat a, GLfloat b,
+              GLfloat c, point3 ambient, point3 specular, point3 diffuse);
 
         point4 position;//per a la puntual y  spot
         point4 dir; //per a la direccional y spot
-        float angle;
+        GLfloat angle;
         GLfloat a,b,c;
         point3 ambient; //això són colors rgb
         point3 specular;

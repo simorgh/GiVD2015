@@ -37,12 +37,12 @@ void PlaBase::quad( int a, int b, int c, int d ){
     points[Index] = vertices[a]; vertexsTextura[Index] = vec2(0.0, 0.0); Index++;
     points[Index] = vertices[b]; vertexsTextura[Index] = vec2(1.0, 0.0); Index++;
     points[Index] = vertices[c]; vertexsTextura[Index] = vec2(1.0, 1.0); Index++;
-    calculaNormalCara();
+    calculaNormals();
 
     points[Index] = vertices[a]; vertexsTextura[Index] = vec2(0.0, 0.0); Index++;
     points[Index] = vertices[c]; vertexsTextura[Index] = vec2(1.0, 1.0); Index++;
     points[Index] = vertices[d]; vertexsTextura[Index] = vec2(0.0, 1.0); Index++;
-    calculaNormalCara();
+    calculaNormals();
 }
 
 void PlaBase::initTextura(){
@@ -58,7 +58,7 @@ void PlaBase::initTextura(){
 /**
  * @brief PlaBase::calculaNormalCara
  */
-void PlaBase::calculaNormalCara() {
+void PlaBase::calculaNormals() {
     int j;
     vec3 normal = vec3(0.0, 0.0, 0.0);
 

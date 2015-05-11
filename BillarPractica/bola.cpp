@@ -84,6 +84,7 @@ void Bola::tetrahedron(int n){
     divide_triangle(v[3], v[2], v[1], n);
     divide_triangle(v[0], v[3], v[1], n);
     divide_triangle(v[0], v[2], v[3], n);
+    calculaNormals();
 }
 
 void Bola::divide_triangle(point4 a, point4 b, point4 c, int n){
@@ -132,15 +133,18 @@ void Bola::initTextura(){
     texture->setMagnificationFilter(QOpenGLTexture::Linear);
 }
 
-
-void Bola::calculaNormalCara() {
+/**
+ * @brief Bola::calculaNormals
+ */
+void Bola::calculaNormals() {
     vec3 normal = vec3( 0.0, 0.0, 0.0);
-    vec3 c = vec3( capsa.pmin.x + capsa.a/2., capsa.pmin.y + capsa.h/2., capsa.pmin.z + capsa.p/2.);
+    //vec3 c = vec3( capsa.pmin.x + capsa.a/2., capsa.pmin.y + capsa.h/2., capsa.pmin.z + capsa.p/2.);
     for(int i=0; i<NumVerticesF; i++){
-        normal = vec3( points[i].x - c.x, points[i].y - c.y, points[i].z - c.z);
-        normals[i] = calculVectorUnitari(normal);
+        //normal = vec3( points[i].x - c.x, points[i].y - c.y, points[i].z - c.z);
+        normals[i] = points[i]; //calculVectorUnitari(normal);
     }
 }
+
 
 
 

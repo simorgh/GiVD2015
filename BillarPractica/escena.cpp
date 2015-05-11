@@ -15,6 +15,7 @@ Escena::Escena() {
 
     this->camFP = 0;
     this->camGeneral = 0;
+    this->Ia = 0.1f;
     this->llum = 0;
 }
 
@@ -32,9 +33,23 @@ Escena::Escena(int ampladaViewport, int alcadaViewport, QGLShaderProgram *progra
     capsaMinima.pmin[0] = 0; capsaMinima.pmin[1] = 0; capsaMinima.pmin[2]=0;
     capsaMinima.a = 0; capsaMinima.h = 0; capsaMinima.p = 0;
 
+    this->Ia = 0.1f;
     iniCamera(true, ampladaViewport, alcadaViewport, program);
 
-    this->llum = new Llum();
+    /*
+     * light parameters...
+     * * */
+    point4 l_position = point4(0, 0, 0, 1);
+    point4 l_dir = point4(0, 0, 0, 1);
+    GLfloat l_angle = 0.0;
+    GLfloat l_a = 0.0;
+    GLfloat l_b = 0.0;
+    GLfloat l_c = 0.0;
+    point3 l_ambient = point3(1, 0, 0);
+    point3 l_specular = point3(0, 0, 0);
+    point3 l_diffuse = point3(0, 0, 0);
+
+    this->llum = new Llum(l_position, l_dir, l_angle, l_a, l_b, l_c, l_ambient, l_specular, l_diffuse);
     setAmbientToGPU(program);
 }
 
@@ -209,8 +224,6 @@ void Escena::setDCamera(bool camGeneral, float d){
 
 
 void Escena::setAmbientToGPU(QGLShaderProgram *program) {
-    GLuint k_a = program->uniformLocation("ka_global");
     GLuint I_a = program->uniformLocation("Ia_global");
-    glUniform3fv(k_a, 1, ka);
     glUniform3fv(I_a, 1, Ia);
 }
