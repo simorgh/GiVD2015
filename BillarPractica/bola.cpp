@@ -2,6 +2,7 @@
 
 /**
  * Constructor utilitzat per la bola blanca.
+ *
  * @brief Bola::Bola
  */
 Bola::Bola() : Objecte(NumVerticesF){
@@ -23,6 +24,7 @@ Bola::Bola() : Objecte(NumVerticesF){
 
 /**
  * Constructor preparat per ConjuntBoles.
+ *
  * @brief Bola::Bola
  * @param id
  * @param x
@@ -101,10 +103,16 @@ void Bola::divide_triangle(point4 a, point4 b, point4 c, int n){
     } else triangle(a, b, c);
 }
 
+
 /**
  * Genera les coordenades de textures associades a cada vèrtex de l'esfera,
  * tot suposant v és el vector unitari que va des del punt p de la superfície
- * de l’esfera fins al del centre de l’esfera.*/
+ * de l’esfera fins al del centre de l’esfera.
+ *
+ * @brief Bola::calculTexturaCoord
+ * @param v
+ * @return
+ */
 vec2 Bola::calculTexturaCoord(const vec4 &v){
     double U = (double) 0.5f + atan2(v.x, v.z) / ( 2.0f * M_PI );
     double V = (double) 0.5f - asin(v.y) / M_PI;
@@ -126,7 +134,7 @@ void Bola::initTextura(){
     ostringstream ss;
     ss << "://resources/Bola" << this->id << ".jpg";
 
-     // Carregar la textura
+    // Carregar la textura
     glActiveTexture(GL_TEXTURE0);
     texture = new QOpenGLTexture( QImage(ss.str().c_str()) );
     texture->setMinificationFilter(QOpenGLTexture::LinearMipMapLinear);

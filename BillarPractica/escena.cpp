@@ -3,7 +3,7 @@
 /*
  * (0)
  * Constructor without parameters, note that in this case is our responsability to call
- * iniCamera when program has been set up.
+ * iniCamera when program has been set up. object Llum must be defined as well.
  */
 Escena::Escena() {
     qDebug() << "Entering Escena constructor 0...";
@@ -15,7 +15,7 @@ Escena::Escena() {
 
     this->camFP = 0;
     this->camGeneral = 0;
-    this->Ia = 0.1f;
+    this->Ia = 0.2f;
     this->llum = 0;
 }
 
@@ -33,23 +33,23 @@ Escena::Escena(int ampladaViewport, int alcadaViewport, QGLShaderProgram *progra
     capsaMinima.pmin[0] = 0; capsaMinima.pmin[1] = 0; capsaMinima.pmin[2]=0;
     capsaMinima.a = 0; capsaMinima.h = 0; capsaMinima.p = 0;
 
-    this->Ia = 0.1f;
     iniCamera(true, ampladaViewport, alcadaViewport, program);
 
     /*
      * light parameters...
      * * */
-    point4 l_position = point4(0, 0, 0, 1);
+    point4 l_position = point4(0, 10, -20, 0);
     point4 l_dir = point4(0, 0, 0, 1);
-    GLfloat l_angle = 0.0;
-    GLfloat l_a = 0.0;
-    GLfloat l_b = 0.0;
-    GLfloat l_c = 0.0;
-    point3 l_ambient = point3(1, 0, 0);
-    point3 l_specular = point3(0, 0, 0);
-    point3 l_diffuse = point3(0, 0, 0);
-
+    GLfloat l_angle = 0.0f;
+    GLfloat l_a = 0.0f;
+    GLfloat l_b = 0.0f;
+    GLfloat l_c = 1.0f;
+    point3 l_ambient    = point3(0.0f, 0.0f, 0.0f);
+    point3 l_specular   = point3(0.9f, 0.0f, 0.0f);
+    point3 l_diffuse    = point3(0.9f, 0.0f, 0.0f);
     this->llum = new Llum(l_position, l_dir, l_angle, l_a, l_b, l_c, l_ambient, l_specular, l_diffuse);
+
+    this->Ia = 0.2f;
     setAmbientToGPU(program);
 }
 
@@ -88,9 +88,6 @@ void Escena::CapsaMinCont3DEscena() {
     capsaMinima.a = pmax.x - pmin.x;
     capsaMinima.h = pmax.y - pmin.y;
     capsaMinima.p = pmax.z - pmin.z;
-
-    //qDebug() << "Capsa Minima (Escena) is now... a:" << capsaMinima.a << "h:" << capsaMinima.h << "p:" << capsaMinima.p;
-    //qDebug() << "pmin (" << capsaMinima.pmin.x << "," << capsaMinima.pmin.y << "," << capsaMinima.pmin.z;
 }
 
 void Escena::aplicaTG(mat4 m) {
