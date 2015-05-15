@@ -36,8 +36,9 @@ void Camera::ini(int a, int h, Capsa3D capsaMinima) {
     }
 
     //qDebug() << "Camera::ini -> ViewPort size [w, h] :" << a << "x" << h;
-    setViewport(capsaMinima.pmin.x, capsaMinima.pmin.y, a, h);
+    setViewport(0, 0, a, h);
     CalculWindow(capsaMinima);
+    CalculaMatriuProjection();
 }
 
 void Camera::toGPU(QGLShaderProgram* program){
@@ -49,11 +50,6 @@ void Camera::toGPU(QGLShaderProgram* program){
 void Camera::CalculaMatriuModelView() {
     vs.obs = CalculObs(vs.vrp, piram.d, vs.angx, vs.angy);
     vs.vup = CalculVup(vs.angx, vs.angy, vs.angz);
-/*
-    qDebug() <<"\tEye (vs.obs): \t" << vs.obs;
-    qDebug() <<"\tAt (vs.vrp): \t"  << vs.vrp;
-    qDebug() <<"\tVup (vs.vup): \t" << vs.vup;
-*/
     this->modView = LookAt(vs.obs, vs.vrp, vs.vup);
 }
 
@@ -143,9 +139,8 @@ void Camera::setRotation(float angX, float angY, float angZ) {
     this->vs.angy = (angY);
     this->vs.angz = (angZ);
 
-    this->vs.obs = CalculObs(this->vs.vrp, this->piram.d, this->vs.angx, this->vs.angy);
     CalculaMatriuModelView();
-    CalculaMatriuProjection();
+    CalculaMatriuProjection(); // should we?
 }
 
 void  Camera::CalculWindowAmbRetallat() {

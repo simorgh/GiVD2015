@@ -211,12 +211,15 @@ void Escena::setDCamera(bool camGeneral, float d){
      */
     if(camGeneral) {
         this->camGeneral->piram.d = d;
+        this->camGeneral->piram.dant = d - d/2.;
+        this->camGeneral->piram.dpost = d + d/2.;
         this->camGeneral->CalculaMatriuModelView();
     } else {
         this->camFP->piram.d = d;
+        this->camFP->piram.dant = d - d/2.;
+        this->camFP->piram.dpost = d + d/2.;
         this->camFP->CalculaMatriuModelView();
     }
-
 }
 
 

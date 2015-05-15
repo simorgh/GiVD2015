@@ -41,6 +41,7 @@ uniform mat4 projection;
 
 void main() {
   gl_Position = projection*model_view*vPosition;
+  //gl_Position = gl_Position / gl_Position.w;
   color = vNormal;//vColor;
 
   // Pas de les coordenades de textura al fragment shader
