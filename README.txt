@@ -23,3 +23,12 @@ GENERAL:
 - Actualment el botó  de "Play" s'ha deixat sense implementació. L'usuari pot moure la bola directament quan s'hagi carregat la sala de billar.
 
 - Hem considerat deixar la rotació també a la càmara en primera persona, d'aquesta manera podem seguir la bola blanca i rotar la càmara per visualitzar millor l'escena. El zoom in / zoom out no estarà actiu, al igual que el paning, donat que entenem que la gràcia d'aquesta càmera resideix en tenir una visualització fixe en quant a proximitat i ben centrada respecte a la bola blanca.
+
+CORRECCIONES:
+------------------------------
+1. Agregada la homogenización de de la gl_Position en el vertex shader.
+2. Cambiada la inicialización  de la camara en el metodo 'ini' (setViewport ahora recibe la coordenada (0,0), esquina superior de la ventana, en lugar del pmin de la capsa contenedora de la escena).
+3. Quitado el calculo  de la matriz projection  a la hora de hacer setRotation de la cámara.
+4. Eliminado el calculObs en la función  setRotation de clase Camara, por ser redundante, ya que se calcula dentro de la función calculMatriuModelView, que era llamada a continuación.
+5. corregido dant y dpost al hacer setDCamera;
+6. Recuperación los ángulos (guardados en cámara) en función de la cámara a la hora de hacer rotaciones.
