@@ -272,9 +272,12 @@ void GLWidget::keyPressEvent(QKeyEvent *event) {
                 if(!esc->camFP) {
                     qDebug() << "First Person Camera initialization";
                     esc->iniCamera(cameraActual, this->size().width(), this->size().height(), this->program);
+                    xRot = -15;
+                    yRot = 180;
+                } else {
+                    xRot = this->esc->camFP->vs.angx;
+                    yRot = this->esc->camFP->vs.angy;
                 }
-                xRot = -15;
-                yRot = 180;
                 point4 c = point4(esc->elements.at(1)->capsa.pmin.x + esc->elements.at(1)->capsa.a/2.,
                                   esc->elements.at(1)->capsa.pmin.y + esc->elements.at(1)->capsa.h/2.,
                                   esc->elements.at(1)->capsa.pmin.z + esc->elements.at(1)->capsa.p/2., 1.0);
@@ -292,9 +295,12 @@ void GLWidget::keyPressEvent(QKeyEvent *event) {
                 if(!esc->camGeneral) {
                     qDebug() << "General Camara initialization";
                     esc->iniCamera(cameraActual, this->size().width(), this->size().height(), this->program);
+                    xRot = -90;
+                    yRot = 180;
+                } else {
+                    xRot = this->esc->camGeneral->vs.angx;
+                    yRot = this->esc->camGeneral->vs.angy;
                 }
-                xRot = -90;
-                yRot = 180;
                 update();
             }
             break;
