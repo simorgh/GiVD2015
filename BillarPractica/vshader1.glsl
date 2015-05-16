@@ -36,43 +36,45 @@ uniform mat4 model_view;
 uniform mat4 projection;
 
 
+vec4 getColor(tipusLlum light, tipusMaterial mat, vec4 v, vec4 dir) {
+    float d = length(dir);
+    vec4 l = normalize(dir);
+    vec4 h = (l+v) / length(l+v);
+    //vec4 n = normalize(vNormal);
+    vec4 n = vNormal;
+
+    vec4 ks = vec4(mat.specular, 0);
+    vec4 kd = vec4(mat.diffuse, 0);
+    vec4 ka = vec4(mat.ambient, 0);
+
+    vec4 Ia = vec4(0.0, 0.0, 0.0, 1.0);//vec4(light.ambient, 1.0);
+    vec4 Is = vec4(0.5, 0.5, 0.5, 1.0);//vec4(light.specular, 1.0);
+    vec4 Id = vec4(0.5, 0.5, 0.5, 1.0);//vec4(light.diffuse, 1.0);
+    light.a = 0.0;
+    light.b = 0.0;
+    light.c = 0.2;
+
+    return ( 1.0 / (light.a*d*d+light.b*d+light.c)) * ( (kd*Id) * max(dot(l, n), 0.0) + (ks*Is) * max(pow((dot(n,h)) , material.reflection), 0.0) + ka * Ia );
+}
+
 
 void main() {
-    gl_Position = projection*model_view*vPosition;
+    gl_Position = projection * model_view * vPosition;
     //gl_Position /= gl_Position.w;
-/*
-    vec4 v = normalize(model_view*vPosition);
-    vec4 dir = light.posicio-vPosition;
-    vec4 iag = vec4(Ia_global, 1.0f);
 
-    color = iag * kag + getColor(light, material, v, dir);
-*/
+    vec4 v = normalize( model_view * vPosition );
+    vec4 dir = vec4(0.0, 10.0, 0.0, 1.0)/*light.posicio*/ - vPosition;
+    vec4 iag = vec4(Ia_global, 1.0);
+
+    color = iag + getColor(light, material, v, dir);
+
    /**
     * Testing...
     **/
-    color = vNormal;
+    //color = vNormal;
 
     // Pas de les coordenades de textura al fragment shader
     // El valor del color i les coordenades de textura s'interpolaran automaticament
     // en els fragments interiors a les cares dels polígons
     v_texcoord = vCoordTexture;
 }
-
-/*
-vec4 getColor(tipusLlum light, tipusMaterial mat, vec4 v, vec4 dir) {
-    float d = length(dir);
-    vec4 l = normalize(dir);
-    vec4 h = (l+v) / length(l+v);
-    vec4 n = normalize(vNormal);
-
-    vec4 ks = vec4(mat.specular,0);
-    vec4 kd = vec4(mat.diffuse,0);
-    vec4 ka = vec4(mat.ambient,0);
-
-    vec4 Ia = vec4(light.ambient, 1.0f);
-    vec4 Is = vec4(light.specular, 1.0f);
-    vec4 Id = vec4(light.diffuse, 1.0f);
-
-    return ( 1.0f / (light.a*d*d+light.b*d+light.c)) * ((kd*Id) * max(dot(l, n), 0) + (ks*Is) * max(pow((dot(n,h)) , material.reflection), 0) + ka * Ia );
-}*/
-

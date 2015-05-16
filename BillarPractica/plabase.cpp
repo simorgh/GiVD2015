@@ -34,11 +34,11 @@ void PlaBase::make(){
 // quad generates two triangles for each face and assigns colors
 // to the vertices
 void PlaBase::quad( int a, int b, int c, int d ){
+
     // Initialize temporary vectors along the quad's edge to
     // compute its face normal
     vec4 u = vertices[b] - vertices[a];
     vec4 v = vertices[c] - vertices[b];
-
     vec3 normal = normalize( cross(u, v) );
 
     normals[Index] = normal; points[Index] = vertices[a]; vertexsTextura[Index] = vec2(0.0, 0.0); Index++;

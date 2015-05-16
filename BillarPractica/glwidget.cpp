@@ -106,6 +106,8 @@ void GLWidget::initializeGL() {
 
     initShadersGPU();
     esc->iniCamera(cameraActual, this->size().width(), this->size().height(), this->program);
+    esc->setAmbientToGPU(this->program);
+    esc->llum->toGPU(this->program);
 
     glClearColor(clearColor.redF(), clearColor.greenF(), clearColor.blueF(), clearColor.alphaF());
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
