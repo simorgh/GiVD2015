@@ -35,20 +35,18 @@ Escena::Escena(int ampladaViewport, int alcadaViewport, QGLShaderProgram *progra
 
     iniCamera(true, ampladaViewport, alcadaViewport, program);
 
-    /*
-     * light parameters...
-     * * */
-    point4 l_position = point4(0, 10, -20, 0);
-    point4 l_dir = point4(0, 0, 0, 1);
-    GLfloat l_angle = 0.0f;
-    GLfloat l_a = 0.0f;
-    GLfloat l_b = 0.0f;
-    GLfloat l_c = 1.0f;
-    point3 l_ambient    = point3(0.0f, 0.0f, 0.0f);
-    point3 l_specular   = point3(0.9f, 0.0f, 0.0f);
-    point3 l_diffuse    = point3(0.9f, 0.0f, 0.0f);
-    this->llum = new Llum(l_position, l_dir, l_angle, l_a, l_b, l_c, l_ambient, l_specular, l_diffuse);
+    // Initialize lighting parameters
+    point4  l_dir(0, 0, 0, 1);
+    GLfloat l_angle = 0.0;
+    GLfloat l_a = 0.0;
+    GLfloat l_b = 0.0;
+    GLfloat l_c = 1.0;
+    point4 light_position(0.0, 0.0, 2.0, 0.0);
+    point3 light_ambient(0.2, 0.2, 0.2);
+    point3 light_diffuse(1.0, 1.0, 1.0);
+    point3 light_specular(1.0, 1.0, 1.0);
 
+    this->llum = new Llum(light_position, l_dir, l_angle, l_a, l_b, l_c, light_ambient, light_specular, light_diffuse);
     this->Ia = 0.2f;
     setAmbientToGPU(program);
 }

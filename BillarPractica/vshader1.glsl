@@ -23,9 +23,7 @@ struct tipusMaterial {
     float reflection;
 };
 
-
 IN vec4 vPosition;
-//IN vec4 vColor;
 IN vec4 vNormal;
 IN vec2 vCoordTexture;
 OUT vec4 color;
@@ -33,19 +31,48 @@ OUT vec2 v_texcoord;
 
 uniform tipusLlum light;
 uniform tipusMaterial material;
-
 uniform vec3 Ia_global;
-
 uniform mat4 model_view;
 uniform mat4 projection;
 
-void main() {
-  gl_Position = projection*model_view*vPosition;
-  //gl_Position = gl_Position / gl_Position.w;
-  color = vNormal;//vColor;
 
-  // Pas de les coordenades de textura al fragment shader
-  // El valor del color i les coordenades de textura s'interpolaran automaticament
-  // en els fragments interiors a les cares dels polígons
-  v_texcoord = vCoordTexture;
+
+void main() {
+    gl_Position = projection*model_view*vPosition;
+    //gl_Position /= gl_Position.w;
+/*
+    vec4 v = normalize(model_view*vPosition);
+    vec4 dir = light.posicio-vPosition;
+    vec4 iag = vec4(Ia_global, 1.0f);
+
+    color = iag * kag + getColor(light, material, v, dir);
+*/
+   /**
+    * Testing...
+    **/
+    color = vNormal;
+
+    // Pas de les coordenades de textura al fragment shader
+    // El valor del color i les coordenades de textura s'interpolaran automaticament
+    // en els fragments interiors a les cares dels polígons
+    v_texcoord = vCoordTexture;
 }
+
+/*
+vec4 getColor(tipusLlum light, tipusMaterial mat, vec4 v, vec4 dir) {
+    float d = length(dir);
+    vec4 l = normalize(dir);
+    vec4 h = (l+v) / length(l+v);
+    vec4 n = normalize(vNormal);
+
+    vec4 ks = vec4(mat.specular,0);
+    vec4 kd = vec4(mat.diffuse,0);
+    vec4 ka = vec4(mat.ambient,0);
+
+    vec4 Ia = vec4(light.ambient, 1.0f);
+    vec4 Is = vec4(light.specular, 1.0f);
+    vec4 Id = vec4(light.diffuse, 1.0f);
+
+    return ( 1.0f / (light.a*d*d+light.b*d+light.c)) * ((kd*Id) * max(dot(l, n), 0) + (ks*Is) * max(pow((dot(n,h)) , material.reflection), 0) + ka * Ia );
+}*/
+
