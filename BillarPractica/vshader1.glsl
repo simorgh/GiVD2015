@@ -40,16 +40,22 @@ vec4 getColor(tipusLlum light, tipusMaterial mat, vec4 v, vec4 dir) {
     float d = length(dir);
     vec4 l = normalize(dir);
     vec4 h = (l+v) / length(l+v);
-    //vec4 n = normalize(vNormal);
-    vec4 n = vNormal;
+    vec4 n = normalize(vNormal);
+    //vec4 n = vNormal;
 
     vec4 ks = vec4(mat.specular, 0);
     vec4 kd = vec4(mat.diffuse, 0);
     vec4 ka = vec4(mat.ambient, 0);
 
-    vec4 Ia = vec4(0.0, 0.0, 0.0, 1.0);//vec4(light.ambient, 1.0);
-    vec4 Is = vec4(0.5, 0.5, 0.5, 1.0);//vec4(light.specular, 1.0);
-    vec4 Id = vec4(0.5, 0.5, 0.5, 1.0);//vec4(light.diffuse, 1.0);
+    vec4 Ia = vec4(0.0, 0.0, 0.0, 1.0);
+    vec4 Is = vec4(0.5, 0.5, 0.5, 1.0);
+    vec4 Id = vec4(0.5, 0.5, 0.5, 1.0);
+
+/*
+    vec4 Ia = vec4(light.ambient, 1.0);
+    vec4 Is = vec4(light.specular, 1.0);
+    vec4 Id = vec4(light.diffuse, 1.0);
+*/
     light.a = 0.0;
     light.b = 0.0;
     light.c = 0.2;
@@ -63,9 +69,11 @@ void main() {
     //gl_Position /= gl_Position.w;
 
     vec4 v = normalize( model_view * vPosition );
-    vec4 dir = vec4(0.0, 10.0, 0.0, 1.0)/*light.posicio*/ - vPosition;
-    vec4 iag = vec4(Ia_global, 1.0);
 
+    //vec4 dir = vec4(0.0, 10.0, 0.0, 1.0) - vPosition;
+    vec4 dir = light.posicio - vPosition;
+
+    vec4 iag = vec4(Ia_global, 1.0);
     color = iag + getColor(light, material, v, dir);
 
    /**
