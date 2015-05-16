@@ -88,7 +88,7 @@ private:
     void construeix_cara ( char **words, int nwords, Objecte*objActual, int vindexUlt);
 
 protected:
-    virtual void calculaNormals(); //abstract method to be overwritten to compute vertex normals
+   // virtual void calculaNormals(); //abstract method to be overwritten to compute vertex normals
 };
 
 
