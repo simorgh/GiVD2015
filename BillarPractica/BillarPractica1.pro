@@ -47,7 +47,17 @@ FORMS    += mainwindow.ui
 
 OTHER_FILES += \
     vshader1.glsl \
-    fshader1.glsl
+    fshader1.glsl \
+    flat_vshader.glsl \
+    flat_fshader.glsl \
+    gouraud_vshader.glsl \
+    gouraud_fshader.glsl \
+    phong_vshader.glsl \
+    phong_fshader.glsl \
+    toon_vshader.glsl \
+    toon_fshader.glsl
 
 RESOURCES += \
     resources.qrc
+
+DISTFILES +=

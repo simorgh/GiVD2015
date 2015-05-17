@@ -8,8 +8,9 @@
 Bola::Bola() : Objecte(NumVerticesF){
     this->id = 15; //Deuria ser 0, actualment posem id 15 per a que e spugui apreciar la rotacio de la bola
 
-    // using 'white plastic' - - See "http://devernay.free.fr/cours/opengl/materials.html"
-    this->m = new Material( vec3(0.0, 0.0, 0.0),vec3(0.55, 0.55, 0.55), vec3(0.70, 0.70, 0.70), 0.25 );
+    // Materials from "http://devernay.free.fr/cours/opengl/materials.html"
+    this->m = new Material( vec3(0.0, 0.0, 0.0),vec3(0.55, 0.55, 0.55), vec3(0.70, 0.70, 0.70), 0.25 ); //Whte plastic
+    //this->m = new Material( vec3(0.25, 0.20725, 0.20725), vec3(1.0, 0.829, 0.829), vec3(0.296648, 0.296648, 0.296648), 0.088); //Pearl
 
     Index = 0;
     tetrahedron(NumIteracionsEsfera); //make
@@ -33,12 +34,10 @@ Bola::Bola() : Objecte(NumVerticesF){
 Bola::Bola(int id, double x, double z) : Objecte(NumVerticesF){
     this->id = id;
 
-    // using 'white plastic' - - See "http://devernay.free.fr/cours/opengl/materials.html"
-    this->m = new Material( vec3(0.0, 0.0, 0.0),vec3(0.55, 0.55, 0.55), vec3(0.70, 0.70, 0.70), 0.25);
-/*
-    // using 'Pearl' - - See "http://devernay.free.fr/cours/opengl/materials.html"
-    this->m = new Material( vec3(0.25, 0.20725, 0.20725), vec3(1.0, 0.829, 0.829), vec3(0.296648, 0.296648, 0.296648), 0.088);
-*/
+    // Materials from "http://devernay.free.fr/cours/opengl/materials.html"
+    this->m = new Material( vec3(0.0, 0.0, 0.0),vec3(0.55, 0.55, 0.55), vec3(0.70, 0.70, 0.70), 0.25 ); //Whte plastic
+    //this->m = new Material( vec3(0.25, 0.20725, 0.20725), vec3(1.0, 0.829, 0.829), vec3(0.296648, 0.296648, 0.296648), 0.088); //Pearl
+
     Index = 0;
     tetrahedron(NumIteracionsEsfera);
     initTextura();
