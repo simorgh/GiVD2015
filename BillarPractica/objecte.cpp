@@ -14,14 +14,13 @@ Objecte::Objecte(int npoints, QObject *parent) : numPoints(npoints) ,QObject(par
 }
 
 Objecte::Objecte(int npoints, QString n) : numPoints(npoints){
+    qDebug() << "Estic en el constructor parametritzat del objecte\n";
     points = new point4[npoints];
     normals = new point4[numPoints];
     vertexsTextura = new texture2[npoints];
 
     /* by default using 'Black Rubber' def. See "http://devernay.free.fr/cours/opengl/materials.html" */
     m = new Material(vec3(0.02, 0.02, 0.02), vec3(0.01, 0.01, 0.01), vec3(0.4, 0.4, 0.4), .078125f);
-
-    qDebug() << "Estic en el constructor parametritzat del objecte\n";
 
     xRot = 0;
     yRot = 0;
@@ -65,12 +64,9 @@ Capsa3D Objecte::calculCapsa3D(){
     return c;
 }
 
-void Objecte::aplicaTG(mat4 m)
-{
+void Objecte::aplicaTG(mat4 m) {
     aplicaTGPoints(m);
     capsa = calculCapsa3D();
-    // Actualitzacio del vertex array per a preparar per pintar
-    //glBufferSubData( GL_ARRAY_BUFFER, 0, sizeof(point4) * Index, &points[0] ); //--> DONE directly on post call to draw() (alongside with texture info)
 }
 
 /**
@@ -90,9 +86,11 @@ void Objecte::aplicaTGnormals(mat4 m) {
     delete transformed_normals;
 }
 
-
-void Objecte::aplicaTGPoints(mat4 m)
-{
+/**
+ * @brief Objecte::aplicaTGPoints
+ * @param m
+ */
+void Objecte::aplicaTGPoints(mat4 m) {
     point4  *transformed_points = new point4[Index];
 
     for ( int i = 0; i < Index; ++i ) {
@@ -102,14 +100,17 @@ void Objecte::aplicaTGPoints(mat4 m)
     transformed_points = &transformed_points[0];
     points = &points[0];
 
-    for ( int i = 0; i < Index; ++i )
-    {
+    for ( int i = 0; i < Index; ++i ) {
         points[i] = transformed_points[i];
     }
 
     delete transformed_points;
 }
 
+/**
+ * @brief Objecte::aplicaTGCentrat
+ * @param m
+ */
 void Objecte::aplicaTGCentrat(mat4 m){
     vec3 centre = vec3(capsa.pmin.x + capsa.a/2., capsa.pmin.y + capsa.h/2., capsa.pmin.z + capsa.p/2.);
     //qDebug() << "centre( " << centre.x << "," << centre.y << "," << centre.z << ")";
@@ -121,11 +122,20 @@ void Objecte::aplicaTGCentrat(mat4 m){
     aplicaTG(t2*m*t1);
 }
 
-void Objecte::toGPU(QGLShaderProgram *pr){
+/**
+ * @brief Objecte::toGPU
+ * @param pr
+ */
+void Objecte::toGPU(QGLShaderProgram *pr) {
     program = pr;
-    m->toGPU(pr);
+/*
+    qDebug() << "\t >> obj->material->toGPU...";
+    qDebug() << "\t\t + ambient:" << m->ambient.x << m->ambient.y << m->ambient.z;
+    qDebug() << "\t\t + diffuse:" << m->diffuse.x << m->diffuse.y << m->diffuse.z;
+    qDebug() << "\t\t + specular:" << m->specular.x << m->specular.y << m->specular.z;
+    qDebug() << "\t\t + reflection:" << m->reflection;
+*/
     //qDebug() <<"Objecte -> toGPU() : Passo les dades de l'objecte a la GPU\n";
-
     glGenBuffers( 1, &buffer );             // inicialitzacio d'un vertex buffer object (VBO)
     glBindBuffer( GL_ARRAY_BUFFER, buffer );// Activació a GL del Vertex Buffer Object
 
@@ -136,7 +146,11 @@ void Objecte::toGPU(QGLShaderProgram *pr){
     program->bind();
 }
 
-// Pintat en la GPU.
+
+/**
+ * Pintat en la GPU.
+ * @brief Objecte::draw
+ */
 void Objecte::draw(){
 
     glBindBuffer( GL_ARRAY_BUFFER, buffer );
@@ -175,9 +189,9 @@ void Objecte::make(){
         vec3( 0.0, 0.0, 1.0 ),
         vec3( 1.0, 1.0, 0.0 )
     };
+
     // Recorregut de totes les cares per a posar-les en les estructures de la GPU
     // Cal recorrer l'estructura de l'objecte per a pintar les seves cares
-
     Index = 0;
     for(unsigned int i=0; i<cares.size(); i++){
         for(unsigned int j=0; j<cares[i].idxVertices.size(); j++){
@@ -239,11 +253,11 @@ void Objecte::readObj(QString filename){
 
             if (!strcmp (first_word, "v"))
             {
-                if (nwords < 4)
-                {
+                if (nwords < 4) {
                     fprintf (stderr, "Too few coordinates: '%s'", ReadFile::str_orig);
                     exit (-1);
                 }
+
                 QString sx(ReadFile::words[1]);
                 QString sy(ReadFile::words[2]);
                 QString sz(ReadFile::words[3]);
@@ -251,8 +265,7 @@ void Objecte::readObj(QString filename){
                 double y = sy.toDouble();
                 double z = sz.toDouble();
 
-                if (nwords == 5)
-                {
+                if (nwords == 5) {
                     QString sw(ReadFile::words[4]);
                     double w = sw.toDouble();
                     x/=w;
@@ -291,17 +304,22 @@ void Objecte::readObj(QString filename){
     capsa = calculCapsa3D();
 }
 
-
+/**
+ * @brief Objecte::construeix_cara
+ * @param words
+ * @param nwords
+ * @param objActual
+ * @param vindexUlt
+ */
 void Objecte::construeix_cara ( char **words, int nwords, Objecte*objActual, int vindexUlt) {
     Cara face;
-    for (int i = 0; i < nwords; i++)
-    {
+
+    for (int i = 0; i < nwords; i++) {
         int vindex;
         int nindex;
         int tindex;
 
-        if ((words[i][0]>='0')&&(words[i][0]<='9'))
-        {
+        if ((words[i][0]>='0')&&(words[i][0]<='9')) {
             ReadFile::get_indices (words[i], &vindex, &tindex, &nindex);
 
 #if 0
@@ -314,8 +332,7 @@ void Objecte::construeix_cara ( char **words, int nwords, Objecte*objActual, int
                 face.idxVertices.push_back(vindex - 1 - vindexUlt);
             else if (vindex < 0)  /* negative indices mean count backwards */
                 face.idxVertices.push_back(objActual->vertexs.size() + vindex);
-            else
-            {
+            else {
                 fprintf (stderr, "Zero indices not allowed: '%s'\n", ReadFile::str_orig);
                 exit (-1);
             }
@@ -325,13 +342,18 @@ void Objecte::construeix_cara ( char **words, int nwords, Objecte*objActual, int
     objActual->cares.push_back(face);
 }
 
+/**
+ * @brief Objecte::hasCollided
+ * @param obj
+ * @return
+ */
 bool Objecte::hasCollided(Objecte* obj){
     if(obj->capsa.pmin.x > (capsa.pmin.x + capsa.a)) return false;
     else if((obj->capsa.pmin.x + obj->capsa.a) < capsa.pmin.x) return false;
-    else{
+    else {
         if(obj->capsa.pmin.z > (capsa.pmin.z + capsa.p)) return false;
         else if((obj->capsa.pmin.z + obj->capsa.p) < capsa.pmin.z ) return false;
     }
-    return true;
 
+    return true;
 }

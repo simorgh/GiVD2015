@@ -109,14 +109,14 @@ void GLWidget::initializeGL() {
 
     //qDebug() << "\t >> esc->setAmbientToGPU is sending Ia:" << esc->Ia.x << esc->Ia.y << esc->Ia.z;
     esc->setAmbientToGPU(this->program);
-
+/*
     qDebug() << "\t >> esc->llum->toGPU...";
     qDebug() << "\t\t + a, b, c:" << esc->llum->a << esc->llum->b << esc->llum->c;
     qDebug() << "\t\t + ambient:" << esc->llum->ambient.x << esc->llum->ambient.y << esc->llum->ambient.z;
     qDebug() << "\t\t + specular:" << esc->llum->specular.x << esc->llum->specular.y << esc->llum->specular.z;
     qDebug() << "\t\t + diffuse:" << esc->llum->diffuse.x << esc->llum->diffuse.y << esc->llum->diffuse.z;
     qDebug() << "\t\t + position:" << esc->llum->position.x << esc->llum->position.y << esc->llum->position.z;
-
+*/
     esc->llum->toGPU(this->program);
 
     glClearColor(clearColor.redF(), clearColor.greenF(), clearColor.blueF(), clearColor.alphaF());
@@ -357,7 +357,10 @@ void GLWidget::adaptaObjecteTamanyWidget(Objecte *obj) {
 void GLWidget::newObjecte(Objecte * obj){
     esc->addObjecte(obj);
 
+    //we want the material sent just once per object
+    obj->m->toGPU(program);
     obj->toGPU(program);
+
     updateGL();
 }
 
