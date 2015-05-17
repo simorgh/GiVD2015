@@ -14,7 +14,7 @@ typedef Common::vec3  point3;
 using namespace std;
 
 struct {
-    GLuint posicio;
+    GLuint position;
     GLuint dir;
     GLuint angle;
     GLuint a,b,c;
@@ -25,7 +25,6 @@ struct {
 
 class Llum {
     public:
-        //Llum();
         Llum( point4 position, point4 dir, GLfloat angle, GLfloat a, GLfloat b,
               GLfloat c, point3 ambient, point3 specular, point3 diffuse);
 

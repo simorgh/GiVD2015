@@ -18,17 +18,16 @@ Escena::Escena() {
 
     // Initialize lighting parameters
     point4  l_dir(0, 0, 0, 1);
-    GLfloat l_angle = 0.0;
-    GLfloat l_a = 0.0;
-    GLfloat l_b = 0.0;
-    GLfloat l_c = 1.0;
-
+    float angle = 0.0;
     point4 light_position( 0.0, 10.0, 0.0, 1.0);
     point3 light_ambient(0.2, 0.2, 0.2);
     point3 light_specular(0.5, 0.5, 0.5);
     point3 light_diffuse(0.5, 0.5, 0.5);
+    float a = 0.0;
+    float b = 0.0;
+    float c = 0.2;
 
-    this->llum = new Llum(light_position, l_dir, l_angle, l_a, l_b, l_c, light_ambient, light_specular, light_diffuse);
+    this->llum = new Llum(light_position, l_dir, angle, a, b, c, light_ambient, light_specular, light_diffuse);
     this->Ia = 0.1f;
 }
 
