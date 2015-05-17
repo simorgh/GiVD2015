@@ -8,8 +8,8 @@
 Bola::Bola() : Objecte(NumVerticesF){
     this->id = 15; //Deuria ser 0, actualment posem id 15 per a que e spugui apreciar la rotacio de la bola
 
-    /* using 'Obsidian' def. See "http://devernay.free.fr/cours/opengl/materials.html" */
-    //this->m = new Material(vec3(0.05375, 0.05, 0.06625), vec3(0.18275, 0.17, 0.22525), vec3(0.332741, 0.328634, 0.346435), 0.3f);
+    // using 'white plastic' - - See "http://devernay.free.fr/cours/opengl/materials.html"
+    this->m = new Material( vec3(0.0, 0.0, 0.0),vec3(0.55, 0.55, 0.55), vec3(0.70, 0.70, 0.70), 0.25 );
 
     Index = 0;
     tetrahedron(NumIteracionsEsfera); //make
@@ -33,9 +33,12 @@ Bola::Bola() : Objecte(NumVerticesF){
 Bola::Bola(int id, double x, double z) : Objecte(NumVerticesF){
     this->id = id;
 
-    /* using obsidian def. See "http://devernay.free.fr/cours/opengl/materials.html" */
-    //this->m = new Material( vec3(0.05375, 0.05, 0.06625), vec3(0.18275, 0.17, 0.22525), vec3(0.332741, 0.328634, 0.346435), 0.3f);
-
+    // using 'white plastic' - - See "http://devernay.free.fr/cours/opengl/materials.html"
+    this->m = new Material( vec3(0.0, 0.0, 0.0),vec3(0.55, 0.55, 0.55), vec3(0.70, 0.70, 0.70), 0.25);
+/*
+    // using 'Pearl' - - See "http://devernay.free.fr/cours/opengl/materials.html"
+    this->m = new Material( vec3(0.25, 0.20725, 0.20725), vec3(1.0, 0.829, 0.829), vec3(0.296648, 0.296648, 0.296648), 0.088);
+*/
     Index = 0;
     tetrahedron(NumIteracionsEsfera);
     initTextura();
@@ -145,12 +148,7 @@ void Bola::initTextura(){
  * @brief Bola::calculaNormals
  */
 void Bola::calculaNormals() {
-    vec3 normal = vec3( 0.0, 0.0, 0.0);
-    //vec3 c = vec3( capsa.pmin.x + capsa.a/2., capsa.pmin.y + capsa.h/2., capsa.pmin.z + capsa.p/2.);
-    for(int i=0; i<NumVerticesF; i++){
-        //normal = vec3( points[i].x - c.x, points[i].y - c.y, points[i].z - c.z);
-        normals[i] = points[i]; //calculVectorUnitari(normal);
-    }
+    for(int i=0; i<NumVerticesF; i++) normals[i] = points[i];
 }
 
 /**

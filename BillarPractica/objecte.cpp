@@ -152,7 +152,6 @@ void Objecte::toGPU(QGLShaderProgram *pr) {
  * @brief Objecte::draw
  */
 void Objecte::draw(){
-
     glBindBuffer( GL_ARRAY_BUFFER, buffer );
 
     // per si han canviat les coordenades dels punts
@@ -177,6 +176,7 @@ void Objecte::draw(){
     // S'activa la textura i es passa a la GPU
     texture->bind(0);
     program->setUniformValue("texMap", 0);
+    m->toGPU(program);
 
     glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
     glDrawArrays( GL_TRIANGLES, 0, Index );

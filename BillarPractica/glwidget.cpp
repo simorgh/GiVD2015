@@ -356,9 +356,6 @@ void GLWidget::adaptaObjecteTamanyWidget(Objecte *obj) {
 
 void GLWidget::newObjecte(Objecte * obj){
     esc->addObjecte(obj);
-
-    //we want the material sent just once per object
-    obj->m->toGPU(program);
     obj->toGPU(program);
 
     updateGL();

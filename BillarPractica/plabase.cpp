@@ -11,9 +11,13 @@ PlaBase::PlaBase() : Objecte(NumVerticesF){
     vertices[1] = point4( -0.5,  0.5,  0.0, 1.0 );
     vertices[2] = point4(  0.5,  0.5,  0.0, 1.0 );
     vertices[3] = point4(  0.5, -0.5,  0.0, 1.0 );
+/*
+    // using 'Black Rubber' - See "http://devernay.free.fr/cours/opengl/materials.html"
+    this->m = new Material(vec3(0.02, 0.02, 0.02), vec3(0.01, 0.01, 0.01), vec3(0.4, 0.4, 0.4), .078125f);
+*/
+    // using 'Obsidian' - See "http://devernay.free.fr/cours/opengl/materials.html"
+    this->m = new Material(vec3(0.05375, 0.05, 0.06625), vec3(0.18275, 0.17, 0.22525), vec3(0.332741, 0.328634, 0.346435), .3f);
 
-    /* by default using 'Green Rubber' def. See "http://devernay.free.fr/cours/opengl/materials.html" */
-    //this->m = new Material(vec3(0.0, 0.05, 0.0), vec3(0.4, 0.5, 0.4), vec3(0.04, 0.7, 0.04), .078125f);
     this->make();
 
     // let's scale and translate the plane so it's position and lenght will be 18x15 y=0

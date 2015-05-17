@@ -63,16 +63,18 @@ void main() {
     vec4 dir = light.position - vPosition;
 
     vec4 iag = vec4(Ia_global, 1.0);
-    //color = iag + getColor(light, material, v, dir);
+    color = iag + getColor(light, material, v, dir);
 
    /**
     * Testing...
     **/
-    color = vNormal;
-    //color = vec4(material.ambient, 1.0);
+    //color = vNormal; /* normals test */
+    //color = vec4(material.ambient, 1.0); /* material test */
 
-    // Pas de les coordenades de textura al fragment shader
-    // El valor del color i les coordenades de textura s'interpolaran automaticament
-    // en els fragments interiors a les cares dels polígons
+    /**
+     * Pas de les coordenades de textura al fragment shader
+     * El valor del color i les coordenades de textura s'interpolaran automaticament
+     * en els fragments interiors a les cares dels polígons
+     */
     v_texcoord = vCoordTexture;
 }
