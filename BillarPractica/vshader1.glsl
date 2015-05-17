@@ -68,7 +68,7 @@ void main() {
    /**
     * Testing...
     **/
-    color = vNormal;
+    //color = vNormal;
 
     // Pas de les coordenades de textura al fragment shader
     // El valor del color i les coordenades de textura s'interpolaran automaticament

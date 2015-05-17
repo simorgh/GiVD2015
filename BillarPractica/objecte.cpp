@@ -333,4 +333,5 @@ bool Objecte::hasCollided(Objecte* obj){
         else if((obj->capsa.pmin.z + obj->capsa.p) < capsa.pmin.z ) return false;
     }
     return true;
+
 }

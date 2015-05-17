@@ -16,6 +16,7 @@ public:
     Bola();
     Bola(int id, double x, double z); // Constructor defined for ConjuntBoles impl.
     ~Bola();
+    bool hasCollided(Objecte *obj);
 
 private:
     static const int NumIteracionsEsfera = 4;

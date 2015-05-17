@@ -1,4 +1,4 @@
-#include<bola.h>ç
+#include<bola.h>
 
 /**
  * Constructor utilitzat per la bola blanca.
@@ -18,7 +18,7 @@ Bola::Bola() : Objecte(NumVerticesF){
     // place the sphere over the plane and fit size to ratio
     capsa = calculCapsa3D();
 
-    aplicaTGCentrat( Scale(scaleFactor, scaleFactor, scaleFactor) );
+    aplicaTGCentrat( Scale(scaleFactor, scaleFactor, scaleFactor) ); 
     aplicaTG( Translate(0.0, scaleFactor, -5.0) );
 }
 
@@ -153,7 +153,15 @@ void Bola::calculaNormals() {
     }
 }
 
+bool Bola::hasCollided(Objecte *obj){
+    vec3 c1 = vec3(capsa.pmin.x + capsa.a/2., capsa.pmin.y + capsa.h/2., capsa.pmin.z + capsa.p/2.);
+    vec3 c2 = vec3(obj->capsa.pmin.x + obj->capsa.a/2., obj->capsa.pmin.y + obj->capsa.h/2., obj->capsa.pmin.z +obj-> capsa.p/2.);
+    float dx = c1.x -c2.x ;
+    float dy = c1.y -c2.y ;
+    float dz = c1.z -c2.z ;
+    float distance = sqrt(dx*dx + dy*dy + dz*dz);
 
+    return distance < scaleFactor*2;
 
-
+}
 
