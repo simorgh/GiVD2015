@@ -50,7 +50,7 @@ void GLWidget::InitShader(const char* vShaderFile, const char* fShaderFile){
 
 void GLWidget::initShadersGPU(){
     // Carrega dels shaders i posa a punt per utilitzar els programes carregats a la GPU
-    InitShader( "://vshader1.glsl", "://fshader1.glsl" );
+    InitShader( "://toon_vshader.glsl", "://toon_fshader.glsl" );
 }
 
 
