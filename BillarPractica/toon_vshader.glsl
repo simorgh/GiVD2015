@@ -42,22 +42,8 @@ uniform mat4 projection;
 
 void main() {
     gl_Position = projection * model_view * vPosition;
-    //gl_Position /= gl_Position.w;
-
 
     normal = vNormal;
     lightDir =  light.dir;
-
-   /**
-    * Testing...
-    **/
-    //color = vNormal; /* normals test */
-    //color = vec4(material.ambient, 1.0); /* material test */
-
-    /**
-     * Pas de les coordenades de textura al fragment shader
-     * El valor del color i les coordenades de textura s'interpolaran automaticament
-     * en els fragments interiors a les cares dels polígons
-     */
     v_texcoord = vCoordTexture;
 }
