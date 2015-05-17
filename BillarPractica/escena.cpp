@@ -17,7 +17,7 @@ Escena::Escena() {
     this->camGeneral = 0;
 
     // Initialize lighting parameters
-    point4  l_dir(1, 1, 0, 1);
+    point4  l_dir(1.0, 1.0, 0.0, 1);
     GLfloat angle = 0.0;
     GLfloat a = 0.0;
     GLfloat b = 0.0;

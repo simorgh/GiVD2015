@@ -23,6 +23,8 @@ public:
     QSize minimumSizeHint() const;
     QSize sizeHint() const;
 
+    vector<QGLShaderProgram*> programs;
+
     void setXRotation(int angle);
     void setYRotation(int angle);
     void setZRotation(int angle);
@@ -86,6 +88,7 @@ private:
 
     void Zoom (int positiu);
     void Pan(int dx, int dy);
+    void setProgram(int id);
 };
 
 #endif // GLWIDGET_H

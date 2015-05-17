@@ -32,7 +32,7 @@ GLWidget::~GLWidget() {
 
 // Create a GLSL program object from vertex and fragment shader files
 void GLWidget::InitShader(const char* vShaderFile, const char* fShaderFile){
-
+    QGLShaderProgram *pr;
     QGLShader *vshader = new QGLShader(QGLShader::Vertex, this);
     QGLShader *fshader = new QGLShader(QGLShader::Fragment, this);
 
@@ -40,19 +40,31 @@ void GLWidget::InitShader(const char* vShaderFile, const char* fShaderFile){
     vshader->compileSourceFile(vShaderFile);
     fshader->compileSourceFile(fShaderFile);
 
-    program = new QGLShaderProgram(this);
-    program->addShader(vshader);
-    program->addShader(fshader);
+    pr = new QGLShaderProgram(this);
+    pr->addShader(vshader);
+    pr->addShader(fshader);
+    programs.push_back(pr);
 
-    program->link();    // muntatge del shader en el pipeline grafic per a ser usat
-    program->bind();    // unió del shader al pipeline gràfic
 }
 
 void GLWidget::initShadersGPU(){
     // Carrega dels shaders i posa a punt per utilitzar els programes carregats a la GPU
-    InitShader( "://toon_vshader.glsl", "://toon_fshader.glsl" );
+    InitShader("://vshader1.glsl", "://fshader1.glsl");
+    InitShader("://toon_vshader.glsl", "://toon_fshader.glsl");
+
+    setProgram(0);
 }
 
+void GLWidget::setProgram(int id){
+    if(id < 0 || id >= programs.size()) return;
+
+    this->program = programs[id];
+    program->link();    // muntatge del shader en el pipeline grafic per a ser usat
+    program->bind();    // unió del shader al pipeline gràfic
+    esc->llum->toGPU(program);
+    esc->setAmbientToGPU(program);
+    update();
+}
 
 QSize GLWidget::minimumSizeHint() const {
     return QSize(50, 50);
@@ -330,7 +342,22 @@ void GLWidget::keyPressEvent(QKeyEvent *event) {
                 update();
             }
             break;
+
+    case Qt::Key_1:
+        break;
+
+    case Qt::Key_2:
+        setProgram(0);
+        break;
+
+    case Qt::Key_3:
+        break;
+
+    case Qt::Key_4:
+        setProgram(1);
+        break;
     }
+
 
 }
 

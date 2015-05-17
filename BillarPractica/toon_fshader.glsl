@@ -1,3 +1,11 @@
+#if __VERSION__<130
+#define IN varying
+#define OUT varying
+#else
+#define IN in
+#define OUT out
+#endif
+
 // fragment shader
 in vec4 lightDir;
 in vec4 normal;
