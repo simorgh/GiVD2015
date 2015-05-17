@@ -109,14 +109,14 @@ void GLWidget::initializeGL() {
 
     //qDebug() << "\t >> esc->setAmbientToGPU is sending Ia:" << esc->Ia.x << esc->Ia.y << esc->Ia.z;
     esc->setAmbientToGPU(this->program);
-/*
+
     qDebug() << "\t >> esc->llum->toGPU...";
     qDebug() << "\t\t + a, b, c:" << esc->llum->a << esc->llum->b << esc->llum->c;
     qDebug() << "\t\t + ambient:" << esc->llum->ambient.x << esc->llum->ambient.y << esc->llum->ambient.z;
     qDebug() << "\t\t + specular:" << esc->llum->specular.x << esc->llum->specular.y << esc->llum->specular.z;
     qDebug() << "\t\t + diffuse:" << esc->llum->diffuse.x << esc->llum->diffuse.y << esc->llum->diffuse.z;
     qDebug() << "\t\t + position:" << esc->llum->position.x << esc->llum->position.y << esc->llum->position.z;
-*/
+
     esc->llum->toGPU(this->program);
 
     glClearColor(clearColor.redF(), clearColor.greenF(), clearColor.blueF(), clearColor.alphaF());
@@ -178,15 +178,17 @@ void GLWidget::keyPressEvent(QKeyEvent *event) {
     switch ( event->key() ){
 
         case Qt::Key_Up:
+            //qDebug() << "KEY_UP pressed";
             if(event->modifiers() & Qt::AltModifier) Pan(0,-PAN);
-            else{
-                //qDebug() << "KEY_UP pressed";
+            else {
+                mat4 rotate = RotateX(15);
+
                 esc->elements.at(1)->backupPoints();
                 esc->elements.at(1)->aplicaTG(Translate(0.0, 0.0, 0.08)); //movement
-                esc->elements.at(1)->aplicaTGCentrat(RotateX(15));
+                esc->elements.at(1)->aplicaTGCentrat(rotate);
 
-                if(!esc->hasCollided(esc->elements.at(1)) && !(esc->elements.at(2)->hasCollided(esc->elements.at(1)))){
-                    esc->elements.at(1)->draw();
+                if(!esc->hasCollided(esc->elements.at(1)) && !(esc->elements.at(2)->hasCollided(esc->elements.at(1)))) {
+                    esc->elements.at(1)->aplicaTGnormals(rotate);
 
                     // if FP Camera, let's update it
                     if(!cameraActual) {
@@ -195,6 +197,7 @@ void GLWidget::keyPressEvent(QKeyEvent *event) {
                                           esc->elements.at(1)->capsa.pmin.z + esc->elements.at(1)->capsa.p/2., 1.0);
                         esc->setVRPCamera(cameraActual, c);
                     }
+
                     update();
                 } else esc->elements.at(1)->restorePoints();
             }
@@ -203,12 +206,15 @@ void GLWidget::keyPressEvent(QKeyEvent *event) {
         case Qt::Key_Down:
             //qDebug() << "KEY_DOWN pressed";
             if(event->modifiers() & Qt::AltModifier) Pan(0,PAN);
-            else{
+            else {
+                mat4 rotate = RotateX(-15);
+
                 esc->elements.at(1)->backupPoints();
                 esc->elements.at(1)->aplicaTG( Translate(0.0, 0.0, -0.08 ) ); //movement
-                esc->elements.at(1)->aplicaTGCentrat(RotateX(-15));
-                if(!esc->hasCollided(esc->elements.at(1)) && !(esc->elements.at(2)->hasCollided(esc->elements.at(1)))){
-                    esc->elements.at(1)->draw();
+                esc->elements.at(1)->aplicaTGCentrat(rotate);
+                if(!esc->hasCollided(esc->elements.at(1)) && !(esc->elements.at(2)->hasCollided(esc->elements.at(1)))) {
+                    esc->elements.at(1)->aplicaTGnormals(rotate);
+
                     // if FP Camera, let's update it
                     if(!cameraActual) {
                         point4 c = point4(esc->elements.at(1)->capsa.pmin.x + esc->elements.at(1)->capsa.a/2.,
@@ -224,12 +230,15 @@ void GLWidget::keyPressEvent(QKeyEvent *event) {
         case Qt::Key_Left:
             //qDebug() << "KEY_LEFT pressed";
             if(event->modifiers() & Qt::AltModifier) Pan(PAN,0);
-            else{
+            else {
+                mat4 rotate = RotateZ(-15);
+
                 esc->elements.at(1)->backupPoints();
                 esc->elements.at(1)->aplicaTG( Translate(0.08, 0.0, 0.0) ); //movement
-                esc->elements.at(1)->aplicaTGCentrat(RotateZ(-15));
-                if(!esc->hasCollided(esc->elements.at(1)) && !(esc->elements.at(2)->hasCollided(esc->elements.at(1)))){
-                    esc->elements.at(1)->draw();
+                esc->elements.at(1)->aplicaTGCentrat(rotate);
+                if(!esc->hasCollided(esc->elements.at(1)) && !(esc->elements.at(2)->hasCollided(esc->elements.at(1)))) {
+                    esc->elements.at(1)->aplicaTGnormals(rotate);
+
                     // if FP Camera, let's update it
                     if(!cameraActual) {
                         point4 c = point4(esc->elements.at(1)->capsa.pmin.x + esc->elements.at(1)->capsa.a/2.,
@@ -245,13 +254,16 @@ void GLWidget::keyPressEvent(QKeyEvent *event) {
         case Qt::Key_Right:
             //qDebug() << "KEY_RIGHT pressed";
             if(event->modifiers() & Qt::AltModifier) Pan(-PAN,0);
-            else{
+            else {
+                mat4 rotate = RotateZ(15);
+
                 esc->elements.at(1)->backupPoints();
                 esc->elements.at(1)->aplicaTG( Translate(-0.08, 0.0, 0.0) ); //movement
-                esc->elements.at(1)->aplicaTGCentrat(RotateZ(15));
+                esc->elements.at(1)->aplicaTGCentrat(rotate);
 
-                if(!esc->hasCollided(esc->elements.at(1)) && !(esc->elements.at(2)->hasCollided(esc->elements.at(1)))){
-                    esc->elements.at(1)->draw();
+                if(!esc->hasCollided(esc->elements.at(1)) && !(esc->elements.at(2)->hasCollided(esc->elements.at(1)))) {
+                    esc->elements.at(1)->aplicaTGnormals(rotate);
+
                     // if FP Camera, let's update it
                     if(!cameraActual) {
                         point4 c = point4(esc->elements.at(1)->capsa.pmin.x + esc->elements.at(1)->capsa.a/2.,

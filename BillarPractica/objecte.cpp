@@ -73,9 +73,26 @@ void Objecte::aplicaTG(mat4 m)
     //glBufferSubData( GL_ARRAY_BUFFER, 0, sizeof(point4) * Index, &points[0] ); //--> DONE directly on post call to draw() (alongside with texture info)
 }
 
+/**
+ * Should be use when some Rotation is applied to the Object
+ * @brief aplicaTGnormals
+ * @param m
+ */
+void Objecte::aplicaTGnormals(mat4 m) {
+    point4  *transformed_normals = new point4[Index];
+
+    for ( int i = 0; i < Index; ++i ) transformed_normals[i] = m * normals[i];
+
+    transformed_normals = &transformed_normals[0];
+    normals = &normals[0];
+
+    for ( int i = 0; i < Index; ++i )  normals[i] = transformed_normals[i];
+    delete transformed_normals;
+}
+
+
 void Objecte::aplicaTGPoints(mat4 m)
 {
-
     point4  *transformed_points = new point4[Index];
 
     for ( int i = 0; i < Index; ++i ) {

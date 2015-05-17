@@ -19,7 +19,9 @@ PlaBase::PlaBase() : Objecte(NumVerticesF){
     // let's scale and translate the plane so it's position and lenght will be 18x15 y=0
     double escalaX = 10.;
     double escalaZ = 18.;
-    aplicaTGCentrat( Scale(escalaX, 1., escalaZ) * RotateX(90) );
+    mat4 rotX = RotateX(-90);
+    aplicaTGCentrat( Scale(escalaX, 1., escalaZ) * rotX );
+    aplicaTGnormals(rotX); //update normals.
 }
 
 void PlaBase::make(){

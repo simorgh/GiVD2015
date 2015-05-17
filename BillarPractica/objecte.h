@@ -76,6 +76,8 @@ public:
     // Aplica una TG qualsevol a un objecte
     virtual void aplicaTG(mat4 m);
     virtual void aplicaTGPoints(mat4 m);
+    virtual void aplicaTGnormals(mat4 m);
+
     // Aplica una TG centrada en el punt central de la capsa de l'objecte a un objecte
     virtual void aplicaTGCentrat(mat4 m);
     virtual void initTextura() = 0; //abstract method to be overwritten to apply new texture on points
