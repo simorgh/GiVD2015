@@ -17,7 +17,7 @@ Escena::Escena() {
     this->camGeneral = 0;
 
     // Initialize lighting parameters
-    point4  l_dir(1.0, 1.0, 0.0, 1);
+    point4  l_dir(1.0, 5.0, 0.0, 1);
     GLfloat angle = 0.0;
     GLfloat a = 0.0;
     GLfloat b = 0.0;
@@ -25,7 +25,7 @@ Escena::Escena() {
     point3 light_ambient(0.2, 0.2, 0.2);
     point3 light_specular(0.4, 0.4, 0.4);
     point3 light_diffuse(0.75, 0.75, 0.75);
-    point4 light_position( 0.0, 2.0, 1.0, 1.0);
+    point4 light_position( 1.0, 5.0, 1.0, 1.0);
 
 
     this->llum = new Llum(light_position, l_dir, angle, a, b, c, light_ambient, light_specular, light_diffuse);
