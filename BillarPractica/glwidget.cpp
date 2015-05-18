@@ -225,7 +225,7 @@ void GLWidget::keyPressEvent(QKeyEvent *event) {
 
         case Qt::Key_Down:
             //qDebug() << "KEY_DOWN pressed";
-            if(event->modifiers() & Qt::AltModifier) Pan(0,PAN);
+            if(event->modifiers() & Qt::AltModifier) Pan(0, PAN);
             else {
                 mat4 rotate = RotateX(-15);
 
@@ -280,7 +280,6 @@ void GLWidget::keyPressEvent(QKeyEvent *event) {
                 esc->elements.at(1)->backupPoints();
                 esc->elements.at(1)->aplicaTG( Translate(-0.08, 0.0, 0.0) ); //movement
                 esc->elements.at(1)->aplicaTGCentrat(rotate);
-
                 if(!esc->hasCollided(esc->elements.at(1)) && !(esc->elements.at(2)->hasCollided(esc->elements.at(1)))) {
                     esc->elements.at(1)->aplicaTGnormals(rotate);
 
@@ -351,31 +350,38 @@ void GLWidget::keyPressEvent(QKeyEvent *event) {
             }
             break;
 
-    case Qt::Key_1: //Flat shading
-        if(esc->ntype == GOURAUD) {
-            esc->ntype = FLAT;
-            esc->calculaNormals(esc->ntype);
+        case Qt::Key_1: // Flat shading
+            int flag;
+            if(event->modifiers() & Qt::ShiftModifier) flag = 1;
+            else flag = 1.0;
+
+            if(esc->ntype == GOURAUD) {
+                esc->ntype = FLAT;
+                esc->calculaNormals(esc->ntype);
+            }
+
+            setProgram(0);
+            break;
+
+        case Qt::Key_2: // Gouraud
+            if(esc->ntype == FLAT) {
+                esc->ntype = GOURAUD;
+                esc->calculaNormals(esc->ntype);
+            }
+
+            setProgram(0);
+            break;
+
+        case Qt::Key_3: //Phong shading
+
+            setProgram(1);
+            break;
+
+        case Qt::Key_4: //Toon Shading
+
+            setProgram(2);
+            break;
         }
-        setProgram(0);
-        break;
-
-    case Qt::Key_2: //Gouraud
-        if(esc->ntype == FLAT){
-            esc->ntype = GOURAUD;
-            esc->calculaNormals(esc->ntype);
-        }
-
-        setProgram(0);
-        break;
-
-    case Qt::Key_3: //Phong shading
-        setProgram(1);
-        break;
-
-    case Qt::Key_4: //Toon Shading
-        setProgram(2);
-        break;
-    }
 
 
 }
