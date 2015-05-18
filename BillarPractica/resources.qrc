@@ -25,5 +25,7 @@
         <file>resources/taula.obj</file>
         <file>toon_fshader.glsl</file>
         <file>toon_vshader.glsl</file>
+        <file>gouraud_fshader.glsl</file>
+        <file>gouraud_vshader.glsl</file>
     </qresource>
 </RCC>

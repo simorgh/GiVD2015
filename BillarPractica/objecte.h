@@ -11,6 +11,8 @@
 
 using namespace std;
 
+
+enum normalType { FLAT, GOURAUD };
 typedef Common::vec4  point4;
 typedef Common::vec2  texture2;
 
@@ -21,6 +23,8 @@ protected:
     QString nom; // nom del fitxer on esta el cotxe
     vector<Cara> cares; // cares de l'objecte
     vector<point4> vertexs; // vertexs de l'objecte sense repetits
+
+    normalType ntype = FLAT;
 
     // Sistema de coordenades d'un objecte: punt origen i eixos de rotació
     GLfloat xorig, yorig, zorig;
@@ -82,9 +86,13 @@ public:
     virtual void aplicaTGCentrat(mat4 m);
     virtual void initTextura() = 0; //abstract method to be overwritten to apply new texture on points
     virtual bool hasCollided(Objecte* obj);
+
     // Funciones necesarias para el movimiento de la bola (en caso de colisinar tenemos que recuperar los puntos anteriores)
     void backupPoints();
     void restorePoints();
+
+    virtual void calculaNormalsFlatShading();
+    virtual void calculaNormalsGouraud();
 
 private:
     void construeix_cara ( char **words, int nwords, Objecte*objActual, int vindexUlt);

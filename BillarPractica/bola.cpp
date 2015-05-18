@@ -9,7 +9,7 @@ Bola::Bola() : Objecte(NumVerticesF){
     this->id = 15; //Deuria ser 0, actualment posem id 15 per a que e spugui apreciar la rotacio de la bola
 
     // Materials from "http://devernay.free.fr/cours/opengl/materials.html"
-    this->m = new Material( vec3(0.0, 0.0, 0.0),vec3(0.55, 0.55, 0.55), vec3(0.70, 0.70, 0.70), 0.25 ); //Whte plastic
+    this->m = new Material( vec3(0.0, 0.0, 0.0), vec3(0.55, 0.55, 0.55), vec3(0.70, 0.70, 0.70), 0.25 ); //Whte plastic
     //this->m = new Material( vec3(0.25, 0.20725, 0.20725), vec3(1.0, 0.829, 0.829), vec3(0.296648, 0.296648, 0.296648), 0.088); //Pearl
 
     Index = 0;
@@ -52,14 +52,12 @@ void Bola::triangle(const point4 &a, const point4 &b, const point4 &c){
     vec2 t1, t2, t3;
 
     points[Index] = a;
-    //colors[Index] = color4(1.0, 1.0, 1.0, 1.0);
     t1 = calculTexturaCoord(a);
     vertexsTextura[Index] = vec2(t1.x, t1.y);
     Index++;
 
     double th= 0.5;
     points[Index] = b;
-    //colors[Index] = color4(1.0, 1.0, 1.0, 1.0);
     t2 = calculTexturaCoord(b);
     if(t2.x < th && t1.x > th) t2.x += 1.0;
     else if(t2.x > th && t1.x < th) t2.x -= 1.0;
@@ -67,12 +65,13 @@ void Bola::triangle(const point4 &a, const point4 &b, const point4 &c){
     Index++;
 
     points[Index] = c;
-    //colors[Index] = color4(1.0, 1.0, 1.0, 1.0);
     t3 = calculTexturaCoord(c);
     if(t3.x < th && t1.x > th) t3.x += 1.0;
     else if(t3.x > th && t1.x < th) t3.x -= 1.0;
     vertexsTextura[Index] = vec2(t3.x, t3.y);
     Index++;
+
+    if(ntype == FLAT) calculaNormalsFlatShading();
 }
 
 void Bola::tetrahedron(){
@@ -88,7 +87,7 @@ void Bola::tetrahedron(int n){
     divide_triangle(v[3], v[2], v[1], n);
     divide_triangle(v[0], v[3], v[1], n);
     divide_triangle(v[0], v[2], v[3], n);
-    calculaNormals();
+    if(ntype == GOURAUD) calculaNormalsGouraud();
 }
 
 void Bola::divide_triangle(point4 a, point4 b, point4 c, int n){
@@ -131,7 +130,7 @@ vec4 Bola::calculVectorUnitari(const vec4& v ){
     return vec4( v.x/length, v.y/length, v.z/length, 1.0 );
 }
 
-void Bola::initTextura(){
+void Bola::initTextura() {
     //qDebug() << "Bola - Initializing textures...";
     ostringstream ss;
     ss << "://resources/Bola" << this->id << ".jpg";
@@ -144,13 +143,6 @@ void Bola::initTextura(){
 }
 
 /**
- * @brief Bola::calculaNormals
- */
-void Bola::calculaNormals() {
-    for(int i=0; i<NumVerticesF; i++) normals[i] = points[i];
-}
-
-/**
  * @brief Bola::hasCollided
  * @param obj
  * @return
@@ -158,11 +150,11 @@ void Bola::calculaNormals() {
 bool Bola::hasCollided(Objecte *obj){
     vec3 c1 = vec3(capsa.pmin.x + capsa.a/2., capsa.pmin.y + capsa.h/2., capsa.pmin.z + capsa.p/2.);
     vec3 c2 = vec3(obj->capsa.pmin.x + obj->capsa.a/2., obj->capsa.pmin.y + obj->capsa.h/2., obj->capsa.pmin.z +obj-> capsa.p/2.);
+
     float dx = c1.x -c2.x ;
     float dy = c1.y -c2.y ;
     float dz = c1.z -c2.z ;
     float distance = sqrt(dx*dx + dy*dy + dz*dz);
 
-    return distance < scaleFactor*2;
+    return (distance < scaleFactor*2);
 }
-

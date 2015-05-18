@@ -1,6 +1,6 @@
 #include<plabase.h>
 
-PlaBase::PlaBase() : Objecte(NumVerticesF){
+PlaBase::PlaBase() : Objecte( NumVerticesF * NumCares ){
     //qDebug() << "Constructor de PlaBase";
     xorig = 0;
     yorig = 0;
@@ -49,12 +49,10 @@ void PlaBase::quad( int a, int b, int c, int d ){
     normals[Index] = normal; points[Index] = vertices[a]; vertexsTextura[Index] = vec2(0.0, 0.0); Index++;
     normals[Index] = normal; points[Index] = vertices[b]; vertexsTextura[Index] = vec2(1.0, 0.0); Index++;
     normals[Index] = normal; points[Index] = vertices[c]; vertexsTextura[Index] = vec2(1.0, 1.0); Index++;
-    //calculaNormals();
 
     normals[Index] = normal; points[Index] = vertices[a]; vertexsTextura[Index] = vec2(0.0, 0.0); Index++;
     normals[Index] = normal; points[Index] = vertices[c]; vertexsTextura[Index] = vec2(1.0, 1.0); Index++;
     normals[Index] = normal; points[Index] = vertices[d]; vertexsTextura[Index] = vec2(0.0, 1.0); Index++;
-    //calculaNormals();
 }
 
 void PlaBase::initTextura(){
@@ -67,29 +65,6 @@ void PlaBase::initTextura(){
      texture->setMagnificationFilter(QOpenGLTexture::Linear);
 }
 
-/**
- * @brief PlaBase::calculaNormalCara
- */
-void PlaBase::calculaNormals() {
-    int j;
-    vec3 normal = vec3(0.0, 0.0, 0.0);
-
-    for (int i=Index-2; i<=Index; i++) {
-        j = (i+1)%3;
-        normal.x += ((points[i].z + points[j].z) * (points[i].y - points[j].y));
-        normal.y += ((points[i].x + points[j].x) * (points[i].z - points[j].z));
-        normal.z += ((points[i].y + points[j].y) * (points[i].x - points[j].x));
-    }
-
-    normal.x *= 0.5;
-    normal.y *= 0.5;
-    normal.z *= 0.5;
-
-    normals[Index-2] = normal;
-    normals[Index-1] = normal;
-    normals[Index] = normal;
-    //normal.normalize();
-}
 
 
 PlaBase::~PlaBase(){}

@@ -44,25 +44,34 @@ void GLWidget::InitShader(const char* vShaderFile, const char* fShaderFile){
     pr->addShader(vshader);
     pr->addShader(fshader);
     programs.push_back(pr);
-
 }
 
+/**
+ * @brief GLWidget::initShadersGPU
+ */
 void GLWidget::initShadersGPU(){
     // Carrega dels shaders i posa a punt per utilitzar els programes carregats a la GPU
-    InitShader("://vshader1.glsl", "://fshader1.glsl");
+    //InitShader("://vshader1.glsl", "://fshader1.glsl");
+    InitShader("://gouraud_vshader.glsl", "://gouraud_fshader.glsl");
     InitShader("://toon_vshader.glsl", "://toon_fshader.glsl");
 
     setProgram(0);
 }
 
+/**
+ * @brief GLWidget::setProgram
+ * @param id
+ */
 void GLWidget::setProgram(int id){
     if(id < 0 || id >= programs.size()) return;
 
     this->program = programs[id];
     program->link();    // muntatge del shader en el pipeline grafic per a ser usat
     program->bind();    // unió del shader al pipeline gràfic
+
     esc->llum->toGPU(program);
     esc->setAmbientToGPU(program);
+
     update();
 }
 

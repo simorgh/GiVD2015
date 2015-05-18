@@ -10,7 +10,7 @@ class Bola: public Objecte
 {
 
 public:
-    static const int NumVerticesF = 3072; //12 * 4^(NumIteracionsEsfera)
+    static const int NumVerticesF =  3072; //12 * 4^(NumIteracionsEsfera)
     static const float scaleFactor = 0.35;
 
     Bola();
@@ -37,7 +37,6 @@ private:
     void initTextura();
 
     vec2 calculTexturaCoord(const vec4 &v);
-    void calculaNormals();
 };
 #endif // BOLA
 

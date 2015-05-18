@@ -288,6 +288,12 @@ vec3 normalize( const vec3& v ) {
 }
 
 inline
+vec3 normalize3d(const vec3 &v) {
+   float length_of_v = sqrt((v.x * v.x) + (v.y * v.y) + (v.z * v.z));
+   return vec3(v.x / length_of_v, v.y / length_of_v, v.z / length_of_v);
+}
+
+inline
 vec3 cross(const vec3& a, const vec3& b )
 {
     return vec3( a.y * b.z - a.z * b.y,

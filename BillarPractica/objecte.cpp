@@ -357,3 +357,34 @@ bool Objecte::hasCollided(Objecte* obj){
 
     return true;
 }
+
+/**
+ * @brief PlaBase::calculaNormalsFlatShading
+ */
+void Objecte::calculaNormalsFlatShading() {
+    vec3 normal = 0.0f;
+
+    for (int i=Index-3; i < Index; i++) {
+        int j = (i+1) % 3;
+        //normal.x += ((points[i].z + points[j].z) * (points[i].y - points[j].y));
+        //normal.y += ((points[i].x + points[j].x) * (points[i].z - points[j].z));
+        //normal.z += ((points[i].y + points[j].y) * (points[i].x - points[j].x));
+
+        //Cross Product
+        normal.x += ((points[i].y * points[j].z) - (points[j].y * points[j].z));
+        normal.y += ((points[i].z * points[j].x) - (points[j].z * points[j].x));
+        normal.z += ((points[i].x * points[j].y) - (points[j].x * points[j].y));
+    }
+
+    //normal.x *= 0.5;
+    //normal.y *= 0.5;
+    //normal.z *= 0.5;
+
+    normals[Index-3] = normal;
+    normals[Index-2] = normal;
+    normals[Index-1] = normal;
+}
+
+void Objecte::calculaNormalsGouraud() {
+    for(int i=0; i < numPoints; i++) normals[i] = points[i];
+}

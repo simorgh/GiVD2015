@@ -36,10 +36,6 @@ uniform vec3 Ia_global;
 uniform mat4 model_view;
 uniform mat4 projection;
 
-
-
-
-
 void main() {
     gl_Position = projection * model_view * vPosition;
 
