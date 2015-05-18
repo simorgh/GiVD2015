@@ -71,7 +71,7 @@ void Bola::triangle(const point4 &a, const point4 &b, const point4 &c){
     vertexsTextura[Index] = vec2(t3.x, t3.y);
     Index++;
 
-    if(ntype == FLAT) calculaNormalsFlatShading();
+
 }
 
 void Bola::tetrahedron(){
@@ -88,6 +88,7 @@ void Bola::tetrahedron(int n){
     divide_triangle(v[0], v[3], v[1], n);
     divide_triangle(v[0], v[2], v[3], n);
     if(ntype == GOURAUD) calculaNormalsGouraud();
+    else if(ntype == FLAT) calculaNormalsFlatShading();
 }
 
 void Bola::divide_triangle(point4 a, point4 b, point4 c, int n){

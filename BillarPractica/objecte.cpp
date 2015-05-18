@@ -361,29 +361,39 @@ bool Objecte::hasCollided(Objecte* obj){
 /**
  * @brief PlaBase::calculaNormalsFlatShading
  */
-void Objecte::calculaNormalsFlatShading() {
-    vec3 normal = 0.0f;
 
-    for (int i=Index-3; i < Index; i++) {
-        int j = (i+1) % 3;
-        //normal.x += ((points[i].z + points[j].z) * (points[i].y - points[j].y));
-        //normal.y += ((points[i].x + points[j].x) * (points[i].z - points[j].z));
-        //normal.z += ((points[i].y + points[j].y) * (points[i].x - points[j].x));
+void Objecte::calculaNormalsFlatShading() {
+    float vec_ax, vec_ay, vec_az, vec_bx, vec_by, vec_bz;
+    vec3 normal;
+    for (int a = 0; a < Index; a+=3){
+        normal = 0.0f;
+        vec_ax = points[a+2].x - points[a+1].x;
+        vec_ay = points[a+2].y - points[a+1].y;
+        vec_az = points[a+2].z - points[a+1].z;
+
+        vec_bx = points[a].x - points[a+1].x;
+        vec_by = points[a].y - points[a+1].y;
+        vec_bz = points[a].z - points[a+1].z;
 
         //Cross Product
-        normal.x += ((points[i].y * points[j].z) - (points[j].y * points[j].z));
-        normal.y += ((points[i].z * points[j].x) - (points[j].z * points[j].x));
-        normal.z += ((points[i].x * points[j].y) - (points[j].x * points[j].y));
-    }
+        normal.x = vec_ay*vec_bz - vec_az * vec_by;//A x B
+        normal.y = vec_az*vec_bx - vec_ax * vec_bz;
+        normal.z = vec_ax*vec_by - vec_ay*vec_bx;
 
-    //normal.x *= 0.5;
-    //normal.y *= 0.5;
-    //normal.z *= 0.5;
+        float mod = sqrt(normal.x * normal.x + normal.y * normal.y + normal.z * normal.z);
 
-    normals[Index-3] = normal;
-    normals[Index-2] = normal;
-    normals[Index-1] = normal;
+        normal.x /= mod;
+        normal.y /= mod;
+        normal.z /= mod;
+
+        //qDebug() << normal.x << normal.y << normal.z;
+        normals[a] = normal;
+        normals[a+1] = normal;
+        normals[a+2] = normal;
+   }
+
 }
+
 
 void Objecte::calculaNormalsGouraud() {
     for(int i=0; i < numPoints; i++) normals[i] = points[i];
