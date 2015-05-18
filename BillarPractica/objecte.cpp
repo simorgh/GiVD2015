@@ -395,6 +395,9 @@ void Objecte::calculaNormalsFlatShading() {
 /**
  * @brief Objecte::calculaNormalsGouraud
  */
-void Objecte::calculaNormalsGouraud() {
-    for(int i=0; i < numPoints; i++) normals[i] = points[i];
+void Objecte::calculaNormalsGouraud() { 
+    vec3 centre = vec3(capsa.pmin.x + capsa.a/2., capsa.pmin.y + capsa.h/2., capsa.pmin.z + capsa.p/2.);
+    for(int i=0; i < numPoints; i++){
+        normals[i] = normalize(points[i] - centre);
+     }
 }
