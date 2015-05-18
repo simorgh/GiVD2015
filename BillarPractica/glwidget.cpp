@@ -508,17 +508,21 @@ void GLWidget::Zoom(int positiu) {
     if (cameraActual) {
         if(positiu > 0)  esc->camGeneral->AmpliaWindow(-0.05);
         else  esc->camGeneral->AmpliaWindow(0.05);
-        update();
+    } else {
+        if(positiu > 0)  esc->camFP->AmpliaWindow(-0.05);
+        else  esc->camFP->AmpliaWindow(0.05);
     }
+
+    update();
 }
 
 
 void GLWidget::Pan(int dx, int dy) {
     GLfloat factor = 0.05f;
-    if (cameraActual) {
-        esc->camGeneral->pan(factor*dx,factor*dy);
-        update();
-    }
+    if (cameraActual) esc->camGeneral->pan(factor*dx,factor*dy);
+    else esc->camFP->pan(factor*dx,factor*dy);
+
+    update();
 }
 
 
