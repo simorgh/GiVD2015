@@ -361,7 +361,6 @@ bool Objecte::hasCollided(Objecte* obj){
 /**
  * @brief PlaBase::calculaNormalsFlatShading
  */
-
 void Objecte::calculaNormalsFlatShading() {
     float vec_ax, vec_ay, vec_az, vec_bx, vec_by, vec_bz;
     vec3 normal;
@@ -381,7 +380,6 @@ void Objecte::calculaNormalsFlatShading() {
         normal.z = vec_ax*vec_by - vec_ay*vec_bx;
 
         float mod = sqrt(normal.x * normal.x + normal.y * normal.y + normal.z * normal.z);
-
         normal.x /= mod;
         normal.y /= mod;
         normal.z /= mod;

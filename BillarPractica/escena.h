@@ -20,9 +20,10 @@
 #include <llum.h>
 
 using namespace std;
+enum normalType { FLAT, GOURAUD };
 
-class Escena
-{
+class Escena {
+
 public:
     Escena();
     Escena(int ampladaViewport, int alcadaViewport, QGLShaderProgram *program);
@@ -30,7 +31,6 @@ public:
 
     void addObjecte(Objecte *obj);
     void aplicaTG(mat4 m);
-
     void aplicaTGCentrat(mat4 m);
     void reset();
 
@@ -44,6 +44,7 @@ public:
     void setWindowCamera(bool camGeneral, bool retallat, Capsa2D window);
     void setDCamera(bool camGeneral, float d);
     void setAmbientToGPU(QGLShaderProgram *program);
+    void calculaNormals(normalType type);
 
     // Capsa contenedora de l'escena
     Capsa3D capsaMinima;
@@ -59,6 +60,9 @@ public:
     // Llum
     vec3 Ia;
     Llum* llum;
+
+    // tipus de Normals
+    normalType ntype = GOURAUD;
 };
 
 #endif // ESCENA_H

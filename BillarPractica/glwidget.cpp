@@ -53,8 +53,8 @@ void GLWidget::initShadersGPU(){
     // Carrega dels shaders i posa a punt per utilitzar els programes carregats a la GPU
     //InitShader("://vshader1.glsl", "://fshader1.glsl");
     InitShader("://gouraud_vshader.glsl", "://gouraud_fshader.glsl");
+    InitShader("://phong_vshader.glsl", "://phong_fshader.glsl");
     InitShader("://toon_vshader.glsl", "://toon_fshader.glsl");
-
     setProgram(0);
 }
 
@@ -352,18 +352,22 @@ void GLWidget::keyPressEvent(QKeyEvent *event) {
             }
             break;
 
-    case Qt::Key_1:
+    case Qt::Key_1: //Flat shading
+        //esc->calculaNormals(FLAT);
+        //setProgram(0);
         break;
 
-    case Qt::Key_2:
+    case Qt::Key_2: //Gouraud
+        //esc->calculaNormals(GOURAUD);
         setProgram(0);
         break;
 
-    case Qt::Key_3:
+    case Qt::Key_3: //Phong shading
+        setProgram(1);
         break;
 
-    case Qt::Key_4:
-        setProgram(1);
+    case Qt::Key_4: //Toon Shading
+        setProgram(2);
         break;
     }
 
