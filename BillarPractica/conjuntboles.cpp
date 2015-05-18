@@ -105,3 +105,17 @@ bool ConjuntBoles::hasCollided(Objecte* obj){
     return false;
 }
 
+void ConjuntBoles::calculaNormalsFlatShading(){
+    //qDebug() << "ConjuntBoles -> calculaNormalsFlatShading";
+    for(int i=0; i<NumBoles; i++){
+        boles[i]->calculaNormalsFlatShading();
+    }
+}
+
+void ConjuntBoles::calculaNormalsGouraud(){
+    //qDebug() << "ConjuntBoles -> calculaNormalsGouraud";
+    for(int i=0; i<NumBoles; i++){
+        boles[i]->calculaNormalsGouraud();
+    }
+}
+

@@ -31,6 +31,8 @@ private:
     Bola* boles[NumBoles];
     void initTextura();
 
+    void calculaNormalsFlatShading();
+    void calculaNormalsGouraud();
 };
 
 #endif // CONJUNTBOLES

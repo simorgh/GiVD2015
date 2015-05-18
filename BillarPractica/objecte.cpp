@@ -392,7 +392,9 @@ void Objecte::calculaNormalsFlatShading() {
 
 }
 
-
+/**
+ * @brief Objecte::calculaNormalsGouraud
+ */
 void Objecte::calculaNormalsGouraud() {
     for(int i=0; i < numPoints; i++) normals[i] = points[i];
 }

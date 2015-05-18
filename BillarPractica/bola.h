@@ -10,7 +10,7 @@ class Bola: public Objecte
 {
 
 public:
-    static const int NumVerticesF =  48;//3072; //12 * 4^(NumIteracionsEsfera)
+    static const int NumVerticesF = 3072; //12 * 4^(NumIteracionsEsfera)
     static const float scaleFactor = 0.35;
 
     Bola();
@@ -19,7 +19,7 @@ public:
     bool hasCollided(Objecte *obj);
 
 private:
-    static const int NumIteracionsEsfera = 1;//4;
+    static const int NumIteracionsEsfera = 4;
     int id; // Bola id. Determines which ball is. Used to load texture and set it's position
 
     point4 v[4] = {

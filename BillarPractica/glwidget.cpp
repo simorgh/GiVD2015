@@ -184,7 +184,6 @@ void GLWidget::mouseMoveEvent(QMouseEvent *event) {
 
     int dx = event->x() - lastPos.x();
     int dy = event->y() - lastPos.y();
-
     if (event->buttons() & Qt::LeftButton) {
         setXRotation(xRot + RSPEED * dy);
         setYRotation(yRot + RSPEED * dx);
@@ -353,12 +352,19 @@ void GLWidget::keyPressEvent(QKeyEvent *event) {
             break;
 
     case Qt::Key_1: //Flat shading
-        //esc->calculaNormals(FLAT);
-        //setProgram(0);
+        if(esc->ntype == GOURAUD) {
+            esc->ntype = FLAT;
+            esc->calculaNormals(esc->ntype);
+        }
+        setProgram(0);
         break;
 
     case Qt::Key_2: //Gouraud
-        //esc->calculaNormals(GOURAUD);
+        if(esc->ntype == FLAT){
+            esc->ntype = GOURAUD;
+            esc->calculaNormals(esc->ntype);
+        }
+
         setProgram(0);
         break;
 
