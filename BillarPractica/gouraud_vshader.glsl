@@ -63,8 +63,8 @@ void main() {
     vec4 dir = light.position - vPosition;
 
     vec4 iag = vec4(Ia_global, 1.0);
-    color = iag + getColor(light, material, v, dir);
+    //color = iag + getColor(light, material, v, dir);
 
-    //color = vNormal;
+    color = vNormal;
     v_texcoord = vCoordTexture;
 }

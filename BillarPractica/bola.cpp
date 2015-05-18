@@ -53,12 +53,14 @@ void Bola::triangle(const point4 &a, const point4 &b, const point4 &c){
     vec2 t1, t2, t3;
 
     points[Index] = a;
+    normals[Index] = a;
     t1 = calculTexturaCoord(a);
     vertexsTextura[Index] = vec2(t1.x, t1.y);
     Index++;
 
     double th= 0.5;
     points[Index] = b;
+    normals[Index] = b;
     t2 = calculTexturaCoord(b);
     if(t2.x < th && t1.x > th) t2.x += 1.0;
     else if(t2.x > th && t1.x < th) t2.x -= 1.0;
@@ -66,6 +68,7 @@ void Bola::triangle(const point4 &a, const point4 &b, const point4 &c){
     Index++;
 
     points[Index] = c;
+    normals[Index] = c;
     t3 = calculTexturaCoord(c);
     if(t3.x < th && t1.x > th) t3.x += 1.0;
     else if(t3.x > th && t1.x < th) t3.x -= 1.0;
@@ -86,8 +89,7 @@ void Bola::tetrahedron(int n){
     divide_triangle(v[3], v[2], v[1], n);
     divide_triangle(v[0], v[3], v[1], n);
     divide_triangle(v[0], v[2], v[3], n);
-
-    calculaNormalsGouraud(); //by default
+    //calculaNormalsGouraud(); //by default
 }
 
 void Bola::divide_triangle(point4 a, point4 b, point4 c, int n){

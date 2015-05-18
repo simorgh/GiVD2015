@@ -369,6 +369,11 @@ void GLWidget::keyPressEvent(QKeyEvent *event) {
         break;
 
     case Qt::Key_3: //Phong shading
+       /* if(esc->ntype == FLAT){
+            esc->ntype = GOURAUD;
+            esc->calculaNormals(esc->ntype);
+        }*/
+
         setProgram(1);
         break;
 
