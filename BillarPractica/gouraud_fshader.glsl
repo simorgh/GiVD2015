@@ -11,6 +11,6 @@ IN vec2 v_texcoord;
 uniform sampler2D texMap;
 
 void main() {
-    //gl_FragColor = color * texture2D(texMap, v_texcoord);
-    gl_FragColor = color;
+    gl_FragColor = color * texture2D(texMap, v_texcoord);
+    //gl_FragColor = color;
 }

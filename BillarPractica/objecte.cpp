@@ -366,14 +366,14 @@ void Objecte::calculaNormalsFlatShading() {
 
     for (int i=Index-3; i < Index; i++) {
         int j = (i+1) % 3;
-        //normal.x += ((points[i].z + points[j].z) * (points[i].y - points[j].y));
-        //normal.y += ((points[i].x + points[j].x) * (points[i].z - points[j].z));
-        //normal.z += ((points[i].y + points[j].y) * (points[i].x - points[j].x));
+        normal.x += ((points[i].z + points[j].z) * (points[i].y - points[j].y));
+        normal.y += ((points[i].x + points[j].x) * (points[i].z - points[j].z));
+        normal.z += ((points[i].y + points[j].y) * (points[i].x - points[j].x));
 
         //Cross Product
-        normal.x += ((points[i].y * points[j].z) - (points[j].y * points[j].z));
-        normal.y += ((points[i].z * points[j].x) - (points[j].z * points[j].x));
-        normal.z += ((points[i].x * points[j].y) - (points[j].x * points[j].y));
+        //normal.x += ((points[i].y * points[j].z) - (points[j].y * points[j].z));
+        //normal.y += ((points[i].z * points[j].x) - (points[j].z * points[j].x));
+        //normal.z += ((points[i].x * points[j].y) - (points[j].x * points[j].y));
     }
 
     //normal.x *= 0.5;

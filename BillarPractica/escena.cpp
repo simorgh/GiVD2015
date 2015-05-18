@@ -237,3 +237,15 @@ void Escena::setAmbientToGPU(QGLShaderProgram *program) {
     GLuint I_a = program->uniformLocation("Ia_global");
     glUniform3fv(I_a, 1, Ia);
 }
+
+/**
+ * @brief Escena::calculaNormals
+ * @param type
+ */
+void Escena::calculaNormals(normalType type){
+    if(type == FLAT){
+        for(int i=1; i<elements.size(); i++) elements.at(i)->calculaNormalsFlatShading();
+    } else if(type == GOURAUD){
+        for(int i=1; i<elements.size(); i++) elements.at(i)->calculaNormalsGouraud();
+    } else return;
+}

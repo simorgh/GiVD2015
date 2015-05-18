@@ -27,5 +27,7 @@
         <file>toon_vshader.glsl</file>
         <file>gouraud_fshader.glsl</file>
         <file>gouraud_vshader.glsl</file>
+        <file>phong_fshader.glsl</file>
+        <file>phong_vshader.glsl</file>
     </qresource>
 </RCC>

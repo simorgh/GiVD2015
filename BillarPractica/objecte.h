@@ -11,20 +11,16 @@
 
 using namespace std;
 
-
-enum normalType { FLAT, GOURAUD };
 typedef Common::vec4  point4;
 typedef Common::vec2  texture2;
 
-class Objecte : public QObject
-{
+class Objecte : public QObject {
+
     Q_OBJECT
 protected:
     QString nom; // nom del fitxer on esta el cotxe
     vector<Cara> cares; // cares de l'objecte
     vector<point4> vertexs; // vertexs de l'objecte sense repetits
-
-    normalType ntype = FLAT;
 
     // Sistema de coordenades d'un objecte: punt origen i eixos de rotació
     GLfloat xorig, yorig, zorig;
@@ -96,9 +92,6 @@ public:
 
 private:
     void construeix_cara ( char **words, int nwords, Objecte*objActual, int vindexUlt);
-
-protected:
-    //virtual void calculaNormals(); //abstract method to be overwritten to compute vertex normals
 };
 
 

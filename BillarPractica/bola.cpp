@@ -1,5 +1,6 @@
 #include<bola.h>
 
+
 /**
  * Constructor utilitzat per la bola blanca.
  *
@@ -70,8 +71,6 @@ void Bola::triangle(const point4 &a, const point4 &b, const point4 &c){
     else if(t3.x > th && t1.x < th) t3.x -= 1.0;
     vertexsTextura[Index] = vec2(t3.x, t3.y);
     Index++;
-
-    if(ntype == FLAT) calculaNormalsFlatShading();
 }
 
 void Bola::tetrahedron(){
@@ -87,7 +86,8 @@ void Bola::tetrahedron(int n){
     divide_triangle(v[3], v[2], v[1], n);
     divide_triangle(v[0], v[3], v[1], n);
     divide_triangle(v[0], v[2], v[3], n);
-    if(ntype == GOURAUD) calculaNormalsGouraud();
+
+    calculaNormalsGouraud(); //by default
 }
 
 void Bola::divide_triangle(point4 a, point4 b, point4 c, int n){
