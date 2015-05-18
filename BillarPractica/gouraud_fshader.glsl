@@ -8,9 +8,13 @@
 
 IN vec4 color;
 IN vec2 v_texcoord;
+
 uniform sampler2D texMap;
+uniform float tflag;
 
 void main() {
-    gl_FragColor = color * texture2D(texMap, v_texcoord);
+    if (tflag==1.0) gl_FragColor = color * texture2D(texMap, v_texcoord);
+    else gl_FragColor = color;
+
     //gl_FragColor = color;
 }

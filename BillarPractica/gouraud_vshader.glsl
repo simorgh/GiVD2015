@@ -32,9 +32,9 @@ OUT vec2 v_texcoord;
 uniform tipusLlum light;
 uniform tipusMaterial material;
 uniform vec3 Ia_global;
+
 uniform mat4 model_view;
 uniform mat4 projection;
-
 
 vec4 getColor(tipusLlum light, tipusMaterial mat, vec4 v, vec4 dir) {
     float d = length(dir);

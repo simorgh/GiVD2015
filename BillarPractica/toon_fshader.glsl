@@ -10,17 +10,21 @@
 IN vec4 lightDir;
 IN vec4 normal;
 IN vec2 v_texcoord;
+
 uniform sampler2D texMap;
+uniform float tflag;
 
 void main() {
     float intensity;
     vec4 color;
     intensity = dot(lightDir,normalize(normal));
 
-    if (intensity > 0.95)       color = vec4(1.0,1.0,1.0,1.0);
-    else if (intensity > 0.5)   color = vec4(0.8,0.8,0.8,1.0);
-    else if (intensity > 0.25)  color = vec4(0.5,0.5,0.5,1.0);
-    else                        color = vec4(0.3,0.3,0.3,1.0);
+    if(intensity > 0.95)        color = vec4(1.0, 1.0, 1.0, 1.0);
+    else if (intensity > 0.80)  color = vec4(0.9, 0.9, 0.9, 1.0);
+    else if (intensity > 0.50)  color = vec4(0.7, 0.7, 0.7, 1.0);
+    else if (intensity > 0.25)  color = vec4(0.5, 0.5, 0.5, 1.0);
+    else                        color = vec4(0.3, 0.3, 0.3, 1.0);
 
-    gl_FragColor = color * texture2D(texMap, v_texcoord);
+    if (tflag == 1.0) gl_FragColor = color * texture2D(texMap, v_texcoord);
+    else gl_FragColor = color;
 }

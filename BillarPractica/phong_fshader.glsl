@@ -31,6 +31,7 @@ struct tipusMaterial {
 uniform tipusLlum light;
 uniform tipusMaterial material;
 uniform vec3 Ia_global;
+uniform float tflag;
 
 vec4 getColor(tipusLlum light, tipusMaterial mat, vec4 v, vec4 dir) {
     float d = length(dir);
@@ -52,11 +53,11 @@ vec4 getColor(tipusLlum light, tipusMaterial mat, vec4 v, vec4 dir) {
 
 
 void main() {
-    vec4 dir = light.position - position;
     vec4 iag = vec4(Ia_global, 1.0);
+    vec4 color = iag + getColor(light, material, position, light.dir);
 
-    vec4 color = iag + getColor(light, material, position, dir);
-    gl_FragColor = color * texture2D(texMap, v_texcoord);
+    if (tflag == 1.0) gl_FragColor = color * texture2D(texMap, v_texcoord);
+    else gl_FragColor = color;
 
     //gl_FragColor = pNormal;
 }

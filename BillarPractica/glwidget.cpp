@@ -55,14 +55,15 @@ void GLWidget::initShadersGPU(){
     InitShader("://gouraud_vshader.glsl", "://gouraud_fshader.glsl");
     InitShader("://phong_vshader.glsl", "://phong_fshader.glsl");
     InitShader("://toon_vshader.glsl", "://toon_fshader.glsl");
-    setProgram(0);
+    setProgram(0, true);
 }
 
 /**
  * @brief GLWidget::setProgram
  * @param id
+ * @param texture
  */
-void GLWidget::setProgram(int id){
+void GLWidget::setProgram(int id, bool text){
     if(id < 0 || id >= programs.size()) return;
 
     this->program = programs[id];
@@ -71,6 +72,7 @@ void GLWidget::setProgram(int id){
 
     esc->llum->toGPU(program);
     esc->setAmbientToGPU(program);
+    sendTextureFlag(text);
 
     update();
 }
@@ -194,6 +196,7 @@ void GLWidget::mouseMoveEvent(QMouseEvent *event) {
 
 
 void GLWidget::keyPressEvent(QKeyEvent *event) {
+    bool b;
 
     switch ( event->key() ){
 
@@ -351,38 +354,53 @@ void GLWidget::keyPressEvent(QKeyEvent *event) {
             break;
 
         case Qt::Key_1: // Flat shading
-            int flag;
-            if(event->modifiers() & Qt::ShiftModifier) flag = 1;
-            else flag = 1.0;
+            b = (event->modifiers() & Qt::AltModifier);
 
             if(esc->ntype == GOURAUD) esc->ntype = FLAT;
              esc->calculaNormals(esc->ntype);
 
-            setProgram(0);
+            setProgram(0, b);
             break;
 
         case Qt::Key_2: // Gouraud
+            b = (event->modifiers() & Qt::AltModifier);
+
             if(esc->ntype == FLAT) esc->ntype = GOURAUD;
             esc->calculaNormals(esc->ntype);
 
-            setProgram(0);
+            setProgram(0, b);
             break;
 
         case Qt::Key_3: //Phong shading
+            b = (event->modifiers() & Qt::AltModifier);
+
             if(esc->ntype == FLAT) esc->ntype = GOURAUD;
             esc->calculaNormals(esc->ntype);
 
-            setProgram(1);
+            setProgram(1, b);
             break;
 
         case Qt::Key_4: //Toon Shading
+            b = (event->modifiers() & Qt::AltModifier);
 
-            setProgram(2);
+            setProgram(2, b);
             break;
         }
-
-
 }
+
+/**
+ * @brief GLWidget::sendTextureFlag
+ * @param b
+ */
+void GLWidget::sendTextureFlag(bool b) {
+    float tflag;
+    if(b) tflag = 1.0f; else tflag = 0.0f;
+
+    GLint loc = program->uniformLocation("tflag");
+    glUniform1f(loc, tflag);
+}
+
+
 
 void GLWidget::keyReleaseEvent(QKeyEvent *event) {
     // Metode a implementar en el cas que es mogui la bola (aceleració)
@@ -499,3 +517,5 @@ void GLWidget::Pan(int dx, int dy) {
         update();
     }
 }
+
+

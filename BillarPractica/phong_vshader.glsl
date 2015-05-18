@@ -10,6 +10,7 @@
 IN vec4 vNormal;
 IN vec4 vPosition;
 IN vec2 vCoordTexture;
+
 OUT vec4 pNormal;
 OUT vec4 position;
 OUT vec2 v_texcoord;
@@ -20,6 +21,7 @@ uniform mat4 projection;
 void main() {
     gl_Position = projection * model_view * vPosition;
     normalize(gl_Position);
+
     //gl_Position /= gl_Position.w;
 
    /**

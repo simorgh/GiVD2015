@@ -88,7 +88,8 @@ private:
 
     void Zoom (int positiu);
     void Pan(int dx, int dy);
-    void setProgram(int id);
+    void setProgram(int id, bool text);
+    void sendTextureFlag(bool b);
 };
 
 #endif // GLWIDGET_H
