@@ -57,6 +57,7 @@ vec4 getColor(tipusLlum light, tipusMaterial mat, vec4 v, vec4 dir) {
 
 void main() {
     gl_Position = projection * model_view * vPosition;
+    normalize(gl_Position);
     //gl_Position /= gl_Position.w;
 
     vec4 v = normalize( model_view * vPosition );
@@ -65,7 +66,7 @@ void main() {
     vec4 iag = vec4(Ia_global, 1.0);
 
     color = iag + getColor(light, material, v, dir);
-    //color = vNormal;
-
     v_texcoord = vCoordTexture;
+
+    //color = vNormal;
 }

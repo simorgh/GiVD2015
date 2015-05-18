@@ -19,6 +19,7 @@ uniform mat4 projection;
 
 void main() {
     gl_Position = projection * model_view * vPosition;
+    normalize(gl_Position);
     //gl_Position /= gl_Position.w;
 
    /**

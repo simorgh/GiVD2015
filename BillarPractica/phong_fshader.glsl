@@ -32,10 +32,6 @@ uniform tipusLlum light;
 uniform tipusMaterial material;
 uniform vec3 Ia_global;
 
-uniform mat4 model_view;
-uniform mat4 projection;
-
-
 vec4 getColor(tipusLlum light, tipusMaterial mat, vec4 v, vec4 dir) {
     float d = length(dir);
     vec4 l = normalize(dir);
@@ -56,11 +52,10 @@ vec4 getColor(tipusLlum light, tipusMaterial mat, vec4 v, vec4 dir) {
 
 
 void main() {
-    vec4 v = normalize( model_view * position );
     vec4 dir = light.position - position;
     vec4 iag = vec4(Ia_global, 1.0);
 
-    vec4 color = iag + getColor(light, material, v, dir);
+    vec4 color = iag + getColor(light, material, position, dir);
     gl_FragColor = color * texture2D(texMap, v_texcoord);
 
     //gl_FragColor = pNormal;
