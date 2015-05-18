@@ -383,6 +383,9 @@ void GLWidget::keyPressEvent(QKeyEvent *event) {
         case Qt::Key_4: //Toon Shading
             b = (event->modifiers() & Qt::AltModifier);
 
+            if(esc->ntype == FLAT) esc->ntype = GOURAUD;
+            esc->calculaNormals(esc->ntype);
+
             setProgram(2, b);
             break;
         }
