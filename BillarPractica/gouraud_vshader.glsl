@@ -29,14 +29,16 @@ IN vec2 vCoordTexture;
 OUT vec4 color;
 OUT vec2 v_texcoord;
 
-uniform tipusLlum light;
+uniform tipusLlum light_1;
+uniform tipusLlum light_2;
+
 uniform tipusMaterial material;
 uniform vec3 Ia_global;
 
 uniform mat4 model_view;
 uniform mat4 projection;
 
-vec4 getColor(tipusLlum light, tipusMaterial mat, vec4 v, vec4 dir) {
+vec4 computeColor(tipusLlum light, tipusMaterial mat, vec4 v, vec4 dir) {
     float d = length(dir);
     vec4 l = normalize(dir);
     vec4 h = (l+v) / length(l+v);
@@ -57,15 +59,17 @@ vec4 getColor(tipusLlum light, tipusMaterial mat, vec4 v, vec4 dir) {
 
 void main() {
     gl_Position = projection * model_view * vPosition;
-    normalize(gl_Position);
+
     //gl_Position /= gl_Position.w;
 
     vec4 v = normalize( model_view * vPosition );
-    vec4 dir = light.position - vPosition;
+    vec4 dir_1 = light_1.position - vPosition;
+    vec4 dir_2 = light_2.position - vPosition;
+
 
     vec4 iag = vec4(Ia_global, 1.0);
 
-    color = iag + getColor(light, material, v, dir);
+    color = iag + computeColor(light_1, material, v, dir_1) + computeColor(light_2, material, v, dir_2);
     v_texcoord = vCoordTexture;
 
     //color = vNormal;

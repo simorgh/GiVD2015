@@ -17,7 +17,7 @@
 #include <bola.h>
 #include <conjuntboles.h>
 #include <camera.h>
-#include <llum.h>
+#include <conjuntllums.h>
 
 using namespace std;
 enum normalType { FLAT, GOURAUD };
@@ -45,6 +45,7 @@ public:
     void setDCamera(bool camGeneral, float d);
     void setAmbientToGPU(QGLShaderProgram *program);
     void calculaNormals(normalType type);
+    void initLlums();
 
     // Capsa contenedora de l'escena
     Capsa3D capsaMinima;
@@ -59,7 +60,8 @@ public:
 
     // Llum
     vec3 Ia;
-    Llum* llum;
+    ConjuntLlums* llums;
+
 
     // tipus de Normals
     normalType ntype = GOURAUD;

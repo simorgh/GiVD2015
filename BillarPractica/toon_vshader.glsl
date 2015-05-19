@@ -30,7 +30,9 @@ OUT vec4 normal;
 OUT vec2 v_texcoord;
 OUT vec4 lightDir;
 
-uniform tipusLlum light;
+uniform tipusLlum light_1;
+uniform tipusLlum light_2;
+
 uniform tipusMaterial material;
 uniform vec3 Ia_global;
 uniform mat4 model_view;
@@ -40,6 +42,6 @@ void main() {
     gl_Position = projection * model_view * vPosition;
 
     normal = vNormal;
-    lightDir =  light.dir;
+    lightDir =  light_1.dir;
     v_texcoord = vCoordTexture;
 }

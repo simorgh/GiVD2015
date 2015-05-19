@@ -1,8 +1,8 @@
 #include "llum.h"
 
-Llum::Llum(point4 position, point4 dir, GLfloat angle, GLfloat a, GLfloat b,
+Llum::Llum(QString name,point4 position, point4 dir, GLfloat angle, GLfloat a, GLfloat b,
             GLfloat c, point3 ambient, point3 specular, point3 diffuse) {
-
+    this->name = name;
     this->position = position;
     this->dir = dir;
     this->angle = angle;
@@ -20,15 +20,15 @@ void Llum::toGPU(QGLShaderProgram* program) {
     /* ----------------------------------------------
      * Obtencio dels identificadors de la GPU
      * ----------------------------------------------*/
-    gl_IdLlum.position = program->uniformLocation("light.position");
-    gl_IdLlum.dir = program->uniformLocation("light.dir");
-    gl_IdLlum.angle = program->uniformLocation("light.angle");
-    gl_IdLlum.a = program->uniformLocation("light.a");
-    gl_IdLlum.b = program->uniformLocation("light.b");
-    gl_IdLlum.c = program->uniformLocation("light.c");
-    gl_IdLlum.ambient = program->uniformLocation("light.ambient");
-    gl_IdLlum.diffuse = program->uniformLocation("light.diffuse");
-    gl_IdLlum.specular = program->uniformLocation("light.specular");
+    gl_IdLlum.position = program->uniformLocation(this->name + ".position");
+    gl_IdLlum.dir = program->uniformLocation(this->name + ".dir");
+    gl_IdLlum.angle = program->uniformLocation(this->name + ".angle");
+    gl_IdLlum.a = program->uniformLocation(this->name + ".a");
+    gl_IdLlum.b = program->uniformLocation(this->name + ".b");
+    gl_IdLlum.c = program->uniformLocation(this->name + ".c");
+    gl_IdLlum.ambient = program->uniformLocation(this->name + ".ambient");
+    gl_IdLlum.diffuse = program->uniformLocation(this->name + ".diffuse");
+    gl_IdLlum.specular = program->uniformLocation(this->name + ".specular");
 
     /* ----------------------------------------------
      * Bind de les zones de memoria que corresponen

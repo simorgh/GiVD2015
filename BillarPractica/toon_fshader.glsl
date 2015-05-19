@@ -17,12 +17,12 @@ uniform float tflag;
 void main() {
     float intensity;
     vec4 color;
-    intensity = dot(lightDir,normalize(normal));
+    intensity = dot(lightDir, normalize(normal));
 
-    if(intensity > 0.95)        color = vec4(1.0, 1.0, 1.0, 1.0);
-    else if (intensity > 0.80)  color = vec4(0.9, 0.9, 0.9, 1.0);
-    else if (intensity > 0.50)  color = vec4(0.7, 0.7, 0.7, 1.0);
-    else if (intensity > 0.25)  color = vec4(0.5, 0.5, 0.5, 1.0);
+    if(intensity > 0.80)        color = vec4(1.0, 1.0, 1.0, 1.0);
+    else if (intensity > 0.17)  color = vec4(0.9, 0.9, 0.9, 1.0);
+    else if (intensity > 0.15)  color = vec4(0.7, 0.7, 0.7, 1.0);
+    else if (intensity > 0.10)  color = vec4(0.5, 0.5, 0.5, 1.0);
     else                        color = vec4(0.3, 0.3, 0.3, 1.0);
 
     if (tflag == 1.0) gl_FragColor = color * texture2D(texMap, v_texcoord);

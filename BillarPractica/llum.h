@@ -25,9 +25,9 @@ struct {
 
 class Llum {
     public:
-        Llum( point4 position, point4 dir, GLfloat angle, GLfloat a, GLfloat b,
+        Llum(QString name, point4 position, point4 dir, GLfloat angle, GLfloat a, GLfloat b,
               GLfloat c, point3 ambient, point3 specular, point3 diffuse);
-
+        QString name;
         point4 position;//per a la puntual y  spot
         point4 dir; //per a la direccional y spot
         GLfloat angle;

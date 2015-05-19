@@ -9,26 +9,15 @@ Escena::Escena() {
     qDebug() << "Entering Escena constructor 0...";
     this->program = 0;
 
+    llums = new ConjuntLlums();
+    this->initLlums();
+
     // Capsa minima contenidora provisional: S'ha de fer un recorregut dels objectes de l'escenes
     capsaMinima.pmin[0] = 0; capsaMinima.pmin[1] = 0; capsaMinima.pmin[2]=0;
     capsaMinima.a = 0; capsaMinima.h = 0; capsaMinima.p = 0;
 
     this->camFP = 0;
     this->camGeneral = 0;
-
-    // Initialize lighting parameters
-    point4  l_dir(1.0, 5.0, 0.0, 1);
-    GLfloat angle = 0.0;
-    GLfloat a = 0.0;
-    GLfloat b = 0.0;
-    GLfloat c = 0.3;
-    point3 light_ambient(0.2, 0.2, 0.2);
-    point3 light_specular(0.4, 0.4, 0.4);
-    point3 light_diffuse(0.75, 0.75, 0.75);
-    point4 light_position( 1.0, 5.0, 1.0, 1.0);
-
-
-    this->llum = new Llum(light_position, l_dir, angle, a, b, c, light_ambient, light_specular, light_diffuse);
     this->Ia = 0.1f;
 }
 
@@ -42,24 +31,13 @@ Escena::Escena(int ampladaViewport, int alcadaViewport, QGLShaderProgram *progra
     qDebug() << "Entering Escena constructor 1...";
     this->program = program;
 
+    llums = new ConjuntLlums();
+    this->initLlums();
+
     // Capsa minima contenidora provisional: S'ha de fer un recorregut dels objectes de l'escenes
     capsaMinima.pmin[0] = 0; capsaMinima.pmin[1] = 0; capsaMinima.pmin[2]=0;
     capsaMinima.a = 0; capsaMinima.h = 0; capsaMinima.p = 0;
-
     iniCamera(true, ampladaViewport, alcadaViewport, program);
-
-    // Initialize lighting parameters
-    point4  l_dir(0, 0, 0, 1);
-    GLfloat l_angle = 0.0;
-    GLfloat l_a = 0.0;
-    GLfloat l_b = 0.0;
-    GLfloat l_c = 0.2;
-    point4 light_position(0.0, 10.0, 0.0, 0.0);
-    point3 light_ambient(0.2, 0.2, 0.2);
-    point3 light_diffuse(1.0, 1.0, 1.0);
-    point3 light_specular(0.6, 0.6, 0.6);
-
-    this->llum = new Llum(light_position, l_dir, l_angle, l_a, l_b, l_c, light_ambient, light_specular, light_diffuse);
     this->Ia = 0.1f;
 }
 
@@ -67,6 +45,7 @@ Escena::~Escena() {
     // Cal anar fent delete dels objectes que se'l hagi fet new
     elements.clear();
 }
+
 
 void Escena::addObjecte(Objecte *obj) {
     elements.push_back(obj);
@@ -248,4 +227,25 @@ void Escena::calculaNormals(normalType type){
     } else if(type == GOURAUD) {
         for(int i=1; i<elements.size(); i++) elements.at(i)->calculaNormalsGouraud();
     } else return;
+}
+
+/**
+ * @brief Escena::initLlums
+ */
+void Escena::initLlums(){
+
+    // Initialize lighting parameters
+    point4  l_dir(0, 0, 0, 1);
+    GLfloat l_angle = 0.0;
+    GLfloat l_a = 0.0;
+    GLfloat l_b = 0.0;
+    GLfloat l_c = 1.0;
+    point4 light_position(0.0, 10.0, 0.0, 0.0);
+    point4 light_position2(6.0, 3.0, 0.0, 0.0);
+    point3 light_ambient(0.1, 0.1, 0.1);
+    point3 light_diffuse(0.2, 0.2, 0.2);
+    point3 light_specular(0.5, 0.5, 0.5);
+
+    this->llums->addLight(new Llum("light_1", light_position, l_dir, l_angle, l_a, l_b, l_c, light_ambient, light_specular, light_diffuse));
+    this->llums->addLight(new Llum("light_2", light_position2, l_dir, l_angle, l_a, l_b, l_c, light_ambient, light_specular, light_diffuse));
 }

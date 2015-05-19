@@ -70,7 +70,7 @@ void GLWidget::setProgram(int id, bool text){
     program->link();    // muntatge del shader en el pipeline grafic per a ser usat
     program->bind();    // unió del shader al pipeline gràfic
 
-    esc->llum->toGPU(program);
+    esc->llums->toGPU(program);
     esc->setAmbientToGPU(program);
     sendTextureFlag(text);
 
@@ -140,7 +140,7 @@ void GLWidget::initializeGL() {
     qDebug() << "\t\t + diffuse:" << esc->llum->diffuse.x << esc->llum->diffuse.y << esc->llum->diffuse.z;
     qDebug() << "\t\t + position:" << esc->llum->position.x << esc->llum->position.y << esc->llum->position.z;
 */
-    esc->llum->toGPU(this->program);
+    esc->llums->toGPU(this->program);
 
     glClearColor(clearColor.redF(), clearColor.greenF(), clearColor.blueF(), clearColor.alphaF());
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
