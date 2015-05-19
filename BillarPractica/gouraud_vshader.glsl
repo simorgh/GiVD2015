@@ -68,7 +68,6 @@ void main() {
 
 
     vec4 iag = vec4(Ia_global, 1.0);
-
     color = iag + computeColor(light_1, material, v, dir_1) + computeColor(light_2, material, v, dir_2);
     v_texcoord = vCoordTexture;
 

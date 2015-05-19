@@ -57,7 +57,6 @@ vec4 computeColor(tipusLlum light, tipusMaterial mat, vec4 v, vec4 dir) {
 void main() {
     vec4 iag = vec4(Ia_global, 1.0);
     vec4 color = iag + computeColor(light_1, material, position, light_1.dir) + computeColor(light_2, material, position, light_2.dir);
-
     if (tflag == 1.0) gl_FragColor = color * texture2D(texMap, v_texcoord);
     else gl_FragColor = color;
 
