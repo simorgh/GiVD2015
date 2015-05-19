@@ -36,7 +36,7 @@ uniform vec3 Ia_global;
 uniform mat4 model_view;
 uniform mat4 projection;
 
-vec4 getColor(tipusLlum light, tipusMaterial mat, vec4 v, vec4 dir) {
+vec4 computeColor(tipusLlum light, tipusMaterial mat, vec4 v, vec4 dir) {
     float d = length(dir);
     vec4 l = normalize(dir);
     vec4 h = (l+v) / length(l+v);
@@ -65,7 +65,7 @@ void main() {
 
     vec4 iag = vec4(Ia_global, 1.0);
 
-    color = iag + getColor(light, material, v, dir);
+    color = iag + computeColor(light, material, v, dir);
     v_texcoord = vCoordTexture;
 
     //color = vNormal;
