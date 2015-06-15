@@ -8,7 +8,7 @@ GiVD - course 2014-2015 – Master branch
 * Igor Dzinka (idzinkdz7@alumnes.ub.edu)
 * Vicent Roig (vroigrip8@alumnes.ub.edu)
 
-###### This repository has been branched for each Course project as follows:
+###### This repository has been branched on each delivery milestone as follows:
 ```
 # master
     |___practica1 ( Billiard Pool modeling + textures & visualizaiton )
