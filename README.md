@@ -13,6 +13,6 @@ Per a començar a desenvolupar el codi d'aquesta tercera pràctica, es pot utili
 
 ###La pràctica 3 es composa dels següents exercicis:
 
-*Implementació d'una nova classe anomenada llum, que permeti emmagatzemar tots els atributs necessaris per a codificar una llum puntual, una llum direccional, una llum de tipus spot-light i amb possible atenuació en profunditat.
-*Implementació d'una nova classe material que permeti representar les característiques del material d'un objecte.
-*Implementació dels càlculs d’il·luminació segons les següents tècniques: flat, gouraud, phong- shading i toon-shading tenint en compte les textures.
+* Implementació d'una nova classe anomenada llum, que permeti emmagatzemar tots els atributs necessaris per a codificar una llum puntual, una llum direccional, una llum de tipus spot-light i amb possible atenuació en profunditat.
+* Implementació d'una nova classe material que permeti representar les característiques del material d'un objecte.
+* Implementació dels càlculs d’il·luminació segons les següents tècniques: flat, gouraud, phong- shading i toon-shading tenint en compte les textures.
