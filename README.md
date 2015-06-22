@@ -20,12 +20,12 @@ direcció de tir en el joc del billar.
 L’escena contindrà dues càmeres: la càmera general, que permetrà visualitzar el pla base i les boles i la
 càmera en primera persona que controlarà el tir de la bola blanca en el joc del billar. La pràctica 2 es
 composa de 4 parts:
-− Modificació de la classe Càmera (proporcionada en el campus virtual de l’assignatura) 
+* Modificació de la classe Càmera (proporcionada en el campus virtual de l’assignatura) 
 per incloure el càlcul de les matrius model-view i projection, que permetin tant la visualització de l'escena
 completa com parts d'ella, des de la GPU.
-− Inclusió de dues càmeres en l’escena: la càmera general i la càmera en primera persona.
-− Implementació dels mètodes a la classe Escena: initCamera, setAnglesCamera, setVRPCamera,
+* Inclusió de dues càmeres en l’escena: la càmera general i la càmera en primera persona.
+* Implementació dels mètodes a la classe Escena: initCamera, setAnglesCamera, setVRPCamera,
 setWindowCamera, setDCamera que permetran la inicialització/modificació de les càmeres i
 tornar a calcular les matrius model-view i projection de les càmeres, depenent de les modificacions
 que es facin en el atributs de la càmera. Utilitzaran mètodes ja implementats de la classe càmera.
-− Interacció i activació de les possibles modificacions de les càmeres controlades pel teclat i el ratolí.
+* Interacció i activació de les possibles modificacions de les càmeres controlades pel teclat i el ratolí.
